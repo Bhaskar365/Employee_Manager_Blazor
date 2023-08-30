@@ -1,0 +1,12 @@
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\bin\Debug\net6.0\Employee_Manager_Models.deps.json
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\bin\Debug\net6.0\Employee_Manager_Models.dll
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\bin\Debug\net6.0\Employee_Manager_Models.pdb
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.csproj.AssemblyReference.cache
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.AssemblyInfoInputs.cache
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.AssemblyInfo.cs
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.csproj.CoreCompileInputs.cache
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.dll
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\refint\Employee_Manager_Models.dll
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\Employee_Manager_Models.pdb
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Models\obj\Debug\net6.0\ref\Employee_Manager_Models.dll
