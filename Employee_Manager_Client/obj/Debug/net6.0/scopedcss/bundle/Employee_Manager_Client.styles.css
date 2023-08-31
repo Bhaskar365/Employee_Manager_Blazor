@@ -131,4 +131,8 @@ main[b-u8xq8yobvw] {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+     .collapse:not(.show)[b-jyr21e67c2] {
+        display: block;
+     }
 }

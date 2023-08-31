@@ -59,4 +59,8 @@
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+     .collapse:not(.show) {
+        display: block;
+     }
 }

@@ -20,8 +20,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/EmployeeHomepage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1wbG95ZWVIb21lcGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/NewEmployee.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3RW1wbG95ZWUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/SurveyPrompt.razor]

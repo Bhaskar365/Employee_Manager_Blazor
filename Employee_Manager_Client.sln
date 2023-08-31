@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Employee_Manager_Client", "Employee_Manager_Client\Employee_Manager_Client.csproj", "{4B922577-C897-4C3B-A466-12A99E65B8D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee_Manager_Client", "Employee_Manager_Client\Employee_Manager_Client.csproj", "{4B922577-C897-4C3B-A466-12A99E65B8D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Employee_Manager_Models", "Employee_Manager_Models\Employee_Manager_Models.csproj", "{055F2B48-11F2-4D38-B5B5-7B2BF60612EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee_Manager_Models", "Employee_Manager_Models\Employee_Manager_Models.csproj", "{055F2B48-11F2-4D38-B5B5-7B2BF60612EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Employee_Manager_API", "Employee_Manager_API\Employee_Manager_API.csproj", "{92D7F008-E3CD-478A-B0AE-017B7483054D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Employee_Manager_API", "Employee_Manager_API\Employee_Manager_API.csproj", "{92D7F008-E3CD-478A-B0AE-017B7483054D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
