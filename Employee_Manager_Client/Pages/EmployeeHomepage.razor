@@ -6,7 +6,7 @@
 @inject HttpClient http;
 @inject NavigationManager navigationManager;
 
-<h3 id="employeeHeader">Employee Details</h3>
+<h3 class="mt-2" id="employeeHeader">Employee Details</h3>
 
 <hr/>
 
@@ -14,40 +14,42 @@
     <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add User
 </a>
 
-<div id="searchBox">
-    Search <input />
-</div>
-
-@if(employees!=null) 
+@if (!isLoading)
 {
-    @foreach (var emp in employees) 
+    <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+}
+else
+{
+    <div id="searchBox" >
+        Search <input />
+    </div>
+
+@if (showNoDataMessage)
+{
+    <p id="noData">No data available....</p>
+}
+
+else
+{
+    @foreach (var emp in employees)
     {
         <div class="card mt-3" id="cardDiv">
-            <div class="card-header">
-                <p>@emp.FirstName @emp.LastName</p>
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-            </div>
-            <img src="~/css/user.png" class="card-img-top" alt="img">
+            <div class="card-header"><p>@emp.FirstName @emp.LastName</p>  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
+            <img src="./css/user.png" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-text">Address : @emp.Address</p>
-                <button type="button" class="btn btn-secondary" id="editBtn" 
-                    @onclick="@(()=>GoToEditPage(emp.Id))">Edit</button>
+                <button type="button" class="btn btn-secondary" id="editBtn" @onclick="@(()=>GoToEditPage(@emp.Id))">Edit</button>
                 <button type="button" class="btn btn-danger" id="deleteBtn"
-                    data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                    @onclick="@(()=>showDeleteAlert(emp.Id,emp.FirstName))">Delete</button>
+                data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                @onclick="@(()=>showDeleteAlert(@emp.Id,@emp.FirstName))">
+                    Delete
+                </button>
             </div>
         </div>
     }
 }
-
-else 
-{
-    <p>No Data Available</p>
-}
-
-<!--------Modal-------->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,39 +66,54 @@ else
         </div>
     </div>
 </div>
+}
+
+
 
 @code {
     public bool Show = false;
 
     public int DevId;
 
-    public string? Name;
+    public string Name;
 
-    private List<Employee>? employees;
+    private List<Employee> employees = new List<Employee>();
+    private bool showNoDataMessage = false;
+    private bool isLoading = true;
+    
+    protected override async Task OnInitializedAsync()
 
-    protected override async Task OnInitializedAsync() 
     {
         employees = await apiService.GetEmployees();
+        showNoDataMessage = employees == null || employees.Count == 0;
+        isLoading = false;
     }
 
-    private void showDeleteAlert(int Id, string name) 
+    private void showDeleteAlert(int Id, string name)
     {
         DevId = Id;
         Show = true;
         Name = name;
     }
 
-    private async void Delete() 
+    private async void Delete()
     {
+
         await apiService.DeleteEmp(DevId);
-        employees.RemoveAll(e => e.Id == DevId );
+
+        employees.RemoveAll(e => e.Id == DevId);
+
         StateHasChanged();
-        navigationManager.NavigateTo("/",forceLoad:true);
+
+        navigationManager.NavigateTo("/", forceLoad: true);
     }
 
-    private void GoToEditPage(int id) 
+    private void GoToEditPage(int id)
     {
+
         DevId = id;
         navigationManager.NavigateTo($"/user/{DevId}");
     }
+
+
 }

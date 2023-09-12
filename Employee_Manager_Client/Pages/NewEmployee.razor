@@ -1,6 +1,7 @@
 ﻿@page "/user/add";
 @page "/user/edit/{userId:int}";
 @using Employee_Manager_Client.Services
+@using Employee_Manager_Models
 @using Newtonsoft.Json;
 @inject ApiService apiService;
 
@@ -8,9 +9,88 @@
 @inject NavigationManager navigationManager;
 
 <h3>Add New Employee</h3>
-
 <hr/>
 
+<EditForm Model="@employees" OnValidSubmit="SubmitForm">
+    <DataAnnotationsValidator/>
+    
+    <div class="mb-3">
+        <label for="Firstname" class="form-label">First Name</label>
+        <div class="col-md-4">
+            <InputText class="form-control" placeholder="Enter Firstame" @bind-Value="employees.FirstName"></InputText>
+        </div>
+        <ValidationMessage For="@(()=> employees.FirstName)"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label for="Lastname" class="form-label">Last Name</label>
+        <div class="col-md-4">
+            <InputText class="form-control" placeholder="Enter Lastname" @bind-Value="employees.LastName"></InputText>
+        </div>
+        <ValidationMessage For="@(()=> employees.LastName)"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <div class="col-md-4">
+            <InputText class="form-control" placeholder="Enter Email" @bind-Value="employees.Email"></InputText>
+        </div>
+        <ValidationMessage For="@(()=> employees.Email)"></ValidationMessage>
+    </div>
+
+     <div class="mb-3">
+        <label for="Gender" class="form-label">Gender</label>
+       <div class="col-md-4">
+            <InputText class="form-control" placeholder="Enter Gender" @bind-Value="employees.Gender"></InputText>
+        </div>
+        <ValidationMessage For="@(()=> employees.Gender)"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label for="itemDate" class="form-label">DOB</label>
+        <div class="col-md-4">
+            <InputDate id="itemDate" class="form-control" placeholder="Enter DOB"
+                       @bind-Value="employees.DOB"></InputDate>
+        </div>
+        <ValidationMessage For="@(()=> employees.DOB)"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label for="Address" class="form-label">Address</label>
+        <div class="col-md-4">
+            <InputText class="form-control" placeholder="Enter Address" @bind-Value="employees.Address"></InputText>
+        </div>
+        <ValidationMessage For="@(()=> employees.Address)"></ValidationMessage>
+    </div>
+
+    <div class="mb-3">
+        <label for="itemDate" class="form-label">Joining Date</label>
+        <div class="col-md-4">
+            <InputDate id="itemDate" class="form-control" placeholder="Enter Joining Date" @bind-Value="employees.JoiningDate"></InputDate>
+        </div>
+        <ValidationMessage For="@(()=> employees.JoiningDate)"></ValidationMessage>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="reset" class="btn btn-light" onclick="window.location.reload(true)">Reset</button>
+    </div>
+
+</EditForm>
+
+
 @code {
+
+    [Parameter]
+    public int userId { get; set; }
+
+    Employee employees = new Employee();
+
+    private async void SubmitForm()
+    {
+        await apiService.CreateEmp(employees);
+        navigationManager.NavigateTo("/");
+    }
+
 
 }

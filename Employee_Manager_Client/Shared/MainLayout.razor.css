@@ -4,6 +4,10 @@
     flex-direction: column;
 }
 
+article {
+    height: 90vh;
+}
+
 main {
     flex: 1;
 }

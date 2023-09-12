@@ -34,3 +34,5 @@ C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Cli
 C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
 C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\NewEmployee.razor.rz.scp.css
+C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\EmployeeHomepage.razor.rz.scp.css
