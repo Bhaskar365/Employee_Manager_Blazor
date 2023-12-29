@@ -9,53 +9,51 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Employee_Manager_Client
 build_property.RootNamespace = Employee_Manager_Client
-build_property.ProjectDir = C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\
+build_property.ProjectDir = C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\self_git\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client
+build_property.MSBuildProjectDirectory = C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/App.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/EditEmployee.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/EditEmployee.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWRpdEVtcGxveWVlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/SurveyPrompt.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/_Imports.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/EmployeeHomepage.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/EmployeeHomepage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW1wbG95ZWVIb21lcGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-s57tlxvs7c
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/NewEmployee.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmV3RW1wbG95ZWUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-17ixpwvlzf
-
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/MainLayout.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-u8xq8yobvw
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/NavMenu.razor]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-jyr21e67c2
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/Error.cshtml]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/_Host.cshtml]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/self_git/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/_Layout.cshtml]
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0xheW91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

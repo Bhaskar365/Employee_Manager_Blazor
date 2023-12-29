@@ -805,11 +805,10 @@
 
 @media screen and (min-width:660px) {
     .lds-default {
-        border:2px solid red;
         display: inline;
         position: absolute;
         margin-top: 24% !important;
-        margin-left: 51px;
+        margin-left: 60px;
         width: 80px;
         height: 80px;
     }
@@ -839,6 +838,50 @@
     }
 }
 
+@media screen and (min-width:670px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 67px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (min-width:680px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 69px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (min-width:690px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 76px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (min-width:700px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 81px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
 @media screen and (min-width:705px) {
     #searchBox {
         width: 55%;
@@ -862,7 +905,38 @@
     }
 }
 
+@media screen and (min-width:720px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 83px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (min-width:730px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 24% !important;
+        margin-left: 94px;
+        width: 80px;
+        height: 80px;
+    }
+}
 @media screen and (min-width:740px) {
+
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 23% !important;
+        margin-left: 96px;
+        width: 80px;
+        height: 80px;
+    }
+
     #searchBox {
         width: 56%;
         float: right;
@@ -885,6 +959,8 @@
     }
 }
 
+
+
 @media screen and (min-width:770px) 
 {
     #searchBox {
@@ -906,6 +982,17 @@
         margin-top: 42% !important;
         width: auto;
         height: auto;
+    }
+}
+
+@media screen and (min-width:790px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 21% !important;
+        margin-left: 113px;
+        width: 80px;
+        height: 80px;
     }
 }
 
@@ -957,6 +1044,17 @@
     }
 }
 
+@media screen and (min-width:850px) {
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 20% !important;
+        margin-left: 137px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
 @media screen and (min-width:870px) 
 {
     #searchBox {
@@ -981,8 +1079,20 @@
     }
 }
 
+
+
 @media screen and (min-width:900px) 
 {
+
+    .lds-default {
+        display: inline;
+        position: absolute;
+        margin-top: 19% !important;
+        margin-left: 183px;
+        width: 80px;
+        height: 80px;
+    }
+
     #searchBox {
         width: 47%;
         float: right;

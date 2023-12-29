@@ -14,7 +14,7 @@
     <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add User
 </a>
 
-@if (!isLoading)
+@if (isLoading)
 {
     <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 }
@@ -31,22 +31,7 @@ else
 
 else
 {
-    @foreach (var emp in employees)
-    {
-        <div class="card mt-3" id="cardDiv">
-            <div class="card-header"><p>@emp.FirstName @emp.LastName</p>  <i class="fa fa-pencil-square-o" aria-hidden="true"></i></div>
-            <img src="./css/user.png" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Address : @emp.Address</p>
-                <button type="button" class="btn btn-secondary" id="editBtn" @onclick="@(()=>GoToEditPage(@emp.Id))">Edit</button>
-                <button type="button" class="btn btn-danger" id="deleteBtn"
-                data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                @onclick="@(()=>showDeleteAlert(@emp.Id,@emp.FirstName))">
-                    Delete
-                </button>
-            </div>
-        </div>
-    }
+  
 }
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -80,7 +65,10 @@ else
     private List<Employee> employees = new List<Employee>();
     private bool showNoDataMessage = false;
     private bool isLoading = true;
-    
+
+    private string responseMessage;
+    private string productCode;
+
     protected override async Task OnInitializedAsync()
 
     {
@@ -101,7 +89,7 @@ else
 
         await apiService.DeleteEmp(DevId);
 
-        employees.RemoveAll(e => e.Id == DevId);
+        employees.RemoveAll(e => e.UserID == DevId);
 
         StateHasChanged();
 

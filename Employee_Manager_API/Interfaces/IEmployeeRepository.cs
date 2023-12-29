@@ -1,6 +1,6 @@
 ﻿using Employee_Manager_Models;
 
-namespace Employee_Manager_API.Models
+namespace Employee_Manager_API.Interfaces
 {
     public interface IEmployeeRepository
     {

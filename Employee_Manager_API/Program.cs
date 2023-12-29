@@ -1,5 +1,6 @@
 using Employee_Manager_API.DbClass;
-using Employee_Manager_API.Models;
+using Employee_Manager_API.Interfaces;
+using Employee_Manager_API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

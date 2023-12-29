@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Vx0BUmXyY9K2uYPGJqCxAgxEuRFPF8D3h8bC0/FciyRWLcV5Z2r2v9Fl49m7BeASi9lOa/xUyUaM8COcQ4Uxag==",
+  "dgSpecHash": "49ovKlTexbNzW4tNIzaQ3G9Es8fmF/wbc2JEPPPTV0GqV3dPez1f+qDR2NhsB53/Yag+YxhMFBtFh0rm1PjkYQ==",
   "success": true,
-  "projectFilePath": "C:\\self_git\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\Employee_Manager_Client.csproj",
+  "projectFilePath": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\Employee_Manager_Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bdas\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

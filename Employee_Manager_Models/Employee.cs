@@ -9,31 +9,24 @@ namespace Employee_Manager_Models
 {
     public class Employee
     {
+
         [Key]
-        public int Id { get; set; }
-
-        [Required]
+        public int UserID { get; set; }
         public string FirstName { get; set; } = string.Empty;
-
-        [Required]
         public string LastName { get; set; } = string.Empty;
-
-        [Required]
         public string Email { get; set; } = string.Empty;
-
-        [Required]
-        public string Gender { get; set; } = String.Empty;
-
-        [Required]
-        public DateTime DOB { get; set; }
-
-        [Required]
-        public string Address { get; set; } = string.Empty;
-
-        [Required]
-        public DateTime JoiningDate { get; set; }
-
-        [Required]
-        public DateTime CreatedOn { get; set; }
+        public string DOB { get; set; } = string.Empty;
+        public string Gender { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
+        public string ZipCode { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string DepartmentId { get; set; } = string.Empty;
+        public string Position { get; set; } = string.Empty;
+        public string DateOfHire { get; set; } = string.Empty;
+        public string CTC { get; set; } = string.Empty;
+        public Department _Department { get; set; }
+        public string CreatedOn { get; set; } = string.Empty;
     }
 }

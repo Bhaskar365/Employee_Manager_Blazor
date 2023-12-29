@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "20XNTHmMmajuk3enFLj/2JhXMkRwWWznyTe3kws2AwSeC5VDBRurxt+kL42ysJuUS2R+b4UjSFpZPE/KSJAGXA==",
+  "dgSpecHash": "qU7i9i8gh80pfsP8q97TCsGXvQ8dph0pnjB05Kntzwba4DQiqMLh4Ywg+rzzYILQWX0KZIU+hTKrR3iIDrFkCw==",
   "success": true,
-  "projectFilePath": "C:\\self_git\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_API\\Employee_Manager_API.csproj",
+  "projectFilePath": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_API\\Employee_Manager_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\bdas\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\bdas\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
