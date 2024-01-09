@@ -1,58 +1,53 @@
 ﻿using Employee_Manager_API.DbClass;
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Manager_API.Repositories
 {
     public class DepartmentRepository : IDepartmentRepository
     {
-        private readonly EmpDbClass _context;
-        public DepartmentRepository(EmpDbClass context) 
+        private readonly AppDbContext _context;
+        public DepartmentRepository(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Department>> GetAllDepartments()
+        public bool CreateDepartment(Department dep)
         {
-            return await _context.Department.ToListAsync();
+            var department = _context.Tbl_Department.Add(dep);
+            return Save();
         }
 
-        public async Task<Department> GetDepartment(int depID)
+        public bool DeleteDepartment(Department dep)
         {
-            return await _context.Department.FirstOrDefaultAsync(x => x.DepartmentId == depID.ToString());
+            _context.Remove(dep);
+            return Save();
         }
 
-        public async Task<Department> AddDepartment(Department dep)
+        public bool DepartmentExists(int depId)
         {
-            var result = await _context.Department.AddAsync(dep);
-            await _context.SaveChangesAsync();
-            return result.Entity;
+            return _context.Tbl_Department.Any(p => p.DepartmentId == depId);
         }
 
-        public async Task<Department> UpdateDepartment(Department updateDep)
+        public ICollection<Department> GetAllDepartments()
         {
-            var existingDepartment = await _context.Department.FirstOrDefaultAsync(x => x.DepartmentId == updateDep.DepartmentId);
-            if(existingDepartment == null) 
-            {
-                return null;
-            }
-            existingDepartment.DepartmentName = updateDep.DepartmentName;
-            existingDepartment.DepartmentId = updateDep.DepartmentId;
-
-            await _context.SaveChangesAsync();
-            return existingDepartment;
+            return _context.Tbl_Department.OrderBy(p => p.Id).ToList();
         }
 
-        public async Task<Department> DeleteDepartment(Department dep)
+        public Department GetDepartment(int id)
         {
-            var doesDepartmentExist = await _context.Department.FirstOrDefaultAsync(x => x.DepartmentId == dep.DepartmentId);
+            return _context.Tbl_Department.Where(p => p.DepartmentId == id).FirstOrDefault();
+        }
 
-            if (doesDepartmentExist == null)
-                return null;
 
-            _context.Department.Remove(doesDepartmentExist);
-            await _context.SaveChangesAsync();
-            return doesDepartmentExist;
+        public bool UpdateDepartment(Department dep)
+        {
+            _context.Update(dep);
+            return Save();
+        }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

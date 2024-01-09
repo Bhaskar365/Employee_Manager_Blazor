@@ -4,10 +4,12 @@ namespace Employee_Manager_API.Interfaces
 {
     public interface IDepartmentRepository
     {
-        Task<IEnumerable<Department>> GetAllDepartments();
-        Task<Department> GetDepartment(int depID);
-        Task<Department> AddDepartment(Department dep);
-        Task<Department> UpdateDepartment(Department updateDep);
-        Task<Department> DeleteDepartment(Department depID);
+        ICollection<Department> GetAllDepartments();
+        Department GetDepartment(int id);
+        bool DepartmentExists(int depId);
+        bool CreateDepartment(Department dep);
+        bool UpdateDepartment(Department dep);
+        bool DeleteDepartment(Department dep);
+        bool Save();
     }
 }

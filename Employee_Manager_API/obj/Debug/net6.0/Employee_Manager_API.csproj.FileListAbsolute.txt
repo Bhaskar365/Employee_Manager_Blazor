@@ -166,13 +166,14 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.csproj.CoreCompileInputs.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.MvcApplicationPartsAssemblyInfo.cs
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.MvcApplicationPartsAssemblyInfo.cache
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.sourcelink.json
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets.build.json
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets.development.json
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets\msbuild.Employee_Manager_API.Microsoft.AspNetCore.StaticWebAssets.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets\msbuild.build.Employee_Manager_API.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Employee_Manager_API.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Employee_Manager_API.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets.pack.json
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets.build.json
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\staticwebassets.development.json
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\scopedcss\bundle\Employee_Manager_API.styles.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.csproj.CopyComplete
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.dll
@@ -180,4 +181,3 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\ref\Employee_Manager_API.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.sourcelink.json

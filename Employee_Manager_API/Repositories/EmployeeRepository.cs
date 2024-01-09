@@ -1,70 +1,55 @@
 ﻿using Employee_Manager_API.DbClass;
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Employee_Manager_API.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        private readonly EmpDbClass dbClass;
-
-        public EmployeeRepository(EmpDbClass dbClass)
+        private readonly AppDbContext _context;
+        public EmployeeRepository(AppDbContext context)
         {
-            this.dbClass = dbClass;
-        }
-        public async Task<Employee> AddEmployee(Employee emp)
-        {
-            emp.CreatedOn = DateTime.UtcNow.ToString();
-            var result = await dbClass.Employee.AddAsync(emp);
-            await dbClass.SaveChangesAsync();
-            return result.Entity;
+            _context = context;
         }
 
-        public async Task<Employee> DeleteEmployee(int empId)
+        public ICollection<Employee> GetAllEmployees()
         {
-            var result = await dbClass.Employee.FirstOrDefaultAsync(e => e.UserID == empId);
-            if (result != null)
-            {
-                dbClass.Employee.Remove(result);
-                await dbClass.SaveChangesAsync();
-                return result;
-            }
-            return null;
+            return _context.Tbl_Employee.ToList();
         }
 
-        public async Task<IEnumerable<Employee>> GetAllEmployees()
+        public Employee GetEmployee(int id)
         {
-            return await dbClass.Employee.ToListAsync();
+            return _context.Tbl_Employee.Where(e => e.Id == id).FirstOrDefault();
         }
 
-        public async Task<Employee> GetEmployeeByEmail(string email)
+        public bool EmployeeExists(int id)
         {
-            return await dbClass.Employee.FirstOrDefaultAsync(e => e.Email == email);
+            return _context.Tbl_Employee.Any(e => e.Id == id);
         }
 
-        public async Task<Employee> GetEmployeeById(int id)
+        public bool CreateEmployee(Employee emp)
         {
-            return await dbClass.Employee.FirstOrDefaultAsync(e => e.UserID == id);
+            emp.CreatedOn = DateTime.UtcNow;
+            _context.Add(emp);
+            return Save();
         }
 
-        public async Task<Employee> UpdateEmployee(Employee emp)
+        public bool UpdateEmployee(Employee emp)
         {
-            var result = await dbClass.Employee.FirstOrDefaultAsync(e => e.UserID == emp.UserID);
+            _context.Update(emp);
+            return Save();
+        }
 
-            if (result != null)
-            {
-                result.UserID = emp.UserID;
-                result.FirstName = emp.FirstName;
-                result.LastName = emp.LastName;
-                result.Email = emp.Email;
-                result.DOB = emp.DOB;
-                result.Gender = emp.Gender;
+        public bool DeleteEmployee(Employee emp)
+        {
+            _context.Remove(emp);
+            return Save();
+        }
 
-                await dbClass.SaveChangesAsync();
-                return result;
-            }
-            return null;
+        public bool Save()
+        {
+            var result = _context.SaveChanges();
+            return result > 0 ? true : false;
         }
     }
 }
