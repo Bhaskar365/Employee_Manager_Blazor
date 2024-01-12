@@ -8,7 +8,7 @@ namespace Employee_Manager_API.Interfaces
         Employee GetEmployee(int id);
         bool EmployeeExists(int empId);
         bool CreateEmployee(Employee emp);
-        bool UpdateEmployee(Employee emp);
+        bool UpdateEmployee(Employee emp, int depID);
         bool DeleteEmployee(Employee emp);
         bool Save();
     }

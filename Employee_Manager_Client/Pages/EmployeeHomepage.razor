@@ -89,7 +89,7 @@ else
 
         await apiService.DeleteEmp(DevId);
 
-        employees.RemoveAll(e => e.EmpId == DevId.ToString());
+        employees.RemoveAll(e => e.EmpId == DevId);
 
         StateHasChanged();
 

@@ -30,7 +30,7 @@ namespace Employee_Manager_API.Repositories
 
         public ICollection<Department> GetAllDepartments()
         {
-            return _context.Tbl_Department.OrderBy(p => p.Id).ToList();
+            return _context.Tbl_Department.OrderBy(p => p.DepartmentId).ToList();
         }
 
         public Department GetDepartment(int id)
