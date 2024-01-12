@@ -6,72 +6,70 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Employee_Manager_API.Migrations
 {
     /// <inheritdoc />
-    public partial class newMigration : Migration
+    public partial class latestMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Tbl_Address",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MainAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Address", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Tbl_Department",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_Department", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Department", x => x.DepartmentId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Tbl_Employee",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    EmpId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmpId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     AddressId = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     JoiningDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_Employee", x => x.Id);
+                    table.PrimaryKey("PK_Tbl_Employee", x => x.EmpId);
                     table.ForeignKey(
-                        name: "FK_Tbl_Employee_Address_AddressId",
+                        name: "FK_Tbl_Employee_Tbl_Address_AddressId",
                         column: x => x.AddressId,
-                        principalTable: "Address",
+                        principalTable: "Tbl_Address",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tbl_Employee_Tbl_Department_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Tbl_Department",
-                        principalColumn: "Id",
+                        principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -93,7 +91,7 @@ namespace Employee_Manager_API.Migrations
                 name: "Tbl_Employee");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Tbl_Address");
 
             migrationBuilder.DropTable(
                 name: "Tbl_Department");

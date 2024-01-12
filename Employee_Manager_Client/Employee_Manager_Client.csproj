@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Employee_Manager_Models\Employee_Manager_Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
 </Project>

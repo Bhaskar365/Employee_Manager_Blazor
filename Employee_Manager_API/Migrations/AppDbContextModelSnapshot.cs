@@ -33,10 +33,10 @@ namespace Employee_Manager_API.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MainAddress")
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
+                    b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipCode")
@@ -44,36 +44,33 @@ namespace Employee_Manager_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Tbl_Address");
                 });
 
             modelBuilder.Entity("Employee_Manager_Models.Department", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DepartmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DepartmentId");
 
                     b.ToTable("Tbl_Department");
                 });
 
             modelBuilder.Entity("Employee_Manager_Models.Employee", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EmpId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmpId"));
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -88,10 +85,6 @@ namespace Employee_Manager_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -110,7 +103,7 @@ namespace Employee_Manager_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("EmpId");
 
                     b.HasIndex("AddressId");
 

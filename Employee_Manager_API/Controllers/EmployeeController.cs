@@ -20,7 +20,7 @@ namespace Employee_Manager_API.Controllers
             _addressRespository = addressRespository;
         }
 
-        [HttpGet]
+        [HttpGet("Employees")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
         public IActionResult GetAllEmployees()
         {
@@ -38,12 +38,12 @@ namespace Employee_Manager_API.Controllers
         [HttpGet("{empID}")]
         [ProducesResponseType(200, Type = typeof(Employee))]
         [ProducesResponseType(400)]
-        public IActionResult GetEmployee(int id)
+        public IActionResult GetEmployee(int empID)
         {
-            if (!_employeeRepository.EmployeeExists(id))
+            if (!_employeeRepository.EmployeeExists(empID))
                 return NotFound();
 
-            var employee = _employeeRepository.GetEmployee(id);
+            var employee = _employeeRepository.GetEmployee(empID);
 
             if (employee == null)
                 return NotFound();
