@@ -11,7 +11,6 @@ namespace Employee_Manager_Models
 {
     public class Employee
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EmpId { get; set; }
@@ -43,6 +42,10 @@ namespace Employee_Manager_Models
         public DateTime JoiningDate { get; set; }
 
         public DateTime CreatedOn { get; set; }
+        public Employee()
+        {
+            Address = new Address();
+        }
     }
 }
 
