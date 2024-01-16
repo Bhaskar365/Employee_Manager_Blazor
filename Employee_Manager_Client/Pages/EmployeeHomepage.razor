@@ -71,9 +71,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await apiService.GetEmployees();
-        showNoDataMessage = employees == null || employees.Count == 0;
-        isLoading = false;
+        // employees = await apiService.GetEmployees();
+        // showNoDataMessage = employees == null || employees.Count == 0;
+        // isLoading = false;
     }
 
     private void showDeleteAlert(int Id, string name)

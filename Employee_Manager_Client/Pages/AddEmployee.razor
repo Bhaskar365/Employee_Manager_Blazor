@@ -1,5 +1,7 @@
 ﻿@page "/employee/add"
-@using Employee_Manager_Models
+@using Employee_Manager_Client.Services;
+@using Employee_Manager_Models;
+@inject ApiService apiService;
 
 <div class="container">
 
@@ -92,17 +94,30 @@
     </EditForm>
 </div>
 
-
-
-@code {
+@code 
+{
     private Employee employeeModel = new Employee();
     private IEnumerable<Department> departments = new List<Department>();
 
-    private void SubmitForm()
+    private async Task SubmitForm()
     {
-        // Handle the submission logic, e.g., save to the database
-        // You can access the entered data from the employeeModel object
-        // and perform the necessary actions.
+        bool success = await apiService.CreateEmp(employeeModel);
+
+        if (success)
+        {
+            // Successfully created
+        }
+        else
+        {
+            // Handle the case where employee creation failed
+        }
+        await apiService.CreateEmp(employeeModel);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        departments = await apiService.GetAllDepartments();
+        employeeModel.DepartmentId = departments.FirstOrDefault()?.DepartmentId ?? 1;
     }
 }
 

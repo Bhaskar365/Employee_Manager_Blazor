@@ -20,7 +20,7 @@ namespace Employee_Manager_API.Controllers
             _addressRespository = addressRespository;
         }
 
-        [HttpGet("Employees")]
+        [HttpGet("allEmployees")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
         public IActionResult GetAllEmployees()
         {

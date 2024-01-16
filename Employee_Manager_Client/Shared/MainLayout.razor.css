@@ -1,11 +1,8 @@
+
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
-}
-
-article {
-    height: 90vh;
 }
 
 main {
