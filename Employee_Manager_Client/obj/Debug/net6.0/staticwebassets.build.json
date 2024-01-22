@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XJIXYej4A9zUAkZiYNTlZ/IHFgndammCSG0O/aFS5N0=",
+  "Hash": "qXGq6ekvwSvrJUUcO0NTRJjMp4alxnDKETli3fAMSUk=",
   "Source": "Employee_Manager_Client",
   "BasePath": "_content/Employee_Manager_Client",
   "Mode": "Default",
@@ -300,6 +300,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\user.png",
+      "SourceId": "Employee_Manager_Client",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\",
+      "BasePath": "_content/Employee_Manager_Client",
+      "RelativePath": "user.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\user.png"
     }
   ]
 }

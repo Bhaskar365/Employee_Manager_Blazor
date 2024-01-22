@@ -14,9 +14,10 @@ namespace Employee_Manager_Client.Services
             this._httpClient = httpClient;
         }
 
-        public async Task<Employee> GetEmployees()
+        public async Task<List<Employee>> GetEmployees()
         {
-            return await _httpClient.GetFromJsonAsync<Employee>("api/employee/Employees");
+            var result = await _httpClient.GetFromJsonAsync<List<Employee>>("api/employee/GetAllEmployees");
+            return result;
         }
 
         public async Task<List<Employee>> GetEmployeeById(int empID)

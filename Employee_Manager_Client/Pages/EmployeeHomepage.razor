@@ -6,52 +6,71 @@
 @inject HttpClient http;
 @inject NavigationManager navigationManager;
 
-<h3 class="mt-2" id="employeeHeader">Employee Details</h3>
-
-<hr/>
-
-<a href="/employee/add" class="btn btn-primary" role="button" id="addBtn">
-    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add Employee
-</a>
-
-@if (isLoading)
-{
-    <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-}
-else
-{
-    <div id="searchBox" >
-        Search <input />
-    </div>
-
-@if (showNoDataMessage)
-{
-    <p id="noData">No data available....</p>
-}
-
-else
-{
-  
-}
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Do you wish to delete employee <strong>@Name</strong> with ID : <strong>@DevId</strong> ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" @onclick="(()=>Delete())">Delete</button>
+<div class="body">
+    <div class="headersTitle">
+        <h3 id="employeeHeader">Employee Details</h3>
+        <hr />
+        <div class="headers"> 
+            <a href="/employee/add" role="button" id="addBtn">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;<i class="fa fa-user" aria-hidden="true"></i>
+            </a>
+            <div class="search">
+                Search <input class="inputBox" />
             </div>
         </div>
     </div>
+    <div>
+        @if (isLoading)
+        {
+            <div>loading....</div>
+        }
+        else
+        {
+            @if (showNoDataMessage)
+            {
+                <p id="noData">No data available....</p>
+            }
+
+            else
+            {
+                <div class="m">
+                    @foreach (var e in employees)
+                    {
+                        <div class="card" style="width: 100px;height:100px">
+                            <img src="/user.png" class="card-img-top" alt="img">
+                            <div class="card-body">
+                                <p class="card-text">Some quick example text to build on card's content.</p>
+                            </div>
+                        </div>
+                        <div>@e.EmpId</div>
+                        <div></div>
+                    }
+                </div>
+            }
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you wish to delete employee <strong>@Name</strong> with ID : <strong>@DevId</strong> ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" @onclick="(()=>Delete())">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+  
+
 </div>
-}
+
 
 
 
@@ -71,9 +90,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        // employees = await apiService.GetEmployees();
-        // showNoDataMessage = employees == null || employees.Count == 0;
-        // isLoading = false;
+        employees = await apiService.GetEmployees();
+        showNoDataMessage = employees == null || employees.Count == 0;
+        isLoading = false;
     }
 
     private void showDeleteAlert(int Id, string name)
