@@ -11,12 +11,16 @@
         <h3 id="employeeHeader">Employee Details</h3>
         <hr />
         <div class="headers"> 
-            <a href="/employee/add" role="button" id="addBtn">
-                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;<i class="fa fa-user" aria-hidden="true"></i>
-            </a>
-            <div class="search">
-                Search <input class="inputBox" />
-            </div>
+            <div class="addBox">
+                <div id="addBtn">
+                    <a href="/employee/add" role="button" style="text-decoration:none;">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
+                    </a>
+                </div>
+                <div class="search">
+                    Search&nbsp;<input class="inputBox" />
+                </div>
+            </div>    
         </div>
     </div>
     <div>
@@ -33,17 +37,19 @@
 
             else
             {
-                <div class="m">
+                <div class="mainBody">
                     @foreach (var e in employees)
                     {
-                        <div class="card" style="width: 100px;height:100px">
-                            <img src="/user.png" class="card-img-top" alt="img">
-                            <div class="card-body">
-                                <p class="card-text">Some quick example text to build on card's content.</p>
-                            </div>
-                        </div>
-                        <div>@e.EmpId</div>
-                        <div></div>
+                           <div class="card">
+                             <div class="card-header">@e.FirstName @e.LastName</div>
+                             <div class="card-body">
+                               <img src="/user.png" class="card-img-top" alt="img">
+                                 <div class="footerClass">
+                                    <a href="#" class="card-link">View</a>
+                                    <a href="#" class="card-link">Delete</a>
+                                 </div> 
+                             </div>
+                          </div>
                     }
                 </div>
             }

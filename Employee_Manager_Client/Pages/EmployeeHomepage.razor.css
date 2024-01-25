@@ -4,20 +4,73 @@
     margin-right: 5px;
 }
 
-    .body .headersTitle .headers {
-        border: 2px solid red;
-        display: flex;
-        justify-content: space-between;
+.headers {
+    display: flex;
+    justify-content: space-between;
+    padding:1px;
+}
+
+.addBox {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#addBtn {
+    border: 1px solid;
+    border-radius: 6px;
+    width: 42%;
+    padding-left: 8px;
+    padding-top: 2px;
+    font-size: 15px;
+}
+
+.search {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.inputBox {
+    width: 50%;
+}
+
+.mainBody {
+    margin-top: 1rem;
+}
+
+.card {
+    margin-bottom: 1rem;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+    .card > .card-header {
+        background-color: #0eabe0;
+        color: white;
     }
 
-        .body .headersTitle .headers #addBtn {
-            border: 2px solid black;
-        }
+    .card > .card-img-top {
+        width: 50%;
+        margin: 4px;
+    }
 
-    .body > .headersTitle #employeeHeader {
+.footerClass {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .footerClass > a {
+        border: 2px solid red;
+    }
+
+    .card-body {
+        width: 49%;
+    }
+
+@media screen and (min-width:300px) {
+    #addBtn {
+        width: 36%;
+        padding-left: 8px;
         font-size: 16px;
     }
-
-    .body > .headersTitle > .headers > .search>.inputBox {
-        width: 50%
-    }
+}
