@@ -12,13 +12,12 @@
         <hr />
         <div class="headers"> 
             <div class="addBox">
-                <div id="addBtn">
-                    <a href="/employee/add" role="button" style="text-decoration:none;">
+                <div class="btn btn-primary" id="addBtn">
+                    <a href="/employee/add" role="button" style="text-decoration:none;color:white">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
                     </a>
                 </div>
-                <div class="search">
-                    Search&nbsp;<input class="inputBox" />
+                <div class="search"><strong>Search&nbsp;</strong><input class="inputBox" />
                 </div>
             </div>    
         </div>
@@ -41,15 +40,22 @@
                     @foreach (var e in employees)
                     {
                            <div class="card">
-                             <div class="card-header">@e.FirstName @e.LastName</div>
-                             <div class="card-body">
-                               <img src="/user.png" class="card-img-top" alt="img">
-                                 <div class="footerClass">
-                                    <a href="#" class="card-link btn btn-primary">View</a>
-                                    <a href="#" class="card-link btn btn-danger">Delete</a>
-                                 </div> 
+                             <div class="card-header">
+                                <span>@e.FirstName @e.LastName</span>
+                                <span><i class="fa fa-pencil" aria-hidden="true"></i></span>
                              </div>
-                          </div>
+                             <div class="card-body">
+                                <img src="/user.png" class="card-img-top" alt="img">
+                                <div class="employeeDetails">
+                                    <span>Department : <strong>@e.Department.DepartmentName</strong></span>
+                                    <span>Country : <strong>@e.Address.Country</strong></span>
+                                </div>
+                             </div>
+                            <div class="footerClass">
+                                <a href="#" class="card-link btn btn-primary">View</a>
+                                <a href="#" class="card-link btn btn-danger">Delete</a>
+                            </div>
+                        </div>
                     }
                 </div>
             }
