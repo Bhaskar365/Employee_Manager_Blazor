@@ -335,7 +335,16 @@
             font-size: 16px;
         }
 
+        .card-body > .employeeDetails[b-s57tlxvs7c][b-s57tlxvs7c][b-s57tlxvs7c][b-s57tlxvs7c][b-s57tlxvs7c] {
+            font-size: 15px;
+            margin-left: 12rem;
+        }
 
+        .footerClass > .card-link[b-s57tlxvs7c][b-s57tlxvs7c][b-s57tlxvs7c] {
+            font-size: 13px;
+            padding: 6px 12px 5px 12px;
+            width: 28%;
+        }
 
     }
 }
