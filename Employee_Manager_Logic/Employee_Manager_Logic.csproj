@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Employee_Manager_API\Employee_Manager_API.csproj" />
+    <ProjectReference Include="..\Employee_Manager_Models\Employee_Manager_Models.csproj" />
+  </ItemGroup>
+
 </Project>

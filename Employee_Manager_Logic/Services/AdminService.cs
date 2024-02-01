@@ -1,5 +1,6 @@
 ﻿using Employee_Manager_API.DbClass;
 using Employee_Manager_Models.CustomModels;
+using Employee_Manager_Models.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,13 +24,14 @@ namespace Employee_Manager_Logic.Services
 
             try 
             {
-                var userData = _context.AdminInfo.Where(x => x.Email == loginModel.Email).FirstOrDefault();
+                var userData = _context.AdminLoginInfo.Where(x => x.Email == loginModel.Email).FirstOrDefault();
                 if (userData != null)
                 {
                     if (userData.Password == loginModel.Password)
                     {
                         response.Status = true;
-                        response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
+                        //response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
+                        response.Message = "Login successful";
                     }
                     else
                     {
@@ -45,6 +47,23 @@ namespace Employee_Manager_Logic.Services
                 return response;
             }
             catch (Exception ex) 
+            {
+                response.Status = false;
+                response.Message = "An error has occured. Please try again";
+
+                return response;
+            }
+        }
+
+        public ResponseModel AdminRegister(AdminInfo adminInfo)
+        {
+            ResponseModel response = new ResponseModel();
+
+            try 
+            {
+                var userData = _context
+            }
+            catch(Exception ex) 
             {
                 response.Status = false;
                 response.Message = "An error has occured. Please try again";
