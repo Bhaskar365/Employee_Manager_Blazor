@@ -7,8 +7,6 @@
 @inject ProtectedSessionStorage sessionStorage;
 @inject NavigationManager navManager;
 
-<h3>Login</h3>
-
 <style>
     .loginBox {
         width: 100%;
@@ -114,6 +112,8 @@
         {
             var user_response = response.Message.Split("|");
             await sessionStorage.SetAsync("adminKey", user_response[0]);
+
+            message = user_response[0];
 
             await notify.InvokeAsync();
             navManager.NavigateTo("/");

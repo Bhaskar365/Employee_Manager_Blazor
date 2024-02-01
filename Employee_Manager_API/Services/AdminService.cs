@@ -30,7 +30,7 @@ namespace Employee_Manager_Logic.Services
                     {
                         response.Status = true;
                         //response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
-                        response.Message = "Login successful for " + userData.Name + "|" + userData.Email;
+                        response.Message = "Login successful";
                     }
                     else
                     {
