@@ -26,6 +26,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWRpdEVtcGxveWVlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/running_projects/Employee_Manager_Blazor/Employee_Manager_Client/Employee_Manager_Client/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

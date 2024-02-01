@@ -1,19 +1,61 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager navManager;
+@inject ProtectedSessionStorage sessionStorage;
 
 <PageTitle>Employee_Manager_Client</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+
+    @if (IsAdminLoggedIn) 
+    { 
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    }
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        @if(IsAdminLoggedIn)
+        {
+            <div class="top-row px-4">
+                <a href="#" @onclick="Logout">Logout</a>
+            </div>
+        }
 
         <article class="content px-4">
-            @Body
+            <CascadingValue Value="event_notify">
+                @Body
+            </CascadingValue>
         </article>
     </main>
 </div>
+
+@code 
+{
+    public bool IsAdminLoggedIn = false;
+
+    EventCallback event_notify => EventCallback.Factory.Create(this, NotifyLayout);
+
+    public async void Logout()
+    {
+        await sessionStorage.DeleteAsync("adminKey");
+        await NotifyLayout();
+        navManager.NavigateTo("/login");
+    }
+
+    public async Task NotifyLayout()
+    {
+        var adminSession = await sessionStorage.GetAsync<string>("adminKey");
+        if(adminSession.Success) 
+        {
+            IsAdminLoggedIn = true;
+        }
+        else
+        {
+            IsAdminLoggedIn = false;
+            navManager.NavigateTo("/login");
+        }
+    }
+}

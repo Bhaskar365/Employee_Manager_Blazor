@@ -82,6 +82,18 @@
 </div>
 
 @code {
+
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await notify.InvokeAsync();
+        }
+    }
+
     public bool Show = false;
 
     public int DevId;
@@ -127,6 +139,8 @@
         DevId = id;
         navigationManager.NavigateTo($"/user/{DevId}");
     }
+
+
 
 
 }

@@ -1,0 +1,126 @@
+﻿@page "/login";
+@using Employee_Manager_Client.Services
+@using Employee_Manager_Models.CustomModels
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject ApiService apiService;
+@inject ProtectedSessionStorage sessionStorage;
+@inject NavigationManager navManager;
+
+<h3>Login</h3>
+
+<style>
+    .loginBox {
+        width: 100%;
+        text-align: center;
+        margin: 20px 0px 20px 0px;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    p {
+        font-size: 12px;
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        color: #525252;
+    }
+
+    .box {
+        background: white;
+        width: 300px;
+        border-radius: 6px;
+        margin: 0 auto 0 auto;
+        padding: 0px 0px 10px 0px;
+        border: 4px solid #2877e9;
+    }
+
+    .email {
+        background: #ffffff;
+        border: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        padding: 8px;
+        width: 250px;
+        color: #525252;
+        margin-top: 10px;
+        font-size: 1em;
+        border-radius: 4px;
+    }
+
+    .password {
+        border-radius: 4px;
+        background: #ecf0f1;
+        border: 1px solid #ccc;
+        padding: 8px;
+        width: 250px;
+        font-size: 1em;
+    }
+
+</style>
+
+<div style="min-height:400px;">
+
+    <div class="loginBox">
+        <div class="box">
+            <br />
+            <h1>Admin Panel</h1>
+            @if (loginModel != null)
+            {
+                <EditForm Model="@loginModel" OnValidSubmit="Login_Click">
+                    <DataAnnotationsValidator />
+
+                    <InputText type="email" name="name" class="email"
+                               placeholder="Email" @bind-Value="loginModel.Email"></InputText>
+                    <ValidationMessage For="@(() => loginModel.Email)" />
+
+                    <InputText type="password" name="password" class="password"
+                               placeholder="Password" @bind-Value="loginModel.Password"></InputText>
+                    <ValidationMessage For="@(() => loginModel.Password)" />
+                    <br /><br />
+                    <input type="submit" class="btn-primary" value="Login" />
+                </EditForm>
+            }
+        </div>
+        <div>
+            <br />
+            <br />
+            <p style="color:#e52e50">
+                <h4>@message</h4>
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    public LoginModel? loginModel { get; set; }
+    public string? message { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        loginModel = new LoginModel();
+        return base.OnInitializedAsync();
+    }
+
+    private async Task Login_Click()
+    {
+        var response = await apiService.Login(loginModel);
+        if(response.Status == true)
+        {
+            var user_response = response.Message.Split("|");
+            await sessionStorage.SetAsync("adminKey", user_response[0]);
+
+            await notify.InvokeAsync();
+            navManager.NavigateTo("/");
+        }
+        else
+        {
+            message = response.Message;
+        }
+    }
+}
