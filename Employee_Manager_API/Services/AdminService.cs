@@ -17,14 +17,13 @@ namespace Employee_Manager_Logic.Services
         {
             _context = context;
         }
-
         public ResponseModel AdminLogin(LoginModel loginModel)
         {
             ResponseModel response = new ResponseModel();
 
             try 
             {
-                var userData = _context.AdminLoginInfo.Where(x => x.Email == loginModel.Email).FirstOrDefault();
+                var userData = _context.AdminRegister.Where(x => x.Email == loginModel.Email).FirstOrDefault();
                 if (userData != null)
                 {
                     if (userData.Password == loginModel.Password)
@@ -61,7 +60,18 @@ namespace Employee_Manager_Logic.Services
 
             try 
             {
-                var userData = _context
+                var userData = _context.AdminRegister.Where(x => x.Email == adminInfo.Email).FirstOrDefault();
+                if (userData != null) 
+                {
+                    response.Status = false;
+                    response.Message = "Email address already exists. Check email again";
+                }
+
+                response.Status = true;
+                response.Message = "User is registered successfully!";
+
+                return response;
+
             }
             catch(Exception ex) 
             {

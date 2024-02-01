@@ -1,6 +1,7 @@
 using Employee_Manager_API.DbClass;
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_API.Repositories;
+using Employee_Manager_Logic.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAdminService,AdminService>();
 
 var app = builder.Build();
 

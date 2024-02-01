@@ -1,4 +1,6 @@
 ﻿using Employee_Manager_Models;
+using Employee_Manager_Models.CustomModels;
+using Employee_Manager_Models.Models;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
@@ -14,6 +16,26 @@ namespace Employee_Manager_Client.Services
             this._httpClient = httpClient;
         }
 
+        //LOGIN REGISTER SERVICE
+
+        public async Task<ResponseModel> Login(LoginModel loginModel) 
+        {
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync<LoginModel>("api/admin/login", loginModel);
+            ResponseModel result = await response.Content.ReadFromJsonAsync<ResponseModel>();
+
+            return result;
+        }
+
+        public async Task<ResponseModel> Register(AdminInfo info) 
+        {
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync<AdminInfo>("api/admin/Create", info);
+            ResponseModel result = await response.Content.ReadFromJsonAsync<ResponseModel>();
+
+            return result;
+        }
+
+        
+        // EMPLOYEE SERVICE
         public async Task<List<Employee>> GetEmployees()
         {
             var result = await _httpClient.GetFromJsonAsync<List<Employee>>("api/employee/GetAllEmployees");
@@ -120,7 +142,6 @@ namespace Employee_Manager_Client.Services
 
             return deleteEmp;
         }
-        
     }
 
 
