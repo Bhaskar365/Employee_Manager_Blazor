@@ -29,8 +29,8 @@ namespace Employee_Manager_Logic.Services
                     if (userData.Password == loginModel.Password)
                     {
                         response.Status = true;
-                        //response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
-                        response.Message = "Login successful";
+                        response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
+                        //response.Message = "Login successful";
                     }
                     else
                     {

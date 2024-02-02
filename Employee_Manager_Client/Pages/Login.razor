@@ -58,7 +58,7 @@
 
 </style>
 
-<div style="min-height:400px;">
+@* <div style="min-height:400px;">
 
     <div class="loginBox">
         <div class="box">
@@ -69,14 +69,20 @@
                 <EditForm Model="@loginModel" OnValidSubmit="Login_Click">
                     <DataAnnotationsValidator />
 
-                    <InputText type="email" name="name" class="email"
-                               placeholder="Email" @bind-Value="loginModel.Email"></InputText>
-                    <ValidationMessage For="@(() => loginModel.Email)" />
+                    <div class="mb-3">
+                        <InputText type="email" class="form-control"
+                                   placeholder="Email" @bind-Value="loginModel.Email"></InputText>
+                        <ValidationMessage For="@(() => loginModel.Email)" />
+                    </div>
 
-                    <InputText type="password" name="password" class="password"
-                               placeholder="Password" @bind-Value="loginModel.Password"></InputText>
-                    <ValidationMessage For="@(() => loginModel.Password)" />
+                    <div class="mb-3">
+                        <InputText type="password" class="form-control"
+                                   placeholder="Password" @bind-Value="loginModel.Password"></InputText>
+                        <ValidationMessage For="@(() => loginModel.Password)" />
+                    </div>
+
                     <br /><br />
+
                     <input type="submit" class="btn-primary" value="Login" />
                 </EditForm>
             }
@@ -84,10 +90,63 @@
         <div>
             <br />
             <br />
-            <p style="color:#e52e50">
-                <h4>@message</h4>
-            </p>
+            @if (IsSuccessful)
+            {
+                <div class="alert alert-success" role="alert">@message</div>
+            }
+            @if (IsUnsuccessful)
+            {
+                <div class="alert alert-danger" role="alert">@message</div>
+            }
         </div>
+    </div>
+</div> *@
+
+<div class="formBox">
+    <div class="formContainer">
+        <div class="form-inputBoxes">
+            <br />
+            <h1>Admin Panel</h1>
+            <div>
+                @if (IsSuccessful)
+                {
+                    <div class="alert alert-success" role="alert">@message</div>
+                }
+                else
+                {
+                    <div class="alert alert-danger" role="alert">@message</div>
+                }
+            </div>
+            @if (loginModel != null)
+            {
+                <EditForm Model="@loginModel" OnValidSubmit="Login_Click">
+
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <InputText type="email" class="form-control mb-3"
+                                   id="exampleInputEmail1" aria-describedby="emailHelp" 
+                                   placeholder="Email" @bind-Value="loginModel.Email">
+                        </InputText>
+                        <ValidationMessage For="@(() => loginModel.Email)" />
+                    </div>
+
+                    <div class="mb-3">
+                        <InputText type="password" class="form-control mb-3"
+                                   id="exampleInputPassword1" placeholder="Password" @bind-Value="loginModel.Password">
+                        </InputText>
+                        <ValidationMessage For="@(() => loginModel.Password)" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+
+                    <br/>
+                    
+                    <span class="align-content-center">Don't have a account ? <a href="#">Regiser</a></span>
+                </EditForm>
+            }
+        </div>
+     
     </div>
 </div>
 
@@ -95,6 +154,9 @@
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
+
+    public bool IsSuccessful { get; set; } = false;
+    public bool IsUnsuccessful { get; set; } = false;
 
     public LoginModel? loginModel { get; set; }
     public string? message { get; set; }
@@ -108,19 +170,25 @@
     private async Task Login_Click()
     {
         var response = await apiService.Login(loginModel);
-        if(response.Status == true)
+        if (response.Status == true)
         {
+            IsSuccessful = true;
             var user_response = response.Message.Split("|");
             await sessionStorage.SetAsync("adminKey", user_response[0]);
+            await sessionStorage.SetAsync("adminName", user_response[1]);
+            await sessionStorage.SetAsync("adminEmail", user_response[2]);
 
-            message = user_response[0];
+            message = "Login Successful";
 
             await notify.InvokeAsync();
+            Thread.Sleep(3000);
             navManager.NavigateTo("/");
         }
         else
         {
+            IsSuccessful = true;
             message = response.Message;
+            
         }
     }
 }

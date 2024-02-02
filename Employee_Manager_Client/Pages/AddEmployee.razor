@@ -96,6 +96,17 @@
 
 @code 
 {
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await notify.InvokeAsync();
+        }
+    }
+
     private Employee employeeModel = new Employee();
     private IEnumerable<Department> departments = new List<Department>();
 

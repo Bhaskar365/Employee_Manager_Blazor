@@ -75,3 +75,4 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Login.razor.rz.scp.css

@@ -500,6 +500,25 @@
         }
     }
 }
+/* _content/Employee_Manager_Client/Pages/Login.razor.rz.scp.css */
+
+.formBox[b-vzibis7fl8] {
+    border: 1px solid #aea4a4;
+    padding: 1rem;
+    border-radius: 1rem;
+    position: relative;
+    top: 20vh;
+}
+
+@media screen and (min-width:1200px) {
+    .formBox[b-vzibis7fl8] {
+        border: 1px solid #aea4a4;
+        width: 50%;
+        position: relative;
+        left: 50vh;
+        top: 20vh;
+    }
+}
 /* _content/Employee_Manager_Client/Shared/MainLayout.razor.rz.scp.css */
 
 .page[b-u8xq8yobvw] {
