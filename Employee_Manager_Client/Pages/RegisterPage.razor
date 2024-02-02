@@ -1,6 +1,6 @@
-﻿@page "/login";
+﻿@page "/register"
 @using Employee_Manager_Client.Services
-@using Employee_Manager_Models.CustomModels
+@using Employee_Manager_Models.Models
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
 @inject ApiService apiService;
@@ -11,7 +11,7 @@
     <div class="formContainer">
         <div class="form-inputBoxes">
             <br />
-            <h1>Admin Panel</h1>
+            <h1>Registration Form</h1>
             <div>
                 @if (IsSuccessful)
                 {
@@ -22,70 +22,67 @@
                     <div class="alert alert-danger" role="alert">@message</div>
                 }
             </div>
-            @if (loginModel != null)
+            @if (registerModel != null)
             {
-                <EditForm Model="@loginModel" OnValidSubmit="Login_Click">
+                <EditForm Model="@registerModel" OnValidSubmit="Login_Click">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <InputText type="name" class="form-control mb-3" placeholder="Name" 
+                                    @bind-Value="registerModel.Name">
+                        </InputText>
+                        <ValidationMessage For="@(()=> registerModel.Name)"></ValidationMessage>
+                    </div>
 
                     <div class="mb-3">
                         <InputText type="email" class="form-control mb-3"
-                                   id="exampleInputEmail1" aria-describedby="emailHelp" 
-                                   placeholder="Email" @bind-Value="loginModel.Email">
+                                   id="exampleInputEmail1" aria-describedby="emailHelp"
+                                   placeholder="Email" @bind-Value="registerModel.Email">
                         </InputText>
-                        <ValidationMessage For="@(() => loginModel.Email)" />
+                        <ValidationMessage For="@(() => registerModel.Email)" />
                     </div>
 
                     <div class="mb-3">
                         <InputText type="password" class="form-control mb-3"
-                                   id="exampleInputPassword1" placeholder="Password" @bind-Value="loginModel.Password">
+                                   id="exampleInputPassword1" placeholder="Password" @bind-Value="registerModel.Password">
                         </InputText>
-                        <ValidationMessage For="@(() => loginModel.Password)" />
+                        <ValidationMessage For="@(() => registerModel.Password)" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <br/>
-                    <span class="registerTag">Don't have a account ? <a href="register">Regiser</a></span>
+                    <button type="submit" class="btn btn-primary">Regiser</button>
+                    <br />
+                    <span class="registerTag">Already have a account ? <a href="login">Login</a></span>
                 </EditForm>
             }
         </div>
     </div>
 </div>
 
-@code {
 
+@code 
+{
     [CascadingParameter]
     public EventCallback notify { get; set; }
 
+    public AdminInfo registerModel { get; set; }
+
     public bool IsSuccessful { get; set; } = false;
     public bool IsUnsuccessful { get; set; } = false;
-
-    public LoginModel? loginModel { get; set; }
     public string? message { get; set; }
 
     protected override Task OnInitializedAsync()
     {
-        loginModel = new LoginModel();
+        registerModel = new AdminInfo();
         return base.OnInitializedAsync();
     }
 
     private async Task Login_Click()
     {
-        var response = await apiService.Login(loginModel);
-        if (response.Status == true)
+        var response = await apiService.Register(registerModel);
+        if (response.Status == true) 
         {
             IsSuccessful = true;
             IsUnsuccessful = false;
-            var user_response = response.Message.Split("|");
-            await sessionStorage.SetAsync("adminKey", user_response[0]);
-            await sessionStorage.SetAsync("adminName", user_response[1]);
-            await sessionStorage.SetAsync("adminEmail", user_response[2]);
-
-            message = "Login Successful";
-
-            await notify.InvokeAsync();
-            Thread.Sleep(3000);
-            navManager.NavigateTo("/");
         }
         else
         {
@@ -93,5 +90,7 @@
             IsUnsuccessful = true;
             message = response.Message;
         }
+        // await notify.InvokeAsync();
+        // navManager.NavigateTo("/");
     }
 }

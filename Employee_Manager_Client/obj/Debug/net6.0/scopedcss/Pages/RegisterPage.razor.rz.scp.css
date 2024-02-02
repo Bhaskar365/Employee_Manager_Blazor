@@ -1,5 +1,5 @@
 
-.formBox[b-vzibis7fl8] {
+.formBox[b-ycgfae7hun] {
     border: 1px solid #aea4a4;
     padding: 1rem;
     border-radius: 1rem;
@@ -7,13 +7,13 @@
     top: 20vh;
 }
 
-.registerTag[b-vzibis7fl8]{
-    display:flex;
-    justify-content:center;
+.registerTag[b-ycgfae7hun] {
+    display: flex;
+    justify-content: center;
 }
 
 @media screen and (min-width:900px) {
-    .formBox[b-vzibis7fl8] {
+    .formBox[b-ycgfae7hun] {
         border: 1px solid #aea4a4;
         width: 50%;
         position: relative;

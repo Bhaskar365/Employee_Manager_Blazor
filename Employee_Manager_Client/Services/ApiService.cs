@@ -29,9 +29,13 @@ namespace Employee_Manager_Client.Services
         public async Task<ResponseModel> Register(AdminInfo info) 
         {
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync<AdminInfo>("api/admin/Create", info);
-            ResponseModel result = await response.Content.ReadFromJsonAsync<ResponseModel>();
-
-            return result;
+            if (response.IsSuccessStatusCode) 
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                ResponseModel result = JsonConvert.DeserializeObject<ResponseModel>(content);
+                return result;
+            }
+            return null;
         }
 
         

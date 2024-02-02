@@ -31,9 +31,10 @@ namespace Employee_Manager_API.Controllers
         public IActionResult Register(AdminInfo create)
         {
             create.CreatedOn = DateTime.Now.ToString();
-            _context.AdminRegister.Add(create);
-            _context.SaveChanges();
-            return Ok();
+            var data = _adminService.AdminRegister(create);
+            //_context.AdminRegister.Add(create);
+            //_context.SaveChanges();
+            return Ok(data);
         }
     }
 }

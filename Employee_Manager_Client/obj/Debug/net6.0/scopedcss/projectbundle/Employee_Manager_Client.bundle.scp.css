@@ -510,8 +510,37 @@
     top: 20vh;
 }
 
-@media screen and (min-width:1200px) {
+.registerTag[b-vzibis7fl8]{
+    display:flex;
+    justify-content:center;
+}
+
+@media screen and (min-width:900px) {
     .formBox[b-vzibis7fl8] {
+        border: 1px solid #aea4a4;
+        width: 50%;
+        position: relative;
+        left: 50vh;
+        top: 20vh;
+    }
+}
+/* _content/Employee_Manager_Client/Pages/RegisterPage.razor.rz.scp.css */
+
+.formBox[b-ycgfae7hun] {
+    border: 1px solid #aea4a4;
+    padding: 1rem;
+    border-radius: 1rem;
+    position: relative;
+    top: 20vh;
+}
+
+.registerTag[b-ycgfae7hun] {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (min-width:900px) {
+    .formBox[b-ycgfae7hun] {
         border: 1px solid #aea4a4;
         width: 50%;
         position: relative;
