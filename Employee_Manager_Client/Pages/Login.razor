@@ -112,7 +112,7 @@
                 {
                     <div class="alert alert-success" role="alert">@message</div>
                 }
-                else
+                @if (IsUnsuccessful)
                 {
                     <div class="alert alert-danger" role="alert">@message</div>
                 }
@@ -173,6 +173,7 @@
         if (response.Status == true)
         {
             IsSuccessful = true;
+            IsUnsuccessful = false;
             var user_response = response.Message.Split("|");
             await sessionStorage.SetAsync("adminKey", user_response[0]);
             await sessionStorage.SetAsync("adminName", user_response[1]);
@@ -186,7 +187,8 @@
         }
         else
         {
-            IsSuccessful = true;
+            IsSuccessful = false;
+            IsUnsuccessful = true;
             message = response.Message;
             
         }
