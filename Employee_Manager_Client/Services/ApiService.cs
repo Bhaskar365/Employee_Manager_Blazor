@@ -37,20 +37,8 @@ namespace Employee_Manager_Client.Services
             }
             return null;
         }
-
-        
-        // EMPLOYEE SERVICE
-        public async Task<List<Employee>> GetEmployees()
-        {
-            var result = await _httpClient.GetFromJsonAsync<List<Employee>>("api/employee/GetAllEmployees");
-            return result;
-        }
-
-        public async Task<List<Employee>> GetEmployeeById(int empID)
-        {
-            return await _httpClient.GetFromJsonAsync<List<Employee>>($"api/employee/{empID}");
-        }
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        // DEPARTMENT SERVICE
         public async Task<Department> CreateDepartment(Department dep)
         {
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/department", dep);
@@ -71,6 +59,18 @@ namespace Employee_Manager_Client.Services
         public async Task<Department> GetDepartment(int id)
         {
             return await _httpClient.GetFromJsonAsync<Department>($"api/department/{id}");
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        // EMPLOYEE SERVICE
+        public async Task<List<Employee>> GetEmployees()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<Employee>>("api/employee/GetAllEmployees");
+            return result;
+        }
+
+        public async Task<List<Employee>> GetEmployeeById(int empID)
+        {
+            return await _httpClient.GetFromJsonAsync<List<Employee>>($"api/employee/{empID}");
         }
 
         public async Task<bool> CreateEmp(Employee emp)
