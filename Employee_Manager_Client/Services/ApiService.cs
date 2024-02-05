@@ -77,59 +77,45 @@ namespace Employee_Manager_Client.Services
         {
             try
             {
-                // Retrieve the associated department
                 Department department = await GetDepartment(emp.DepartmentId);
 
                 if (department != null)
                 {
-                    // Associate the retrieved department with the employee
                     emp.Department = department;
 
                     HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/employee", emp);
 
                     if (response.IsSuccessStatusCode)
                     {
+                        //string responseContent = await response.Content.ReadAsStringAsync();
+                        //Employee createdEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
+                        //return true;
                         string responseContent = await response.Content.ReadAsStringAsync();
-                        Employee createdEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
-                        return true;
-                    }
-                    else if (response.StatusCode == HttpStatusCode.BadRequest)
-                    {
-                        // Handle 400 Bad Request (validation errors, etc.)
-                        string errorContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine($"Bad Request: {response.ReasonPhrase}");
-                        Console.WriteLine($"Error Content: {errorContent}");
+
+                        if (!string.IsNullOrEmpty(responseContent))
+                        {
+                            Employee createdEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
+                            return true;
+                        }
+                        else {
+                            // Handle the case where the response content is empty or null
+                            Console.WriteLine("Empty or null response content");
+                            return false;
+                        }
                     }
                     else
                     {
-                        // Handle other HTTP status codes
-                        Console.WriteLine($"Unexpected Status Code: {response.StatusCode}");
+                        return false;
                     }
                 }
                 else
                 {
-                    // Department not found, handle accordingly (throw an exception, return null, etc.)
                     Console.WriteLine("Department not found");
                 }
-
-                return false;
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"HTTP Request Exception: {ex.Message}");
-                // Handle HTTP request-related issues
-                return false;
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"JSON Exception: {ex.Message}");
-                // Handle JSON deserialization issues
                 return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"General Exception: {ex.Message}");
-                // Handle other exceptions
                 return false;
             }
         }
