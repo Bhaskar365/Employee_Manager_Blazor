@@ -4,6 +4,7 @@ using Employee_Manager_Models.Models;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace Employee_Manager_Client.Services
 {
@@ -73,7 +74,55 @@ namespace Employee_Manager_Client.Services
             return await _httpClient.GetFromJsonAsync<List<Employee>>($"api/employee/{empID}");
         }
 
-        public async Task<bool> CreateEmp(Employee emp)
+        //public async Task<bool> CreateEmp(Employee emp)
+        //{
+        //    try
+        //    {
+        //        Department department = await GetDepartment(emp.DepartmentId);
+
+        //        if (department != null)
+        //        {
+        //            emp.Department = department;
+
+        //            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/employee", emp);
+
+        //            if (response.StatusCode == HttpStatusCode.NoContent) 
+        //            {
+        //                var responseContent = await response.Content.ReadAsStringAsync();
+        //                var createdEmp = JsonConvert.DeserializeObject(responseContent);
+
+        //                //ResponseModel
+
+        //                return (bool)createdEmp;
+        //            }
+
+        //            //if (response.IsSuccessStatusCode)
+        //            //{
+        //            //    var responseContent = await response.Content.ReadAsStringAsync();
+        //            //    ResponseModel createdEmp = JsonConvert.DeserializeObject<ResponseModel>(responseContent);
+
+        //            //    return createdEmp.Status;
+        //            //}
+        //            else
+        //            {
+        //                // Handle the case where the response content is empty or null
+        //                Console.WriteLine("Empty or null response content");
+        //                return false;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("Department not found");
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        public async Task<ResponseModel> CreateEmp(Employee emp)
         {
             try
             {
@@ -85,40 +134,36 @@ namespace Employee_Manager_Client.Services
 
                     HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/employee", emp);
 
-                    if (response.IsSuccessStatusCode)
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var responseContent = await response.Content.ReadAsStringAsync();
+                    //    var createdEmp = JsonConvert.DeserializeObject<ResponseModel>(responseContent);
+                    //    return createdEmp;
+                    //}
+                    if (response.StatusCode == HttpStatusCode.NoContent)
                     {
-                        //string responseContent = await response.Content.ReadAsStringAsync();
-                        //Employee createdEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
-                        //return true;
-                        string responseContent = await response.Content.ReadAsStringAsync();
-
-                        if (!string.IsNullOrEmpty(responseContent))
-                        {
-                            Employee createdEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
-                            return true;
-                        }
-                        else {
-                            // Handle the case where the response content is empty or null
-                            Console.WriteLine("Empty or null response content");
-                            return false;
-                        }
+                        return new ResponseModel { Status = true, Message = "Employee created successfully" };
                     }
                     else
                     {
-                        return false;
+                        // Handle other status codes
+                        return new ResponseModel { Status = false, Message = $"Failed to create employee. Status code: {response.StatusCode}" };
                     }
                 }
                 else
                 {
                     Console.WriteLine("Department not found");
+                    return new ResponseModel { Status = false, Message = "Department not found" };
                 }
-                return false;
             }
             catch (Exception ex)
             {
-                return false;
+                // Log the exception
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new ResponseModel { Status = false, Message = "An error occurred while processing your request" };
             }
         }
+
 
         public async Task<Employee> DeleteEmp(int id)
         {

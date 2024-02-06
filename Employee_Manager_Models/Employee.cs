@@ -42,6 +42,11 @@ namespace Employee_Manager_Models
         public DateTime JoiningDate { get; set; } = DateTime.Now;
 
         public DateTime CreatedOn { get; set; }
+
+        public static implicit operator string?(Employee? v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

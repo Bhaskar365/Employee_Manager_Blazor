@@ -83,7 +83,8 @@ namespace Employee_Manager_API.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return CreatedAtAction(nameof(GetEmployee), new { id = emp.EmpId }, emp);
+            //return CreatedAtAction(nameof(GetEmployee), new { id = emp.EmpId }, emp);
+            return NoContent();
         }
 
         //[HttpPost("InsertEmployee")]

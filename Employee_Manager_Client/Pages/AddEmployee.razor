@@ -1,7 +1,10 @@
 ﻿@page "/employee/add"
 @using Employee_Manager_Client.Services;
 @using Employee_Manager_Models;
+@using Employee_Manager_Models.CustomModels
 @inject ApiService apiService;
+@inject IJSRuntime JSRuntime;
+@inject NavigationManager navManager;
 
 <div class="container">
     <h3>Add Employee</h3>
@@ -103,21 +106,32 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h5 class="modal-title" id="exampleModalLabel">Employee Creation Status</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    @if (IsSuccessful)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @Message
+                        </div>
+                    }
+                    else if (IsUnsuccessful)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @Message
+                        </div>
+                    }
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 }
 
+}
 
 @code 
 {
@@ -139,28 +153,30 @@
     public bool IsUnsuccessful { get; set; } = false;
 
     private Employee employeeModel = new Employee();
+    private ResponseModel response = new ResponseModel();
     private IEnumerable<Department> departments = new List<Department>();
 
     private async Task SubmitForm()
     {
-        Popup = true;
-        bool success = await apiService.CreateEmp(employeeModel);
+        var response = await apiService.CreateEmp(employeeModel);
 
-        if (success)
+        if (response.Status)
         {
             IsSuccessful = true;
             IsUnsuccessful = false;
-            Message = "Successfully created employee";
-            // Successfully created
+            Popup = true;
+            Message = response.Message;
         }
         else
         {
             IsSuccessful = false;
             IsUnsuccessful = true;
-            Message = "Error creating employee";
             Popup = true;
-            // Handle the case where employee creation failed
+            Message = response.Message;
         }
+        //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
+        Thread.Sleep(3000);
+        navManager.NavigateTo("/");
     }
 
     protected override async Task OnInitializedAsync()
@@ -168,5 +184,7 @@
         departments = await apiService.GetAllDepartments();
         employeeModel.DepartmentId = departments.FirstOrDefault()?.DepartmentId ?? 1;
     }
+
+  
 }
 
