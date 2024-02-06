@@ -5,6 +5,7 @@
 @inject ApiService apiService;
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager navManager;
+@inject IToastService toastService;
 
 <div class="container">
     <h3>Add Employee</h3>
@@ -98,39 +99,6 @@
         </div>
     </EditForm>
 </div>
-
-<!-- Modal -->
-@if (Popup)
-{
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Employee Creation Status</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if (IsSuccessful)
-                    {
-                        <div class="alert alert-success" role="alert">
-                            @Message
-                        </div>
-                    }
-                    else if (IsUnsuccessful)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @Message
-                        </div>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
 }
 
 @code 
@@ -147,10 +115,6 @@
     }
 
     private string Message { get; set; }
-    private bool Popup = false;
-
-    public bool IsSuccessful { get; set; } = false;
-    public bool IsUnsuccessful { get; set; } = false;
 
     private Employee employeeModel = new Employee();
     private ResponseModel response = new ResponseModel();
@@ -162,20 +126,16 @@
 
         if (response.Status)
         {
-            IsSuccessful = true;
-            IsUnsuccessful = false;
-            Popup = true;
             Message = response.Message;
+            toastService.ShowSuccess(Message.ToString());
         }
         else
         {
-            IsSuccessful = false;
-            IsUnsuccessful = true;
-            Popup = true;
             Message = response.Message;
+            toastService.ShowError(Message.ToString());
         }
         //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
-        Thread.Sleep(3000);
+        Thread.Sleep(2000);
         navManager.NavigateTo("/");
     }
 
@@ -184,7 +144,5 @@
         departments = await apiService.GetAllDepartments();
         employeeModel.DepartmentId = departments.FirstOrDefault()?.DepartmentId ?? 1;
     }
-
-  
 }
 

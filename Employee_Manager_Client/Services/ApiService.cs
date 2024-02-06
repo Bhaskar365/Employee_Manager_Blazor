@@ -74,54 +74,6 @@ namespace Employee_Manager_Client.Services
             return await _httpClient.GetFromJsonAsync<List<Employee>>($"api/employee/{empID}");
         }
 
-        //public async Task<bool> CreateEmp(Employee emp)
-        //{
-        //    try
-        //    {
-        //        Department department = await GetDepartment(emp.DepartmentId);
-
-        //        if (department != null)
-        //        {
-        //            emp.Department = department;
-
-        //            HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/employee", emp);
-
-        //            if (response.StatusCode == HttpStatusCode.NoContent) 
-        //            {
-        //                var responseContent = await response.Content.ReadAsStringAsync();
-        //                var createdEmp = JsonConvert.DeserializeObject(responseContent);
-
-        //                //ResponseModel
-
-        //                return (bool)createdEmp;
-        //            }
-
-        //            //if (response.IsSuccessStatusCode)
-        //            //{
-        //            //    var responseContent = await response.Content.ReadAsStringAsync();
-        //            //    ResponseModel createdEmp = JsonConvert.DeserializeObject<ResponseModel>(responseContent);
-
-        //            //    return createdEmp.Status;
-        //            //}
-        //            else
-        //            {
-        //                // Handle the case where the response content is empty or null
-        //                Console.WriteLine("Empty or null response content");
-        //                return false;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Department not found");
-        //        }
-        //        return false;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
         public async Task<ResponseModel> CreateEmp(Employee emp)
         {
             try
@@ -134,12 +86,6 @@ namespace Employee_Manager_Client.Services
 
                     HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/employee", emp);
 
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    var responseContent = await response.Content.ReadAsStringAsync();
-                    //    var createdEmp = JsonConvert.DeserializeObject<ResponseModel>(responseContent);
-                    //    return createdEmp;
-                    //}
                     if (response.StatusCode == HttpStatusCode.NoContent)
                     {
                         return new ResponseModel { Status = true, Message = "Employee created successfully" };
