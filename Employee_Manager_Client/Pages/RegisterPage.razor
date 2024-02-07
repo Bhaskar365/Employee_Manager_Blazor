@@ -10,7 +10,6 @@
 <div class="formBox">
     <div class="formContainer">
         <div class="form-inputBoxes">
-            <br />
             <h1>Registration Form</h1>
             <div>
                 @if (IsSuccessful)
@@ -49,7 +48,7 @@
                         <ValidationMessage For="@(() => registerModel.Password)" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Regiser</button>
+                    <button type="submit" class="btn btn-warning w-100 registerBtn">Regiser</button>
                     <br />
                     <span class="registerTag">Already have a account ? <a href="login">Login</a></span>
                 </EditForm>
