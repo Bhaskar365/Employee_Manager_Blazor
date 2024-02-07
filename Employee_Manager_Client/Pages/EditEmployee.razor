@@ -1,9 +1,22 @@
-﻿<h3>EditEmployee</h3>
+﻿@page "/edit/{Id}"
+@using Employee_Manager_Client.Services
+@using Employee_Manager_Models
 
+@inject ApiService apiService;
 
-
+<h3>EditEmployee</h3>
 
 @code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public Employee EmployeeModel = new Employee();
+
+    protected override async Task OnInitializedAsync()
+    {
+        EmployeeModel = await apiService.GetEmployeeById(int.Parse(Id));
+    }
 
     [CascadingParameter]
     public EventCallback notify { get; set; }

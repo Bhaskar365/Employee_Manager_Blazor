@@ -61,8 +61,13 @@
         justify-content: space-between;
     }
 
-        .card > .card-header > span > .fa {
-            font-size: 13px;
+        #editIcon {
+            font-size: 17px;
+        }
+
+        #editIcon:hover {
+            transform:scale(1.5);
+            color:yellow;
         }
 
         .card > .card-img-top {

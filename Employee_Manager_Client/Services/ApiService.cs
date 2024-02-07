@@ -69,9 +69,9 @@ namespace Employee_Manager_Client.Services
             return result;
         }
 
-        public async Task<List<Employee>> GetEmployeeById(int empID)
+        public async Task<Employee> GetEmployeeById(int empID)
         {
-            return await _httpClient.GetFromJsonAsync<List<Employee>>($"api/employee/{empID}");
+            return await _httpClient.GetFromJsonAsync<Employee>($"api/employee/{empID}");
         }
 
         public async Task<ResponseModel> CreateEmp(Employee emp)
