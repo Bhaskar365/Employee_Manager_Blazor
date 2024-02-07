@@ -7,9 +7,25 @@
     top: 20vh;
 }
 
-.registerTag{
-    display:flex;
-    justify-content:center;
+.alert {
+    font-size: 12px;
+}
+
+.registerTag {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.form-inputBoxes > h1 {
+    font-size: 15px;
+    text-align: center;
+    padding: 2px;
+    background-color: #3F51B5;
+    color: white;
+    border: 2px solid #3F51B5;
+    border-radius:5px;
 }
 
 @media screen and (min-width:900px) {
@@ -19,5 +35,22 @@
         position: relative;
         left: 50vh;
         top: 20vh;
+    }
+
+    .form-inputBoxes > h1 {
+        font-size: 18px;
+        padding: 6px;
+    }
+
+    .alert {
+        font-size: 15px;
+    }
+
+    .registerTag {
+        font-size: 16px;
+    }
+
+    .loginBtn{
+        font-size:16px;
     }
 }

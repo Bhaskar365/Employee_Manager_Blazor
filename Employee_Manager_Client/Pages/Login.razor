@@ -10,7 +10,6 @@
 <div class="formBox">
     <div class="formContainer">
         <div class="form-inputBoxes">
-            <br />
             <h1>Admin Panel</h1>
             <div>
                 @if (IsSuccessful)
@@ -30,7 +29,7 @@
 
                     <div class="mb-3">
                         <InputText type="email" class="form-control mb-3"
-                                   id="exampleInputEmail1" aria-describedby="emailHelp" 
+                                   id="emailID" aria-describedby="emailHelp" 
                                    placeholder="Email" @bind-Value="loginModel.Email">
                         </InputText>
                         <ValidationMessage For="@(() => loginModel.Email)" />
@@ -43,9 +42,10 @@
                         <ValidationMessage For="@(() => loginModel.Password)" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary w-100 loginBtn">Login</button>
+
                     <br/>
-                    <span class="registerTag">Don't have a account ? <a href="register">Regiser</a></span>
+                    <span class="registerTag">Don't have a account?<a href="register">&nbsp;Regiser</a></span>
                 </EditForm>
             }
         </div>
