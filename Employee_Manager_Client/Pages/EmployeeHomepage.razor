@@ -123,21 +123,17 @@
         Name = name;
     }
 
-    private async void Delete()
+    private async Task Delete()
     {
-
         await apiService.DeleteEmp(DevId);
-
         employees.RemoveAll(e => e.EmpId == DevId);
-
         StateHasChanged();
-
-        navigationManager.NavigateTo("/", forceLoad: true);
+        navigationManager.NavigateTo("/", true);
+        employees = (await apiService.GetEmployees()).ToList();
     }
 
     private void GoToEditPage(int id)
     {
-
         DevId = id;
         navigationManager.NavigateTo($"/user/{DevId}");
     }

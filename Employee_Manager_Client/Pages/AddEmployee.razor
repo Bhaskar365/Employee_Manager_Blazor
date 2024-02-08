@@ -136,7 +136,7 @@
         }
         //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
         Thread.Sleep(2000);
-        navManager.NavigateTo("/");
+        navManager.NavigateTo("/" ,true);
     }
 
     protected override async Task OnInitializedAsync()

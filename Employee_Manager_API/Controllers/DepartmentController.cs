@@ -72,7 +72,7 @@ namespace Employee_Manager_API.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("{depID}")]
+        [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

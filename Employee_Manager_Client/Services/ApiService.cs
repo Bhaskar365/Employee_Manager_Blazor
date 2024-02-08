@@ -18,8 +18,7 @@ namespace Employee_Manager_Client.Services
         }
 
         //LOGIN REGISTER SERVICE
-
-        public async Task<ResponseModel> Login(LoginModel loginModel) 
+        public async Task<ResponseModel> Login(LoginModel loginModel)
         {
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync<LoginModel>("api/admin/login", loginModel);
             ResponseModel result = await response.Content.ReadFromJsonAsync<ResponseModel>();
@@ -27,10 +26,10 @@ namespace Employee_Manager_Client.Services
             return result;
         }
 
-        public async Task<ResponseModel> Register(AdminInfo info) 
+        public async Task<ResponseModel> Register(AdminInfo info)
         {
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync<AdminInfo>("api/admin/Create", info);
-            if (response.IsSuccessStatusCode) 
+            if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
                 ResponseModel result = JsonConvert.DeserializeObject<ResponseModel>(content);
@@ -61,6 +60,7 @@ namespace Employee_Manager_Client.Services
         {
             return await _httpClient.GetFromJsonAsync<Department>($"api/department/{id}");
         }
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////
         // EMPLOYEE SERVICE
         public async Task<List<Employee>> GetEmployees()
@@ -123,7 +123,22 @@ namespace Employee_Manager_Client.Services
 
             return deleteEmp;
         }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
+        // ADDRESS SERVICE
+        public async Task<List<Address>> GetAddresses()
+        {
+            var addresses = await _httpClient.GetFromJsonAsync<List<Address>>("api/address/GetAllAddress");
+            return addresses;
+        }
+
+        public async Task<Address> GetAddressById(int addressId) 
+        {
+            return await _httpClient.GetFromJsonAsync<Address>($"api/address/${addressId}");
+        }
     }
 
-
+    //public async Task<List<Employee>> GetEmployees()
+    //{
+    //    return await _httpClient.GetFromJsonAsync<Employee>($"api/employee/{empID}");
+    //}
 }

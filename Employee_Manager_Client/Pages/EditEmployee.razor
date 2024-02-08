@@ -13,6 +13,7 @@
         <ValidationSummary />
 
         <!-- Employee Details Section -->
+
         <div class="mb-3">
             <label for="FirstName" class="form-label">First Name</label>
             <InputText id="FirstName" @bind-Value="employeeModel.FirstName" class="form-control" />
@@ -49,31 +50,31 @@
         </div>
 
         <!-- Address Details Section -->
-        <div class="mb-3">
-            <label for="Street" class="form-label">Street</label>
-            <InputText id="Street" @bind-Value="employeeModel.Address.Street" class="form-control" />
-        </div>
+            <div class="mb-3">
+                <label for="Street" class="form-label">Street</label>
+                <InputText id="Street" @bind-Value="employeeModel.Address.Street" class="form-control" />
+            </div>
 
-        <div class="mb-3">
-            <label for="State" class="form-label">State</label>
-            <InputText id="State" @bind-Value="employeeModel.Address.State" class="form-control" />
-        </div>
+            <div class="mb-3">
+                <label for="State" class="form-label">State</label>
+                <InputText id="State" @bind-Value="employeeModel.Address.State" class="form-control" />
+            </div>
 
-        <div class="mb-3">
-            <label for="Country" class="form-label">Country</label>
-            <InputText id="Country" @bind-Value="employeeModel.Address.Country" class="form-control" />
-        </div>
+            <div class="mb-3">
+                <label for="Country" class="form-label">Country</label>
+                <InputText id="Country" @bind-Value="employeeModel.Address.Country" class="form-control" />
+            </div>
 
-        <div class="mb-3">
-            <label for="ZipCode" class="form-label">Zip Code</label>
-            <InputText id="ZipCode" @bind-Value="employeeModel.Address.ZipCode" class="form-control" />
-        </div>
-
+            <div class="mb-3">
+                <label for="ZipCode" class="form-label">Zip Code</label>
+                <InputText id="ZipCode" @bind-Value="employeeModel.Address.ZipCode" class="form-control" />
+            </div> 
+   
         <!-- Department Details Section -->
        <div class="mb-3">
             <label for="DepartmentId" class="form-label">Department</label>
             <InputSelect id="DepartmentId" @bind-Value="employeeModel.DepartmentId" class="form-control">
-                @foreach (var dep in departments)
+                @foreach (var dep in department)
                 {
                     <option value="@dep.DepartmentId">@dep.DepartmentName</option>
                 }
@@ -104,14 +105,19 @@
     public string Id { get; set; }
 
     public Employee employeeModel = new Employee();
-    public Department department = new Department();
+    public List<Department> department = new List<Department>();
     public Address address = new Address();
 
     protected override async Task OnInitializedAsync()
     {
         employeeModel = await apiService.GetEmployeeById(int.Parse(Id));
-        department = await apiService.GetDepartment(int.Parse(Id));
-        
+        department = await apiService.GetAllDepartments();
+        var addressId = employeeModel.AddressId;
+        if (addressId != null)
+        {
+            address = await apiService.GetAddressById(addressId);
+            employeeModel.Address = address; // Assign the fetched address to employeeModel
+        }
     }
 
     [CascadingParameter]
@@ -127,6 +133,6 @@
 
     public void SubmitForm()
     {
-        
+      
     }
 }
