@@ -23,7 +23,7 @@
             </div>
             @if (registerModel != null)
             {
-                <EditForm Model="@registerModel" OnValidSubmit="Login_Click">
+                <EditForm Model="@registerModel" OnValidSubmit="RegisterForm">
                     <DataAnnotationsValidator></DataAnnotationsValidator>
 
                     <div class="mb-3">
@@ -75,7 +75,7 @@
         return base.OnInitializedAsync();
     }
 
-    private async Task Login_Click()
+    private async Task RegisterForm()
     {
         var response = await apiService.Register(registerModel);
         if (response.Status == true) 
@@ -89,7 +89,7 @@
             IsUnsuccessful = true;
             message = response.Message;
         }
-        // await notify.InvokeAsync();
-        // navManager.NavigateTo("/");
+        await notify.InvokeAsync();
+        navManager.NavigateTo("/", true);
     }
 }

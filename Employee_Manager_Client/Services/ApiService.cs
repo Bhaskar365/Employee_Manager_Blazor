@@ -2,6 +2,7 @@
 using Employee_Manager_Models.CustomModels;
 using Employee_Manager_Models.Models;
 using Newtonsoft.Json;
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -98,7 +99,6 @@ namespace Employee_Manager_Client.Services
                 }
                 else
                 {
-                    Console.WriteLine("Department not found");
                     return new ResponseModel { Status = false, Message = "Department not found" };
                 }
             }
@@ -110,6 +110,33 @@ namespace Employee_Manager_Client.Services
             }
         }
 
+        public async Task<ResponseModel> UpdateEmp(Employee emp) 
+        {
+            try 
+            {
+                if(emp!= null) 
+                {
+                    HttpResponseMessage res = await _httpClient.PutAsJsonAsync($"api/employee", emp.EmpId);
+                    if(res.StatusCode == HttpStatusCode.NoContent) 
+                    {
+                        return new ResponseModel { Status = true, Message = "Employee Updated Successfully" };
+                    }
+                    else
+                    {
+                        // Handle other status codes
+                        return new ResponseModel { Status = false, Message = $"Failed to create employee. Status code: {res.StatusCode}" };
+                    }
+                }
+                else
+                {
+                    return new ResponseModel { Status = false, Message = "Employee not found" };
+                }
+            }
+            catch(Exception ex) 
+            {
+                return new ResponseModel { Status = false, Message = "An error occurred while processing your request" };
+            }
+        }
 
         public async Task<Employee> DeleteEmp(int id)
         {
@@ -141,9 +168,4 @@ namespace Employee_Manager_Client.Services
             return null;
         }
     }
-
-    //public async Task<Employee> GetEmployeeById(int empID)
-    //{
-    //    return await _httpClient.GetFromJsonAsync<Employee>($"api/employee/{empID}");
-    //}
 }

@@ -87,27 +87,6 @@ namespace Employee_Manager_API.Controllers
             return NoContent();
         }
 
-        //[HttpPost("InsertEmployee")]
-        //[ProducesResponseType(204)]
-        //[ProducesResponseType(400)]
-        //public IActionResult InsertEmployee(Employee employee) 
-        //{
-        //    employee.FirstName = employee.FirstName.Trim();
-        //    employee.LastName = employee.LastName.Trim();
-        //    employee.Email = employee.Email.Trim();
-        //    employee.Gender = employee.Gender.Trim();
-        //    employee.Department.DepartmentName = employee.Department.DepartmentName.ToUpper();
-        //    employee.Department.DepartmentId = employee.Department.DepartmentId;
-        //    employee.Address.Street = employee.Address.Street;
-        //    employee.Address.Country = employee.Address.Country;
-        //    employee.Address.State = employee.Address.State;
-        //    employee.DOB = employee.DOB;
-        //    employee.JoiningDate = employee.JoiningDate;
-
-        //    _employeeRepository.InsertNewEmployee(employee);
-        //    return Ok("Inserted employee successfully");
-        //}
-
         [HttpPut("{empId}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
@@ -133,7 +112,7 @@ namespace Employee_Manager_API.Controllers
 
             if (_employeeRepository.UpdateEmployee(employee, depID))
             {
-                ModelState.AddModelError("", "Something went wrong while updating owner");
+                ModelState.AddModelError("", "Something went wrong while updating employee");
                 return StatusCode(500, ModelState);
             }
             return NoContent();

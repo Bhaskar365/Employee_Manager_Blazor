@@ -1,7 +1,10 @@
 ﻿@page "/edit/{Id}"
 @using Employee_Manager_Client.Services
 @using Employee_Manager_Models
+@using Employee_Manager_Models.CustomModels
 
+@inject NavigationManager navManager;
+@inject IToastService toastService;
 @inject ApiService apiService;
 
 <div class="container">
@@ -107,6 +110,9 @@
     public Employee employeeModel = new Employee();
     public List<Department> department = new List<Department>();
     public Address address = new Address();
+    private ResponseModel response = new ResponseModel();
+
+    private string Message { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,12 +123,6 @@
         employeeModel.Address.State = address.State;
         employeeModel.Address.ZipCode = address.ZipCode;
         employeeModel.Address.Country = address.Country;
-        // var addressId = employeeModel.AddressId;
-        // if (addressId != null)
-        // {
-        //     address = await apiService.GetAddressById(addressId);
-        //     employeeModel.Address = address; // Assign the fetched address to employeeModel
-        // }
     }
 
     [CascadingParameter]
@@ -136,8 +136,21 @@
         }
     }
 
-    public void SubmitForm()
+    public async Task SubmitForm()
     {
-      
+        var res = await apiService.UpdateEmp(employeeModel);
+        if (res.Status)
+        {
+            Message = res.Message;
+            toastService.ShowSuccess(Message.ToString());
+        }
+        else
+        {
+            Message = res.Message;
+            toastService.ShowError(Message.ToString());
+        }
+        //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
+        Thread.Sleep(2000);
+        navManager.NavigateTo("/", true);
     }
 }
