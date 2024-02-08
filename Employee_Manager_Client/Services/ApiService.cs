@@ -133,11 +133,16 @@ namespace Employee_Manager_Client.Services
 
         public async Task<Address> GetAddressById(int addressId) 
         {
-            return await _httpClient.GetFromJsonAsync<Address>($"api/address/${addressId}");
+            var addId =  await _httpClient.GetFromJsonAsync<Address>($"api/address/{addressId}");
+            if(addId!=null)
+            {
+                return addId;
+            }
+            return null;
         }
     }
 
-    //public async Task<List<Employee>> GetEmployees()
+    //public async Task<Employee> GetEmployeeById(int empID)
     //{
     //    return await _httpClient.GetFromJsonAsync<Employee>($"api/employee/{empID}");
     //}

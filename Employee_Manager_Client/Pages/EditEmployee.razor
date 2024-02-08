@@ -112,12 +112,17 @@
     {
         employeeModel = await apiService.GetEmployeeById(int.Parse(Id));
         department = await apiService.GetAllDepartments();
-        var addressId = employeeModel.AddressId;
-        if (addressId != null)
-        {
-            address = await apiService.GetAddressById(addressId);
-            employeeModel.Address = address; // Assign the fetched address to employeeModel
-        }
+        address = await apiService.GetAddressById(employeeModel.AddressId);
+        employeeModel.Address.Street = address.Street;
+        employeeModel.Address.State = address.State;
+        employeeModel.Address.ZipCode = address.ZipCode;
+        employeeModel.Address.Country = address.Country;
+        // var addressId = employeeModel.AddressId;
+        // if (addressId != null)
+        // {
+        //     address = await apiService.GetAddressById(addressId);
+        //     employeeModel.Address = address; // Assign the fetched address to employeeModel
+        // }
     }
 
     [CascadingParameter]
