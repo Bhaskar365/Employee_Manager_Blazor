@@ -116,7 +116,7 @@ namespace Employee_Manager_Client.Services
             {
                 if (emp != null)
                 {
-                    HttpResponseMessage res = await _httpClient.PutAsJsonAsync($"api/employee", emp);
+                    HttpResponseMessage res = await _httpClient.PutAsJsonAsync($"api/employee/{emp.EmpId}?depID={emp.DepartmentId}", emp);
                     if (res.StatusCode == HttpStatusCode.NoContent)
                     {
                         return new ResponseModel { Status = true, Message = "Employee Updated Successfully" };
