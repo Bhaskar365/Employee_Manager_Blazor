@@ -114,10 +114,10 @@ namespace Employee_Manager_Client.Services
         {
             try 
             {
-                if(emp!= null) 
+                if (emp != null)
                 {
-                    HttpResponseMessage res = await _httpClient.PutAsJsonAsync($"api/employee", emp.EmpId);
-                    if(res.StatusCode == HttpStatusCode.NoContent) 
+                    HttpResponseMessage res = await _httpClient.PutAsJsonAsync($"api/employee", emp);
+                    if (res.StatusCode == HttpStatusCode.NoContent)
                     {
                         return new ResponseModel { Status = true, Message = "Employee Updated Successfully" };
                     }
@@ -134,7 +134,7 @@ namespace Employee_Manager_Client.Services
             }
             catch(Exception ex) 
             {
-                return new ResponseModel { Status = false, Message = "An error occurred while processing your request" };
+                return null;
             }
         }
 

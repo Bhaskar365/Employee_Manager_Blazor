@@ -101,7 +101,7 @@ namespace Employee_Manager_API.Controllers
             if (dep.DepartmentId != depID)
                 return BadRequest(ModelState);
 
-            if (_departmentRepository.DepartmentExists(depID))
+            if (!_departmentRepository.DepartmentExists(depID))
                 return NotFound();
 
             if (empId != employee.EmpId)
@@ -110,7 +110,7 @@ namespace Employee_Manager_API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            if (_employeeRepository.UpdateEmployee(employee, depID))
+            if (!_employeeRepository.UpdateEmployee(employee, depID))
             {
                 ModelState.AddModelError("", "Something went wrong while updating employee");
                 return StatusCode(500, ModelState);

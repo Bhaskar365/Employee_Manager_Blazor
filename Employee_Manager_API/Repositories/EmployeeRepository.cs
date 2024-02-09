@@ -67,6 +67,11 @@ namespace Employee_Manager_API.Repositories
 
         public bool UpdateEmployee(Employee emp, int depID)
         {
+            var department = _context.Tbl_Department.FirstOrDefault(d => d.DepartmentId == depID);
+            if(department!= null) 
+            {
+                emp.Department = department;
+            }
             _context.Update(emp);
             return Save();
         }
