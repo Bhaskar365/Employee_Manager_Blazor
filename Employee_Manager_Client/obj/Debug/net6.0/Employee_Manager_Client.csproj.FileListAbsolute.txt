@@ -73,10 +73,6 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Employee_Manager_Client.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Employee_Manager_Client.props
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\staticwebassets.pack.json
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\AddEmployee.razor.rz.scp.css
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\EmployeeHomepage.razor.rz.scp.css
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Login.razor.rz.scp.css
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\RegisterPage.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\bundle\Employee_Manager_Client.styles.css
@@ -87,4 +83,9 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\EditEmployee.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Access_Pages\Login.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Access_Pages\RegisterPage.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\AddEmployee.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\EditEmployee.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\EmployeeHomepage.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\ViewEmployee.razor.rz.scp.css

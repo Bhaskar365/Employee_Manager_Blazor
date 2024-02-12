@@ -1,0 +1,121 @@
+﻿@page "/employee/{Id}"
+@using Employee_Manager_Client.Services
+@using Employee_Manager_Models
+
+@inject NavigationManager navManager;
+@inject ApiService apiService;
+
+<div class="container">
+    <h3 class="card-title text-primary">Employee Details </h3>
+
+    <hr />
+    
+    <form>
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.EmpId" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.FirstName" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.LastName" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Email" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Gender</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Gender" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Date Of Birth</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.DOB" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Street</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Street" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">State</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.State" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">ZipCode</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.ZipCode" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Country</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Country" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Department</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Department.DepartmentName" />
+        </div>
+
+        <div clasa="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Joining Date</label>
+            <input type="text" class="form-control" id="" @bind-value="@employeeModel.JoiningDate" />
+        </div>
+
+        <div id="footer-buttons">
+            <a id="editDetailsBtn" class="btn btn-primary" href="@($"/edit/{Id}")">Edit Details</a>
+            <a id="goBackBtn" class="btn btn-secondary" @onclick="GoBack">Go Back</a>
+        </div>
+
+    </form>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public Employee employeeModel = new Employee();
+    public List<Department> department = new List<Department>();
+    public Address address = new Address();
+
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await notify.InvokeAsync();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeModel = await apiService.GetEmployeeById(int.Parse(Id));
+        department = await apiService.GetAllDepartments();
+        address = await apiService.GetAddressById(employeeModel.AddressId);
+        employeeModel.Address.Street = address.Street;
+        employeeModel.Address.State = address.State;
+        employeeModel.Address.ZipCode = address.ZipCode;
+        employeeModel.Address.Country = address.Country;
+
+        employeeModel.Department = department.FirstOrDefault(d => d.DepartmentId == employeeModel.DepartmentId);
+    }
+
+    public void GoBack()
+    {
+        navManager.NavigateTo("/");
+    }
+
+}
