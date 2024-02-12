@@ -32,9 +32,11 @@ namespace Employee_Manager_Models
         public int AddressId { get; set; }
 
         [ForeignKey("AddressId")]
+        
         public Address? Address { get; set; } = new Address();
         public int DepartmentId { get; set; }
 
+        [Required]
         [ForeignKey("DepartmentId")]
         public Department Department { get; set; } = new Department();
 

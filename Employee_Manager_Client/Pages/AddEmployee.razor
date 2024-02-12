@@ -91,10 +91,11 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="mb-3">
-            <button type="submit"
-                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Submit
+        <div class="mb-3" id="btnClass">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                Go Back
             </button>
         </div>
     </EditForm>
@@ -119,6 +120,11 @@
     private Employee employeeModel = new Employee();
     private ResponseModel response = new ResponseModel();
     private IEnumerable<Department> departments = new List<Department>();
+
+    public void GoBack()
+    {
+        navManager.NavigateTo("/");
+    }
 
     private async Task SubmitForm()
     {

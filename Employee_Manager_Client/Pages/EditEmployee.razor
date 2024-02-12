@@ -11,9 +11,8 @@
     <h3>Edit Employee</h3>
     <hr />
 
-    <EditForm Model="@employeeModel" OnValidSubmit="SubmitForm">
+    <EditForm Model="@employeeModel" OnValidSubmit="SubmitForm" id="form">
         <DataAnnotationsValidator />
-        <ValidationSummary />
 
         <!-- Employee Details Section -->
 
@@ -92,11 +91,11 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="mb-3">
-            <button type="submit"
-                    class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Submit
-            </button>
+        <div class="mb-3" id="btnClass">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">
+                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                Go Back</button>
         </div>
     </EditForm>
 </div>
@@ -136,6 +135,11 @@
         {
             await notify.InvokeAsync();
         }
+    }
+
+    public void GoBack()
+    {
+        navManager.NavigateTo("/");
     }
 
     public async Task SubmitForm()

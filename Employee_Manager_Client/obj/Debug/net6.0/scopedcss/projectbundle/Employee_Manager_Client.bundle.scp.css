@@ -1,4 +1,42 @@
 /* _content/Employee_Manager_Client/Pages/AddEmployee.razor.rz.scp.css */
+
+
+@media screen and (min-width:1100px) {
+    .mb-3[b-4hvbslh5ex] {
+        width: 49%;
+        display: inline-block;
+    }
+
+    #btnClass[b-4hvbslh5ex] {
+        display: block;
+    }
+
+
+        #btnClass .btn[b-4hvbslh5ex] {
+            width: 120px;
+            margin-right: 10px;
+        }
+}
+/* _content/Employee_Manager_Client/Pages/EditEmployee.razor.rz.scp.css */
+
+
+@media screen and (min-width:1100px) {
+    .mb-3[b-8mofpss5cf] {
+        width: 49%;
+        display: inline-block;
+    }
+
+    #btnClass[b-8mofpss5cf] {
+        display: block;
+    }
+
+
+        #btnClass .btn[b-8mofpss5cf] {
+            width: 120px;
+            margin-right: 10px;
+        }
+}
+
 /* _content/Employee_Manager_Client/Pages/EmployeeHomepage.razor.rz.scp.css */
 #employeeHeader[b-s57tlxvs7c] {
     font-size: 13px;
