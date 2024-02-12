@@ -96,6 +96,8 @@ namespace Employee_Manager_API.Controllers
             if (employee == null)
                 return BadRequest(ModelState);
 
+            depID = employee.DepartmentId;
+
             var dep = _departmentRepository.GetDepartment(depID);
 
             if (dep.DepartmentId != depID)

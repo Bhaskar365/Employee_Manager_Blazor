@@ -123,6 +123,8 @@
         employeeModel.Address.State = address.State;
         employeeModel.Address.ZipCode = address.ZipCode;
         employeeModel.Address.Country = address.Country;
+
+        employeeModel.Department = department.FirstOrDefault(d => d.DepartmentId == employeeModel.DepartmentId);
     }
 
     [CascadingParameter]
