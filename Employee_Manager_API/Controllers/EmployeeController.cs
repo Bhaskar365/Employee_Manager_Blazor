@@ -119,6 +119,26 @@ namespace Employee_Manager_API.Controllers
             }
             return NoContent();
         }
+
+        [HttpDelete("{empId}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteEmployee(int empId)
+        {
+            if (!_employeeRepository.EmployeeExists(empId))
+                return NotFound();
+
+            var employeeToDelete = _employeeRepository.GetEmployee(empId);
+
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (!_employeeRepository.DeleteEmployee(employeeToDelete)) 
+            {
+                ModelState.AddModelError("", "Something went wrong deleting employee");
+            }
+            return NoContent();
+        }
     }
 }
 
