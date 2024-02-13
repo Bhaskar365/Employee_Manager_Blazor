@@ -1,1 +1,14 @@
 ﻿
+form{
+    border:2px solid red;
+
+}
+
+    .mb-3 {
+        width:50%
+    }
+
+#footer-buttons {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

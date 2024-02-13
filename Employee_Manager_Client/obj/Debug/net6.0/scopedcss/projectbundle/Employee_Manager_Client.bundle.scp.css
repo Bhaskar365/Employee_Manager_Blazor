@@ -660,6 +660,20 @@
     }
 }
 /* _content/Employee_Manager_Client/Pages/Employee_Components/ViewEmployee.razor.rz.scp.css */
+
+form[b-u1fxbmjdmc]{
+    border:2px solid red;
+
+}
+
+    .mb-3[b-u1fxbmjdmc] {
+        width:50%
+    }
+
+#footer-buttons[b-u1fxbmjdmc] {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
 /* _content/Employee_Manager_Client/Shared/MainLayout.razor.rz.scp.css */
 
 .page[b-u8xq8yobvw] {
