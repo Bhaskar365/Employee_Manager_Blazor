@@ -8,77 +8,78 @@
 
 <div class="body">
     <div class="headersTitle">
-        <h3 id="employeeHeader">Employee Details</h3>
+        <h3 id="employeeHeader" class="card-title text-primary">Employee Details</h3>
         <hr />
-        <div class="headers"> 
+        <div class="headers">
             <div class="addBox">
                 <div class="btn btn-primary" id="addBtn">
                     <a href="/employee/add" role="button" style="text-decoration:none;color:white">
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
                     </a>
                 </div>
-                <div class="search"><strong>Search&nbsp;</strong><input class="inputBox" />
+                <div class="search">
+                    <strong>Search&nbsp;</strong><input class="inputBox" />
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
     <div>
         @if (isLoading)
         {
-            <div>loading....</div>
+            <div class="lds-facebook"><div></div><div></div><div></div></div>
+        }
+        else if (showNoDataMessage)
+        {
+            <p id="noData">No data available....</p>
         }
         else
         {
-            @if (showNoDataMessage)
-            {
-                <p id="noData">No data available....</p>
-            }
-
-            else
-            {
-                <div class="mainBody">
-                    @foreach (var e in employees)
-                    {
-                           <div class="card">
-                             <div class="card-header">
-                                <span>@e.FirstName @e.LastName</span>
-                                <a href="@($"edit/{e.EmpId}")" id="editIcon">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </a>
-                             </div>
-                             <div class="card-body">
-                                <img src="/user.png" class="card-img-top" alt="img">
-                                <div class="employeeDetails">
-                                    <span>Department : <strong>@e.Department.DepartmentName</strong></span>
-                                    <span>Country : <strong>@e.Address.Country</strong></span>
-                                </div>
-                             </div>
-                            <div class="footerClass">
-                                <a href="@($"employee/{e.EmpId}")" class="card-link btn btn-primary">View</a>
-                                <a href="#" class="card-link btn btn-danger">Delete</a>
+            <div class="mainBody">
+                @foreach (var e in employees)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <span>@e.FirstName @e.LastName</span>
+                            <a href="@($"edit/{e.EmpId}")" id="editIcon">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <img src="/user.png" class="card-img-top" alt="img">
+                            <div class="employeeDetails">
+                                <span>Department : <strong>@e.Department.DepartmentName</strong></span>
+                                <span>Country : <strong>@e.Address.Country</strong></span>
                             </div>
                         </div>
-                    }
-                </div>
-            }
-            <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="footerClass">
+                            <a href="@($"employee/{e.EmpId}")" class="card-link btn btn-primary" id="viewBtn">View</a>
+                            <button class="card-link btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    id="deleteBtn" @onclick="@(()=>showDeleteAlert(e.EmpId))">
+                                Delete
+                            </button>
                         </div>
-                        <div class="modal-body">
-                            Do you wish to delete employee <strong>@Name</strong> with ID : <strong>@DevId</strong> ?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" @onclick="(()=>Delete())">Delete</button>
-                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <!-------------- Modal ------------------->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Do you want to delete product with <strong>ID : @EmpId</strong> permanently?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" @onclick="(()=>Delete(true))">Delete</button>
                     </div>
                 </div>
             </div>
+        </div>
         }
     </div>
 </div>
@@ -98,7 +99,7 @@
 
     public bool Show = false;
 
-    public int DevId;
+    public int EmpId;
 
     public string Name;
 
@@ -116,26 +117,26 @@
         isLoading = false;
     }
 
-    private void showDeleteAlert(int Id, string name)
+    private void showDeleteAlert(int id)
     {
-        DevId = Id;
+        EmpId = id;
         Show = true;
-        Name = name;
     }
 
-    private async Task Delete()
+    private async Task Delete(bool value)
     {
-        await apiService.DeleteEmp(DevId);
-        employees.RemoveAll(e => e.EmpId == DevId);
+        isLoading = true;
+        await apiService.DeleteEmp(EmpId);
+        employees.RemoveAll(e => e.EmpId == EmpId);
         StateHasChanged();
+        isLoading = false;
         navigationManager.NavigateTo("/", true);
-        employees = (await apiService.GetEmployees()).ToList();
     }
 
     private void GoToEditPage(int id)
     {
-        DevId = id;
-        navigationManager.NavigateTo($"/user/{DevId}");
+        EmpId = id;
+        navigationManager.NavigateTo($"/user/{EmpId}");
     }
 
 

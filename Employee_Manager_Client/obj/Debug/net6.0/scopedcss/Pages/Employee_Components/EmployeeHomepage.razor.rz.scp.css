@@ -1,3 +1,46 @@
+.lds-facebook[b-382pvosb43] {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+    .lds-facebook div[b-382pvosb43] {
+        display: inline-block;
+        position: absolute;
+        left: 8px;
+        width: 16px;
+        background: #fff;
+        animation: lds-facebook-b-382pvosb43 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+    }
+
+        .lds-facebook div:nth-child(1)[b-382pvosb43] {
+            left: 8px;
+            animation-delay: -0.24s;
+        }
+
+        .lds-facebook div:nth-child(2)[b-382pvosb43] {
+            left: 32px;
+            animation-delay: -0.12s;
+        }
+
+        .lds-facebook div:nth-child(3)[b-382pvosb43] {
+            left: 56px;
+            animation-delay: 0;
+        }
+
+@keyframes lds-facebook-b-382pvosb43 {
+    0% {
+        top: 8px;
+        height: 64px;
+    }
+
+    50%, 100% {
+        top: 24px;
+        height: 32px;
+    }
+}
+
 #employeeHeader[b-382pvosb43] {
     font-size: 13px;
 }
@@ -18,6 +61,19 @@
     display: flex;  
     justify-content: space-between;
     width: 100%;
+}
+
+#viewBtn:hover[b-382pvosb43] {
+    background-image: linear-gradient(#0d6efd, #0dcaf0);
+    color: white;
+}
+
+#deleteBtn:hover[b-382pvosb43] {
+    background-image: linear-gradient(45deg, #ff1a1a, red);
+}
+
+#addBtn:hover[b-382pvosb43] {
+    background-image: linear-gradient(45deg, black, transparent);
 }
 
 #addBtn[b-382pvosb43] {
@@ -65,10 +121,10 @@
             font-size: 17px;
         }
 
-        #editIcon:hover[b-382pvosb43] {
-            transform:scale(1.5);
-            color:yellow;
-        }
+            #editIcon:hover[b-382pvosb43] {
+                transform: scale(1.5);
+                color: #2700ff;
+            }
 
         .card > .card-img-top[b-382pvosb43] {
             width: 50%;

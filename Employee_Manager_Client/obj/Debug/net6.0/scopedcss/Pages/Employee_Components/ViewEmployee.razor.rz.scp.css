@@ -1,14 +1,16 @@
 
-form[b-u1fxbmjdmc]{
-    border:2px solid red;
-
-}
-
-    .mb-3[b-u1fxbmjdmc] {
-        width:50%
+@media screen and (min-width:1200px) {
+    #form > div[b-u1fxbmjdmc] {
+        width: 49%;
+        display: inline-block;
     }
 
-#footer-buttons[b-u1fxbmjdmc] {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    #form > .mb-3 > .form-control[b-u1fxbmjdmc] {
+        border: 2px solid red;
+    }
+
+    #footer-buttons[b-u1fxbmjdmc] {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
