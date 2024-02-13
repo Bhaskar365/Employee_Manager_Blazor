@@ -138,17 +138,33 @@ namespace Employee_Manager_Client.Services
             }
         }
 
-        public async Task<Employee> DeleteEmp(int id)
+        public async Task<ResponseModel> DeleteEmp(int id)
         {
-            HttpResponseMessage res = await _httpClient.DeleteAsync($"api/employee/{id}");
+            try 
+            {
+                if(id!=null) 
+                {
+                    HttpResponseMessage res = await _httpClient.DeleteAsync($"api/employee/{id}");
 
-            res.EnsureSuccessStatusCode();
+                    if(res.StatusCode == HttpStatusCode.NoContent) 
+                    {
+                        return new ResponseModel { Status = true, Message = "Employee Updated Successfully" };
+                    }  
+                    else
+                    {
+                        return new ResponseModel { Status = false, Message = $"Failed to create employee. Status code: {res.StatusCode}" };
+                    }
+                }
+                else 
+                {
+                    return new ResponseModel { Status = false, Message = "Employee not found" };
+                }
+            } 
+            catch(Exception ex) 
+            {
+                return null;
+            }
 
-            string responseContent = await res.Content.ReadAsStringAsync();
-
-            Employee deleteEmp = JsonConvert.DeserializeObject<Employee>(responseContent);
-
-            return deleteEmp;
         }
         //////////////////////////////////////////////////////////////////////////////////////////////////////
         // ADDRESS SERVICE
