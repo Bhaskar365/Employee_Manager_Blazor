@@ -127,9 +127,8 @@
     {
         isLoading = true;
         await apiService.DeleteEmp(EmpId);
-        // employees.RemoveAll(e => e.EmpId == EmpId);
-        // StateHasChanged();
         isLoading = false;
+        StateHasChanged();
         navigationManager.NavigateTo("/", true);
     }
 
