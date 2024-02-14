@@ -146,7 +146,9 @@
     {
         if (!string.IsNullOrWhiteSpace(Query))
         {
-            employees = employees.Where(x => x.FirstName.ToLower().IndexOf(Query, StringComparison.OrdinalIgnoreCase)!=-1).ToList();
+            employees = employees.Where(x => x.FirstName.ToLower().Contains(Query.ToLower()) ||
+             x.LastName.ToLower().Contains(Query.ToLower())
+         ).ToList();
         }
         else
         {
