@@ -88,6 +88,21 @@ namespace Employee_Manager_API.Repositories
             return result > 0 ? true : false;
         }
 
+        public async Task<List<Employee>> Search(string searchTerm)
+        {
+            IQueryable<Employee> query = (IQueryable<Employee>)GetAllEmployees();
+            //IQueryable<Employee> query = _context.Tbl_Employee;
+            if (string.IsNullOrWhiteSpace(searchTerm))
+                return await query.ToListAsync();
+            else
+            {
+                query = query.Where(e => e.FirstName.Contains(searchTerm) || e.LastName.Contains(searchTerm));
+            }
+            return await query.ToListAsync();
+        }
+
+
+
         //public void InsertNewEmployee(Employee employee)
         //{
         //    using var conn = new SqlConnection(DbConnection);
