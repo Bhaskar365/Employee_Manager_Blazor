@@ -18,7 +18,8 @@
                     </a>
                 </div>
                 <div class="search">
-                    <strong>Search&nbsp;</strong><input class="inputBox" />
+                    <strong>Search&nbsp;</strong><input class="inputBox"
+                          @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
                 </div>
             </div>
         </div>
@@ -104,6 +105,8 @@
 
     public string Name;
 
+    protected string Query { get; set; } = string.Empty;
+
     private List<Employee> employees = new List<Employee>();
     private bool showNoDataMessage = false;
     private bool isLoading = true;
@@ -139,7 +142,15 @@
         navigationManager.NavigateTo($"/user/{EmpId}");
     }
 
-
-
-
+    protected async Task FilterUser() 
+    {
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            employees = employees.Where(x => x.FirstName.ToLower().IndexOf(Query, StringComparison.OrdinalIgnoreCase)!=-1).ToList();
+        }
+        else
+        {
+            await OnInitializedAsync();
+        }
+    }
 }
