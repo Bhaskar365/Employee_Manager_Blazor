@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "TpIby1qAU/LV1+VvaBVZ6qEhJ7jhXnFPhzrhSfNxvOQ=",
+  "Hash": "toVPvnD6uckeNTR8DEv1T+lG/HHGvrWo0KgWnDIuIUI=",
   "Source": "Employee_Manager_Client",
   "BasePath": "_content/Employee_Manager_Client",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_API\\Employee_Manager_API.csproj",
+      "Version": 2,
+      "Source": "Employee_Manager_API",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [
     {
       "Name": "Employee_Manager_Client\\wwwroot",
