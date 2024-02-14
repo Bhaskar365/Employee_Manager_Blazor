@@ -139,26 +139,6 @@ namespace Employee_Manager_API.Controllers
             }
             return NoContent();
         }
-
-        [HttpGet("{searchTerm}")]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<IEnumerable<Employee>>> Search(string query)
-        {
-            try 
-            {
-                var result = await _employeeRepository.Search(query);
-
-                if(result.Any()) 
-                {
-                    return Ok(result);
-                }
-                return NotFound();
-            }
-            catch(Exception ex) 
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
     }
 }
 
