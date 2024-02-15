@@ -103,7 +103,7 @@
 
     private List<Employee> employeeAfterFiltered = new List<Employee>();
 
-    private int pageSize = 1;
+    private int pageSize = 4;
     private int currentPage = 1;
     private int totalPages => (int)Math.Ceiling((double)employees.Count / pageSize);
     private bool IsFirstPage => currentPage == 1;
@@ -126,9 +126,9 @@
     protected override async Task OnInitializedAsync()
     {
         employees = await apiService.GetEmployees();
-        employeeAfterFiltered = employees;
         showNoDataMessage = employees == null || employees.Count == 0;
         isLoading = false;
+        UpdatePagedData();
     }
 
     private async void UpdatePagedData()
