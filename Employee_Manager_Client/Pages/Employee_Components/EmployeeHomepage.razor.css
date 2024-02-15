@@ -1,4 +1,10 @@
-﻿.lds-facebook {
+﻿.loaderBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lds-facebook {
     display: inline-block;
     position: relative;
     width: 80px;
@@ -10,7 +16,7 @@
         position: absolute;
         left: 8px;
         width: 16px;
-        background: black;
+        background: #6200EE;
         animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
     }
 

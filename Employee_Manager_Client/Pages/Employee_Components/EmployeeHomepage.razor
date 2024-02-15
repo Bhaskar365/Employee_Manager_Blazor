@@ -27,7 +27,14 @@
     <div>
         @if (isLoading)
         {
-            <div class="lds-facebook"><div></div><div></div><div></div></div>
+            <div class="loaderBox">
+                <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            
         }
         else if (showNoDataMessage)
         {

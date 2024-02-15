@@ -9,78 +9,91 @@
     <h3 class="card-title text-primary">Employee Details </h3>
 
     <hr />
-    
-    <form id="form">
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Employee ID</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.EmpId" disabled />
+
+    @if (isLoading)
+    {
+        <div class="loaderBox">
+            <div class="lds-facebook">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.FirstName" disabled />
-        </div>
+    }
+    else
+    {
+        <form id="form">
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.EmpId" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.LastName" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.FirstName" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Email" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.LastName" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Gender</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Gender" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Email" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Date Of Birth</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.DOB" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Gender</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Gender" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Street</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Street" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Date Of Birth</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.DOB" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">State</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.State" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Street</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Street" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">ZipCode</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.ZipCode" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">State</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.State" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Country</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Country" disabled />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">ZipCode</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.ZipCode" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Department</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.Department.DepartmentName" disabled  />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Country</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Address.Country" disabled />
+            </div>
 
-        <div clasa="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Joining Date</label>
-            <input type="text" class="form-control" id="" @bind-value="@employeeModel.JoiningDate" disabled  />
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Department</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.Department.DepartmentName" disabled />
+            </div>
 
-        <div id="footer-buttons">
-            <a id="editDetailsBtn" class="btn btn-primary" href="@($"/edit/{Id}")">Edit Details</a>
-            <button type="button" class="btn btn-info" @onclick="GoBack" style="color:white">
-                <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
-                Go Back
-            </button>
-        </div>
+            <div clasa="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Joining Date</label>
+                <input type="text" class="form-control" id="" @bind-value="@employeeModel.JoiningDate" disabled />
+            </div>
 
-    </form>
+            <div id="footer-buttons">
+                <a id="editDetailsBtn" class="btn btn-primary" href="@($"/edit/{Id}")">Edit Details</a>
+                <button type="button" class="btn btn-info" @onclick="GoBack" style="color:white">
+                    <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                    Go Back
+                </button>
+            </div>
 
+        </form>
+    }
 </div>
 
 @code {
@@ -91,6 +104,8 @@
     public Employee employeeModel = new Employee();
     public List<Department> department = new List<Department>();
     public Address address = new Address();
+
+    private bool isLoading = true;
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
@@ -114,6 +129,7 @@
         employeeModel.Address.Country = address.Country;
 
         employeeModel.Department = department.FirstOrDefault(d => d.DepartmentId == employeeModel.DepartmentId);
+        isLoading = false;
     }
 
     public void GoBack()
