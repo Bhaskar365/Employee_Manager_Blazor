@@ -1,5 +1,35 @@
-﻿<h3>Pagination</h3>
+﻿
+
+<div class="pagination">
+    <button class="btn btn-link" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
+    <select @onchange="UpdatePageSize" id="select">
+        <option value="2">2</option>
+        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+    <button class="btn btn-link" disabled="@IsLastPage" @onclick="NextPage">Next</button>
+</div>
 
 @code {
+
+    [Parameter]
+    public int CurrentPage { get; set; }
+
+    [Parameter]
+    public int TotalPages { get; set; }
+
+    [Parameter]
+    public EventCallback PreviousPage { get; set; }
+
+    [Parameter]
+    public EventCallback NextPage { get; set; }
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> UpdatePageSize { get; set; }
+
+    private bool IsFirstPage => CurrentPage == 1;
+
+    private bool IsLastPage => CurrentPage == TotalPages;
 
 }

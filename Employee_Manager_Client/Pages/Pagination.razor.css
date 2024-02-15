@@ -1,0 +1,124 @@
+﻿
+.pagination {
+    margin-top: 0.5rem;
+    border: 1px solid #7c7777;
+    border-radius: 6px;
+    width: fit-content;
+    background-color: #e8e4e4;
+    padding: 2px;
+}
+
+    .pagination > button {
+        width: 58px;
+        height: 34px;
+        font-size: 9px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        margin: 3px;
+        font-family: cursive;
+    }
+
+    .pagination > #select {
+        height: 33px;
+        margin-top: 3px;
+        margin-bottom: 4px;
+    }
+
+
+@media screen and (min-width:620px) {
+
+    .pagination > button {
+        width: 58px;
+        height: 34px;
+        font-size: 9px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        margin: 3px;
+        font-family: cursive;
+    }
+
+    .pagination {
+        margin-top: 0.5rem;
+        border: 1px solid #7c7777;
+        width: fit-content;
+        border-radius: 6px;
+        background-color: #e8e4e4;
+        padding: 3px;
+    }
+}
+
+@media screen and (min-width:641px) {
+    .pagination {
+        margin-top: 0.5rem;
+        border: 1px solid #7c7777;
+        width: fit-content;
+        border-radius: 6px;
+        background-color: #e8e4e4;
+        padding: 0px;
+    }
+
+        .pagination > button {
+            width: 55px;
+            height: 29px;
+            font-size: 8px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            margin: 5px;
+            font-family: cursive;
+        }
+}
+
+@media screen and (min-width:700px) {
+
+    .pagination {
+        margin-top: 0.5rem;
+        border: 1px solid #7c7777;
+        width: fit-content;
+        border-radius: 6px;
+        background-color: #e8e4e4;
+        padding: 1px;
+    }
+
+        .pagination > button {
+            width: 57px;
+            height: 31px;
+            font-size: 8px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            margin: 5px;
+            font-family: cursive;
+        }
+
+        .pagination > #select {
+            height: 33px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+}
+
+@media screen and (min-width:1100px) {
+    .pagination {
+        padding: 4px
+    }
+
+        .pagination > button {
+            width: 68px;
+            height: 34px;
+            font-size: 12px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-family: cursive;
+        }
+
+        .pagination > #select {
+            height: 35px;
+            margin-top: 9px;
+            margin-bottom: 0px;
+        }
+}
