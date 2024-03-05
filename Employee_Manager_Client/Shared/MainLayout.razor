@@ -24,7 +24,7 @@
         @if(IsAdminLoggedIn)
         {
             <div class="top-row px-4" style="background: linear-gradient(309deg, #834ce7, #35e795);">
-                <p>User </p>
+                <p>User</p>
                 <a href="#" class="btn btn-warning" @onclick="Logout">Logout</a>
             </div>
         }
@@ -60,6 +60,7 @@
         await sessionStorage.DeleteAsync("adminName");
         await sessionStorage.DeleteAsync("adminEmail");
         await NotifyLayout();
+        StateHasChanged();
         navManager.NavigateTo("/login");
     }
 

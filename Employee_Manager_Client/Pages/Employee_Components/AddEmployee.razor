@@ -24,7 +24,6 @@
         </div>
 
     }
-
     else
     {
         <EditForm Model="@employeeModel" OnValidSubmit="SubmitForm" id="editform">
@@ -131,7 +130,7 @@
         }
     }
 
-    private bool isLoading = true;
+    private bool isLoading = false;
 
     private string Message { get; set; }
 
@@ -160,7 +159,7 @@
         }
         //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
         Thread.Sleep(2000);
-        isLoading = false;
+        isLoading = true;
         navManager.NavigateTo("/", true);
     }
 
