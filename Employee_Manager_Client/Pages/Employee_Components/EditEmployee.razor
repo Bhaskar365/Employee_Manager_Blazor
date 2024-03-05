@@ -116,6 +116,21 @@
     }
 </div>
 
+@if (successPopup == true)
+{
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                Alert <span class="close" @onclick="ToggleSuccessPopup">&times;</span>
+            </div>
+            <div class="modal-body">@Message</div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-primary" value="Close" @onclick="ToggleSuccessPopup" />
+            </div>
+        </div>
+    </div>
+}
+
 @code {
 
     [Parameter]
@@ -127,7 +142,7 @@
     private ResponseModel response = new ResponseModel();
 
     private bool isLoading = true;
-
+    public bool successPopup = false;
     private string Message { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -142,6 +157,11 @@
 
         employeeModel.Department = department.FirstOrDefault(d => d.DepartmentId == employeeModel.DepartmentId);
         isLoading = false;
+    }
+
+    private void ToggleSuccessPopup()
+    {
+        successPopup = successPopup == true ? false : true; 
     }
 
     [CascadingParameter]
@@ -166,14 +186,16 @@
         if (res.Status)
         {
             Message = res.Message;
+            ToggleSuccessPopup();
             toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = res.Message;
+            ToggleSuccessPopup();
             toastService.ShowError(Message.ToString());
         }
-        //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
+
         Thread.Sleep(2000);
         isLoading = false;
         navManager.NavigateTo("/", true);

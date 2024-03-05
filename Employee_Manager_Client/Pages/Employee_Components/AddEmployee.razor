@@ -118,6 +118,22 @@
     }
 </div>
 
+@if(successPopup == true)
+{
+    <div class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                Alert <span class="close" @onclick="ToggleSuccessPopup">&times;</span>
+            </div>
+            <div class="modal-body">@Message</div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-danger" value="Close" @onclick="ToggleSuccessPopup" />
+            </div>
+        </div>
+    </div>    
+}
+
+
 @code
 {
     [CascadingParameter]
@@ -132,12 +148,17 @@
     }
 
     private bool isLoading = false;
-
-    private string Message { get; set; }
+    public bool successPopup = false;
+    private string? Message { get; set; }
 
     private Employee employeeModel = new Employee();
     private ResponseModel response = new ResponseModel();
     private IEnumerable<Department> departments = new List<Department>();
+
+    private void ToggleSuccessPopup()
+    {
+        successPopup = successPopup == true ? false : true;
+    }
 
     public void GoBack()
     {
@@ -151,11 +172,13 @@
         if (response.Status)
         {
             Message = response.Message;
+            ToggleSuccessPopup();
             toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = response.Message;
+            ToggleSuccessPopup();
             toastService.ShowError(Message.ToString());
         }
         //await Task.Run(() => JSRuntime.InvokeVoidAsync("alert", $"'{Message}'"));
