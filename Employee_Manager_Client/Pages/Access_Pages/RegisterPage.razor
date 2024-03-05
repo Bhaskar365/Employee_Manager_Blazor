@@ -3,7 +3,7 @@
 @using Employee_Manager_Models.Models
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@inject ApiService apiService;
+@inject FrontendUserPanelService frontendService;
 @inject ProtectedSessionStorage sessionStorage;
 @inject NavigationManager navManager;
 
@@ -77,7 +77,7 @@
 
     private async Task RegisterForm()
     {
-        var response = await apiService.Register(registerModel);
+        var response = await frontendService.Register(registerModel);
         if (response.Status == true) 
         {
             IsSuccessful = true;

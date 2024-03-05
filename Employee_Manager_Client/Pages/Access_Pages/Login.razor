@@ -3,7 +3,7 @@
 @using Employee_Manager_Models.CustomModels
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@inject ApiService apiService;
+@inject FrontendUserPanelService frontendService;
 @inject ProtectedSessionStorage sessionStorage;
 @inject NavigationManager navManager;
 
@@ -71,7 +71,7 @@
 
     private async Task Login_Click()
     {
-        var response = await apiService.Login(loginModel);
+        var response = await frontendService.Login(loginModel);
         if (response.Status == true)
         {
             IsSuccessful = true;

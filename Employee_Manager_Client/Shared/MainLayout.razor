@@ -9,7 +9,6 @@
 
 @inject NavigationManager navManager;
 @inject ProtectedSessionStorage sessionStorage;
-@inject ApiService apiService;
 
 <PageTitle>Employee_Manager_Client</PageTitle>
 
@@ -27,8 +26,8 @@
         {
             <div class="top-row px-4">
                 <div style="display:flex;flex-direction:row;align-items:baseline;margin-top:0.5rem;">
-                    <p>Hello , @Username</p>
-                    <a href="#" class="btn btn-warning" @onclick="Logout">Logout</a>
+                    <p style="margin-right:-15px;">Hello , @Username</p>
+                    <a href="#" class="btn btn-warning" @onclick="Logout"><i class="fa fa-sign-out"></i>Logout</a>
                 </div>
             </div>
         }

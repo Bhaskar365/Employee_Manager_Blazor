@@ -135,6 +135,7 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\EditEmployee.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\EmployeeHomepage.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Employee_Components\ViewEmployee.razor.rz.scp.css
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Pagination.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\bundle\Employee_Manager_Client.styles.css
@@ -145,4 +146,3 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\scopedcss\Pages\Pagination.razor.rz.scp.css

@@ -2,7 +2,7 @@
 @using Employee_Manager_Client.Services
 @using Employee_Manager_Models
 
-@inject ApiService apiService;
+@inject IFrontendUserPanelService frontendService;
 @inject HttpClient http;
 @inject NavigationManager navigationManager;
 
@@ -132,7 +132,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await apiService.GetEmployees();
+        employees = await frontendService.GetEmployees();
         showNoDataMessage = employees == null || employees.Count == 0;
         isLoading = false;
         UpdatePagedData();
@@ -179,7 +179,7 @@
     private async Task Delete(bool value)
     {
         isLoading = true;
-        await apiService.DeleteEmp(EmpId);
+        await frontendService.DeleteEmp(EmpId);
         isLoading = false;
         StateHasChanged();
         navigationManager.NavigateTo("/", true);

@@ -2,7 +2,8 @@
 @using Employee_Manager_Client.Services;
 @using Employee_Manager_Models;
 @using Employee_Manager_Models.CustomModels
-@inject ApiService apiService;
+
+@inject IFrontendUserPanelService frontendService;
 @inject IJSRuntime JSRuntime;
 @inject NavigationManager navManager;
 @inject IToastService toastService;
@@ -145,7 +146,7 @@
 
     private async Task SubmitForm()
     {
-        var response = await apiService.CreateEmp(employeeModel);
+        var response = await frontendService.CreateEmp(employeeModel);
 
         if (response.Status)
         {
@@ -165,7 +166,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        departments = await apiService.GetAllDepartments();
+        departments = await frontendService.GetAllDepartments();
         employeeModel.DepartmentId = departments.FirstOrDefault()?.DepartmentId ?? 1;
     }
 }

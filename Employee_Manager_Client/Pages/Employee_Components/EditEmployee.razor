@@ -5,7 +5,7 @@
 
 @inject NavigationManager navManager;
 @inject IToastService toastService;
-@inject ApiService apiService;
+@inject IFrontendUserPanelService frontendService;
 
 
 <div class="container">
@@ -132,9 +132,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        employeeModel = await apiService.GetEmployeeById(int.Parse(Id));
-        department = await apiService.GetAllDepartments();
-        address = await apiService.GetAddressById(employeeModel.AddressId);
+        employeeModel = await frontendService.GetEmployeeById(int.Parse(Id));
+        department = await frontendService.GetAllDepartments();
+        address = await frontendService.GetAddressById(employeeModel.AddressId);
         employeeModel.Address.Street = address.Street;
         employeeModel.Address.State = address.State;
         employeeModel.Address.ZipCode = address.ZipCode;
@@ -162,7 +162,7 @@
 
     public async Task SubmitForm()
     {
-        var res = await apiService.UpdateEmp(employeeModel);
+        var res = await frontendService.UpdateEmp(employeeModel);
         if (res.Status)
         {
             Message = res.Message;
