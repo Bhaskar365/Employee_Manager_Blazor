@@ -10,10 +10,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<IFrontendUserPanelService, FrontendUserPanelService>();
 builder.Services.AddHttpClient<ApiService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7076");
 });
+//builder.Services.AddHttpClient<IFrontendUserPanelService, FrontendUserPanelService>(client =>
+//{
+//    client.BaseAddress = new Uri("https://localhost:7076");
+//});
 
 var app = builder.Build();
 

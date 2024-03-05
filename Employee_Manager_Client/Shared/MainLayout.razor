@@ -3,6 +3,8 @@
 @using Employee_Manager_Models.CustomModels
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
+@inject IFrontendUserPanelService frontEndService
+
 @inherits LayoutComponentBase
 
 @inject NavigationManager navManager;
@@ -23,9 +25,11 @@
     <main>
         @if(IsAdminLoggedIn)
         {
-            <div class="top-row px-4" style="background: linear-gradient(309deg, #834ce7, #35e795);">
-                <p>User</p>
-                <a href="#" class="btn btn-warning" @onclick="Logout">Logout</a>
+            <div class="top-row px-4">
+                <div style="display:flex;flex-direction:row;align-items:baseline;margin-top:0.5rem;">
+                    <p>Hello , @Username</p>
+                    <a href="#" class="btn btn-warning" @onclick="Logout">Logout</a>
+                </div>
             </div>
         }
 
@@ -48,8 +52,7 @@
 {
     public LoginModel? loginModel { get; set; }
 
-    public string Username { get; set; }
-
+    public string Username { get; set; } = "User";
     public bool IsAdminLoggedIn = false;
 
     EventCallback event_notify => EventCallback.Factory.Create(this, NotifyLayout);
@@ -64,17 +67,28 @@
         navManager.NavigateTo("/login");
     }
 
+
     public async Task NotifyLayout()
     {
-        var adminSession = await sessionStorage.GetAsync<string>("adminKey");
-        if(adminSession.Success) 
+        var adminSession = await sessionStorage.GetAsync<string>("adminName");
+        IsAdminLoggedIn = await frontEndService.IsUserLoggedIn();
+        if (adminSession.Success)
         {
             IsAdminLoggedIn = true;
+            Username = adminSession.Value;
         }
         else
         {
             IsAdminLoggedIn = false;
             navManager.NavigateTo("/login");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            await NotifyLayout();
         }
     }
 }
