@@ -116,20 +116,45 @@
     }
 </div>
 
-@if (successPopup == true)
+<button class="btn btn-secondary" @onclick="ToggleSuccessPopup">Modal</button>
+
+@if (showEditPopup == true)
 {
     <div class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                Alert <span class="close" @onclick="ToggleSuccessPopup">&times;</span>
+                <h5>Edit Product</h5>
+                <span class="close" @onclick="ToggleEditPopup">&times;</span>
             </div>
-            <div class="modal-body">@Message</div>
+            <div class="modal-body">
+                Are you sure you want to Edit <span style="background-color:yellow;">@employeeModel.FirstName</span>
+            </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-primary" value="Close" @onclick="ToggleSuccessPopup" />
+                <input type="button" class="btn btn-danger" value="Yes" @onclick="SubmitForm" />
+                <input type="button" class="btn btn-primary" value="No" @onclick="ToggleEditPopup" />
             </div>
         </div>
     </div>
 }
+
+@if (successPopup==true)
+{
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Alert <span class="close" @onclick="ToggleSuccessPopup">&times;</span>
+                </div>
+                <div class="modal-body">@Message</div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-primary" value="Close" @onclick="ToggleSuccessPopup" />
+                </div>
+            </div>
+        </div>
+    </div> 
+}
+
+
 
 @code {
 
@@ -142,7 +167,9 @@
     private ResponseModel response = new ResponseModel();
 
     private bool isLoading = true;
+    public bool showEditPopup = false;
     public bool successPopup = false;
+
     private string Message { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -161,7 +188,12 @@
 
     private void ToggleSuccessPopup()
     {
-        successPopup = successPopup == true ? false : true; 
+        successPopup = successPopup == true ? false : true;
+    }
+
+    private void ToggleEditPopup()
+    {
+        showEditPopup = showEditPopup == true ? false : true;
     }
 
     [CascadingParameter]
@@ -182,21 +214,24 @@
 
     public async Task SubmitForm()
     {
+        isLoading = true;
         var res = await frontendService.UpdateEmp(employeeModel);
+        ToggleEditPopup();
         if (res.Status)
         {
             Message = res.Message;
-            ToggleSuccessPopup();
             toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = res.Message;
-            ToggleSuccessPopup();
+            //successPopup = true;
             toastService.ShowError(Message.ToString());
         }
 
-        Thread.Sleep(2000);
+        ToggleSuccessPopup();
+
+        Thread.Sleep(3000);
         isLoading = false;
         navManager.NavigateTo("/", true);
     }
