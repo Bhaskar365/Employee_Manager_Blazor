@@ -80,8 +80,14 @@
         var response = await frontendService.Register(registerModel);
         if (response.Status == true) 
         {
+            var user_response = response.Message.Split("|");
+            await sessionStorage.SetAsync("userName", user_response[0]);
+            await sessionStorage.SetAsync("userEmail", user_response[1]);
             IsSuccessful = true;
             IsUnsuccessful = false;
+            await notify.InvokeAsync();
+            StateHasChanged();
+            navManager.NavigateTo("/login");
         }
         else
         {
@@ -89,7 +95,5 @@
             IsUnsuccessful = true;
             message = response.Message;
         }
-        await notify.InvokeAsync();
-        navManager.NavigateTo("/", true);
     }
 }
