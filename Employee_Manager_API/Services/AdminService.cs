@@ -17,10 +17,54 @@ namespace Employee_Manager_Logic.Services
         {
             _context = context;
         }
-        public ResponseModel AdminLogin(LoginModel loginModel)
+
+        public ResponseModel Register(AdminInfo adminInfo)
         {
             ResponseModel response = new ResponseModel();
 
+            try
+            {
+                var userData = _context.AdminRegister.Where(x => x.Email == adminInfo.Email).Any();
+                if (!userData)
+                {
+                    AdminInfo _register = new AdminInfo();
+                    _register.Name = adminInfo.Name;
+                    _register.Email = adminInfo.Email;
+                    _register.Password = adminInfo.Password;
+                    _register.CreatedOn = DateTime.Now.ToString();
+
+                    _context.Add(_register);
+                    _context.SaveChanges();
+
+                    LoginModel loginModel = new LoginModel()
+                    {
+                        Email = adminInfo.Email,
+                        Password = adminInfo.Password
+                    };
+
+                    response = Login(loginModel);
+
+                    response.Status = true;
+                    response.Message = "User is registered successfully!";
+                }
+                else 
+                {
+                    response.Status = false;
+                    response.Message = "Email address already exists. Check email again";
+                };
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "An error has occured. Please try again";
+
+                return response;
+            }
+        }
+        public ResponseModel Login(LoginModel loginModel)
+        {
+            ResponseModel response = new ResponseModel();
             try 
             {
                 var userData = _context.AdminRegister.Where(x => x.Email == loginModel.Email).FirstOrDefault();
@@ -30,7 +74,6 @@ namespace Employee_Manager_Logic.Services
                     {
                         response.Status = true;
                         response.Message = Convert.ToString(userData.Id) + "|" + userData.Name + "|" + userData.Email;
-                        //response.Message = "Login successful";
                     }
                     else
                     {
@@ -54,32 +97,6 @@ namespace Employee_Manager_Logic.Services
             }
         }
 
-        public ResponseModel AdminRegister(AdminInfo adminInfo)
-        {
-            ResponseModel response = new ResponseModel();
-
-            try 
-            {
-                var userData = _context.AdminRegister.Where(x => x.Email == adminInfo.Email).FirstOrDefault();
-                if (userData != null) 
-                {
-                    response.Status = false;
-                    response.Message = "Email address already exists. Check email again";
-                }
-
-                response.Status = true;
-                response.Message = "User is registered successfully!";
-
-                return response;
-
-            }
-            catch(Exception ex) 
-            {
-                response.Status = false;
-                response.Message = "An error has occured. Please try again";
-
-                return response;
-            }
-        }
+       
     }
 }

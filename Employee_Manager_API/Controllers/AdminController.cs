@@ -23,7 +23,7 @@ namespace Employee_Manager_API.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginModel login) 
         {
-            var data = _adminService.AdminLogin(login);
+            var data = _adminService.Login(login);
             return Ok(data);
         }
 
@@ -31,7 +31,7 @@ namespace Employee_Manager_API.Controllers
         public IActionResult Register(AdminInfo create)
         {
             create.CreatedOn = DateTime.Now.ToString();
-            var data = _adminService.AdminRegister(create);
+            var data = _adminService.Register(create);
             //_context.AdminRegister.Add(create);
             //_context.SaveChanges();
             return Ok(data);

@@ -10,7 +10,7 @@ namespace Employee_Manager_Logic.Services
 {
     public interface IAdminService
     {
-        ResponseModel AdminLogin(LoginModel loginModel);
-        ResponseModel AdminRegister(AdminInfo adminInfo);
+        ResponseModel Login(LoginModel loginModel);
+        ResponseModel Register(AdminInfo adminInfo);
     }
 }

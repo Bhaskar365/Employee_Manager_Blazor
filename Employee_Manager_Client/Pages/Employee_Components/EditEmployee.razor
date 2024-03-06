@@ -167,8 +167,8 @@
                 Are you sure you want to Edit <span style="background-color:yellow;">@employeeModel.FirstName</span>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-danger" value="Yes" @onclick="SubmitForm" />
-                <input type="button" class="btn btn-primary" value="No" @onclick="ToggleEditPopup" />
+                <input type="button" class="btn btn-primary" value="Yes" @onclick="SubmitForm" />
+                <input type="button" class="btn btn-secondary" value="No" @onclick="ToggleEditPopup" />
             </div>
         </div>
     </div>
@@ -244,23 +244,29 @@
 
     public async Task SubmitForm()
     {
-        isLoading = true;
+        //isLoading = true;
         var res = await frontendService.UpdateEmp(employeeModel);
-        //ToggleEditPopup();
+        ToggleEditPopup();
         if (res.Status)
         {
             Message = res.Message;
+            // ToggleEditPopup();
+            // ToggleSuccessPopup();
+            //navManager.NavigateTo("/", true);
             //toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = res.Message;
+            // ToggleEditPopup();
+            // ToggleSuccessPopup();
+            //navManager.NavigateTo("/", true);
             //toastService.ShowError(Message.ToString());
         }
-
-        ToggleSuccessPopup();
-        isLoading = false;
-        //navManager.NavigateTo("/", true);
+        //isLoading = false;
+        // isLoading = true;
+        // Thread.Sleep(3000);
+        // navManager.NavigateTo("/", true);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
