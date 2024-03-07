@@ -64,7 +64,7 @@
     }
     else
     {
-        <EditForm Model="@employeeModel" OnValidSubmit="FormSubmitConfirmation" id="form">
+        <EditForm Model="@employeeModel" OnValidSubmit="SubmitForm" id="form">
             <DataAnnotationsValidator />
 
             <!-- Employee Details Section -->
@@ -155,8 +155,6 @@
     }
 </div>
 
-<button @onclick="ToggleSuccessPopup">Modal</button>
-
 @if (showEditPopup == true)
 {
     <div class="modal">
@@ -169,7 +167,7 @@
                 Are you sure you want to Edit <span style="background-color:yellow;">@employeeModel.FirstName</span>
             </div>
             <div class="modal-footer">
-                <input type="button" class="btn btn-primary" value="Yes" @onclick="SubmitEditForm" />
+                <input type="button" class="btn btn-primary" value="Yes" @onclick="SubmitForm" />
                 <input type="button" class="btn btn-secondary" value="No" @onclick="ToggleEditPopup" />
             </div>
         </div>
@@ -193,13 +191,14 @@
     </div> 
 }
 
+
+
 @code {
 
     [Parameter]
     public string Id { get; set; }
 
     public Employee employeeModel = new Employee();
-    public Employee _employeeModelValue = new Employee();
     public List<Department> department = new List<Department>();
     public Address address = new Address();
     private ResponseModel response = new ResponseModel();
@@ -243,32 +242,6 @@
         navManager.NavigateTo("/");
     }
 
-    public async void FormSubmitConfirmation()
-    {
-        ToggleEditPopup();
-        _employeeModelValue = employeeModel;
-        await SubmitEditForm();
-    }
-
-    public async Task SubmitEditForm()
-    {
-        ToggleEditPopup();
-        var res = await frontendService.UpdateEmp(_employeeModelValue);
-        if(res.Status)
-        {
-            Message = res.Message;
-            ToggleSuccessPopup();
-        }
-        else
-        {
-            Message = res.Message;
-            ToggleSuccessPopup();
-        }
-        // ToggleEditPopup();
-        // Thread.Sleep(3000);
-
-    }
-
     public async Task SubmitForm()
     {
         //isLoading = true;
@@ -277,16 +250,16 @@
         if (res.Status)
         {
             Message = res.Message;
-            ToggleSuccessPopup();
             // ToggleEditPopup();
+            // ToggleSuccessPopup();
             //navManager.NavigateTo("/", true);
             //toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = res.Message;
-            ToggleSuccessPopup();
             // ToggleEditPopup();
+            // ToggleSuccessPopup();
             //navManager.NavigateTo("/", true);
             //toastService.ShowError(Message.ToString());
         }
