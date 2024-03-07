@@ -244,29 +244,19 @@
 
     public async Task SubmitForm()
     {
-        //isLoading = true;
         var res = await frontendService.UpdateEmp(employeeModel);
-        ToggleEditPopup();
         if (res.Status)
         {
             Message = res.Message;
-            // ToggleEditPopup();
-            // ToggleSuccessPopup();
-            //navManager.NavigateTo("/", true);
-            //toastService.ShowSuccess(Message.ToString());
+            toastService.ShowSuccess(Message.ToString());
         }
         else
         {
             Message = res.Message;
-            // ToggleEditPopup();
-            // ToggleSuccessPopup();
-            //navManager.NavigateTo("/", true);
-            //toastService.ShowError(Message.ToString());
+            toastService.ShowError(Message.ToString());
         }
-        //isLoading = false;
-        // isLoading = true;
-        // Thread.Sleep(3000);
-        // navManager.NavigateTo("/", true);
+        Thread.Sleep(3000);
+        navManager.NavigateTo("/", true);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
