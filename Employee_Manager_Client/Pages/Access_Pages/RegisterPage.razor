@@ -80,7 +80,6 @@
         var response = await frontendService.Register(registerModel);
         if (response.Status == true) 
         {
-            //var user_response = response.Message.Split("|");
             message = response.Message;
             IsSuccessful = true;
             IsUnsuccessful = false;

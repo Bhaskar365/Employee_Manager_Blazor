@@ -62,6 +62,7 @@ namespace Employee_Manager_Logic.Services
                 return response;
             }
         }
+
         public ResponseModel Login(LoginModel loginModel)
         {
             ResponseModel response = new ResponseModel();
@@ -95,8 +96,6 @@ namespace Employee_Manager_Logic.Services
 
                 return response;
             }
-        }
-
-       
+        }      
     }
 }

@@ -30,14 +30,15 @@
                     <div class="mb-3">
                         <InputText type="email" class="form-control mb-3"
                                    id="emailID" aria-describedby="emailHelp" 
-                                   placeholder="Email" @bind-Value="loginModel.Email">
+                                   placeholder="Email" @bind-Value="loginModel.Email" autocomplete="off">
                         </InputText>
                         <ValidationMessage For="@(() => loginModel.Email)" />
                     </div>
 
                     <div class="mb-3">
                         <InputText type="password" class="form-control mb-3"
-                                   id="exampleInputPassword1" placeholder="Password" @bind-Value="loginModel.Password">
+                                   id="exampleInputPassword1" placeholder="Password" 
+                                   @bind-Value="loginModel.Password" autocomplete="off">
                         </InputText>
                         <ValidationMessage For="@(() => loginModel.Password)" />
                     </div>
