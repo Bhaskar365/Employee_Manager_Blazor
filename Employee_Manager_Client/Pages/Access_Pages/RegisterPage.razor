@@ -80,12 +80,12 @@
         var response = await frontendService.Register(registerModel);
         if (response.Status == true) 
         {
-            var user_response = response.Message.Split("|");
-            await sessionStorage.SetAsync("userName", user_response[0]);
-            await sessionStorage.SetAsync("userEmail", user_response[1]);
+            //var user_response = response.Message.Split("|");
+            message = response.Message;
             IsSuccessful = true;
             IsUnsuccessful = false;
             await notify.InvokeAsync();
+            Thread.Sleep(3000);
             StateHasChanged();
             navManager.NavigateTo("/login");
         }
