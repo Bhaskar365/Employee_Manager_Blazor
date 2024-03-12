@@ -234,12 +234,19 @@
 
             using (XLWorkbook wb = new XLWorkbook())
             {
-                    
+                wb.Worksheets.Add(dt, "Details");
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    var byteArray = stream.ToArray();
+
+                    await JSRuntime.InvokeAsync<object>("BlazorDownloadFile", "sample.xlsx", Convert.ToBase64String(byteArray));
+                }
             }
 
         }
         catch(Exception ex) {
-            Console.WriteLine("Export error" , ex.Message);
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }
 }
