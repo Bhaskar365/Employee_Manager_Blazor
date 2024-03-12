@@ -5,6 +5,7 @@
 @inject IFrontendUserPanelService frontendService;
 @inject HttpClient http;
 @inject NavigationManager navigationManager;
+@inject IJSRuntime JSRuntime;
 
 <div class="body">
     <div class="headersTitle">
@@ -17,6 +18,7 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
                     </a>
                 </div>
+                <button class="btn btn-warning" @onclick="Print">Print</button>
                 <div class="search">
                     <strong>Search&nbsp;</strong><input class="inputBox"
                           @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
@@ -205,5 +207,10 @@
         {
             await OnInitializedAsync();
         }
+    }
+
+    private async void Print()
+    {
+        await JSRuntime.InvokeVoidAsync("PrintBtn");
     }
 }
