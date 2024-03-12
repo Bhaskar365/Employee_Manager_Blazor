@@ -1,11 +1,15 @@
 ﻿@page "/";
+@using ClosedXML.Excel
 @using Employee_Manager_Client.Services
 @using Employee_Manager_Models
+@using System.Data
 
 @inject IFrontendUserPanelService frontendService;
 @inject HttpClient http;
 @inject NavigationManager navigationManager;
 @inject IJSRuntime JSRuntime;
+
+<button class="btn btn-warning" @onclick="Export">Export</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -18,7 +22,7 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
                     </a>
                 </div>
-                <button class="btn btn-warning" @onclick="Print">Print</button>
+                
                 <div class="search">
                     <strong>Search&nbsp;</strong><input class="inputBox"
                           @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
@@ -209,8 +213,33 @@
         }
     }
 
-    private async void Print()
+    private async Task Export()
     {
-        await JSRuntime.InvokeVoidAsync("PrintBtn");
+        try
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("FirstName", typeof(string));
+            dt.Columns.Add("LastName", typeof(string));
+            dt.Columns.Add("Department" , typeof(string));
+            dt.Columns.Add("Country", typeof(string));
+
+            var data = employeeAfterFiltered;
+            if(data != null && data.Count>0)
+            {
+                data.ForEach(item =>
+                {
+                    dt.Rows.Add(item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country);                 
+                });   
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                    
+            }
+
+        }
+        catch(Exception ex) {
+            Console.WriteLine("Export error" , ex.Message);
+        }
     }
 }

@@ -161,6 +161,10 @@
               "target": "Package",
               "version": "[4.1.0, )"
             },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.104.0-preview2, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
