@@ -138,7 +138,7 @@
         UpdatePagedData();
     }
 
-    private async void UpdatePagedData()
+    private void UpdatePagedData()
     {
         int startIndex = (currentPage - 1) * pageSize;
         employeeAfterFiltered = employees.Skip(startIndex).Take(pageSize).ToList();
@@ -198,6 +198,8 @@
             employees = employees.Where(x => x.FirstName.ToLower().Contains(Query.ToLower()) ||
              x.LastName.ToLower().Contains(Query.ToLower())
          ).ToList();
+
+            employeeAfterFiltered = employees;
         }
         else
         {
