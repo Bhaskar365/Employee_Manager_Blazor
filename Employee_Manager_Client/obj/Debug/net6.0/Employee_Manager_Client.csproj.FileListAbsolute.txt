@@ -50,6 +50,10 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Azure.Core.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Azure.Identity.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Blazored.Toast.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.Parser.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ExcelNumberFormat.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.AspNetCore.Components.dll
@@ -84,12 +88,15 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\RBush.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\SixLabors.Fonts.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.IO.Packaging.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.IO.Pipelines.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.Memory.Data.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.Runtime.Caching.dll
@@ -146,10 +153,3 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.Parser.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ExcelNumberFormat.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\RBush.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\SixLabors.Fonts.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\System.IO.Packaging.dll
