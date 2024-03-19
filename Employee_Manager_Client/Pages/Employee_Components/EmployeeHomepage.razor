@@ -96,8 +96,13 @@
         </div>
         }
     </div>
-   <Pagination CurrentPage="@currentPage" NextPage="NextPage" PreviousPage="PreviousPage"
-                TotalPages="@totalPages" UpdatePageSize="UpdatePageSize"></Pagination>
+   @* <Pagination CurrentPage="@currentPage" NextPage="NextPage" PreviousPage="PreviousPage" TotalPages="@totalPages" UpdatePageSize="UpdatePageSize"></Pagination> *@
+
+    <div class="pagination">
+        <button type="button" class="btn btn-outline-info" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
+        <span class="btn btn-light">Page @currentPage of @totalPages</span>
+        <button type="button" class="btn btn-outline-info" disabled="@IsLastPage" @onclick="NextPage">Next</button>
+    </div>
 </div>
 
 @code {
