@@ -172,6 +172,10 @@
         line-height: 26px;
     }
 
+.pagination{
+    border:1px solid blue;
+}
+
 @media screen and (min-width:316px) {
     #addBtn {
         font-size: 11px;

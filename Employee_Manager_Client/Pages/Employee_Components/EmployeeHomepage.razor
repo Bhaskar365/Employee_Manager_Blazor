@@ -96,9 +96,19 @@
         </div>
         }
     </div>
-   @* <Pagination CurrentPage="@currentPage" NextPage="NextPage" PreviousPage="PreviousPage" TotalPages="@totalPages" UpdatePageSize="UpdatePageSize"></Pagination> *@
-
+ 
     <div class="pagination">
+        <div>Items Per Page</div>
+        <div>
+            <button>
+                <select @onchange="UpdatePageSize" id="select" style="border:none">
+                    <option value="4">4</option>
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </button>
+        </div>
         <button type="button" class="btn btn-outline-info" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
         <span class="btn btn-light">Page @currentPage of @totalPages</span>
         <button type="button" class="btn btn-outline-info" disabled="@IsLastPage" @onclick="NextPage">Next</button>
@@ -106,6 +116,8 @@
 </div>
 
 @code {
+
+    public EventCallback<ChangeEventArgs> UpdatePage { get; set; }
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
@@ -173,12 +185,20 @@
         }
     }
 
-    private void UpdatePageSize(ChangeEventArgs e)
+    // private void UpdatePageSize(ChangeEventArgs e)
+    // {
+    //     pageSize = int.Parse(e.Value.ToString());
+    //     // Reset to first page
+    //     currentPage = 1;
+    //     UpdatePagedData();
+    // }
+
+    private async Task UpdatePageSize(ChangeEventArgs e)
     {
-        pageSize = int.Parse(e.Value.ToString());
-        // Reset to first page
-        currentPage = 1;
+        pageSize = Convert.ToInt32(e.Value);
+        currentPage = 1; // Reset to first page when changing page size
         UpdatePagedData();
+        await Task.CompletedTask;
     }
 
     private void showDeleteAlert(int id)

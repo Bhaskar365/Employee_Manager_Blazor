@@ -424,6 +424,10 @@
         line-height: 26px;
     }
 
+.pagination[b-382pvosb43]{
+    border:1px solid blue;
+}
+
 @media screen and (min-width:316px) {
     #addBtn[b-382pvosb43] {
         font-size: 11px;
