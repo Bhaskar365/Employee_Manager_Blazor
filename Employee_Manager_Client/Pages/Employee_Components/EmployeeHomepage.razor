@@ -22,10 +22,10 @@
                         <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
                     </a>
                 </div>
-                
+
                 <div class="search">
                     <strong>Search&nbsp;</strong><input class="inputBox"
-                          @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
+                                                        @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     <div></div>
                 </div>
             </div>
-            
+
         }
         else if (showNoDataMessage)
         {
@@ -75,49 +75,45 @@
                     </div>
                 }
             </div>
-        
-        <!-------------- Modal ------------------->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Do you want to delete product with <strong>ID : @EmpId</strong> permanently?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" @onclick="(()=>Delete(true))">Delete</button>
+
+            <!-------------- Modal ------------------->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you want to delete product with <strong>ID : @EmpId</strong> permanently?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" @onclick="(()=>Delete(true))">Delete</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     </div>
- 
+
     <div class="pagination">
-        <div>Items Per Page</div>
-        <div>
-            <button>
-                <select @onchange="UpdatePageSize" id="select" style="border:none">
-                    <option value="4">4</option>
-                    <option value="10">10</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </button>
+        <div class="itemPerPage">Items Per Page</div>
+        <div class="selectOption">
+            <select @onchange="UpdatePageSize" class="form-select form-select-sm" aria-label="Small select example">
+                <option value="4">4</option>
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
         </div>
-        <button type="button" class="btn btn-outline-info" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
+        <button type="button" class="btn btn-dark" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
         <span class="btn btn-light">Page @currentPage of @totalPages</span>
-        <button type="button" class="btn btn-outline-info" disabled="@IsLastPage" @onclick="NextPage">Next</button>
+        <button type="button" class="btn btn-dark" disabled="@IsLastPage" @onclick="NextPage">Next</button>
     </div>
 </div>
 
 @code {
-
-    public EventCallback<ChangeEventArgs> UpdatePage { get; set; }
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
@@ -222,7 +218,7 @@
         navigationManager.NavigateTo($"/user/{EmpId}");
     }
 
-    protected async Task FilterUser() 
+    protected async Task FilterUser()
     {
         if (!string.IsNullOrWhiteSpace(Query))
         {
@@ -245,16 +241,16 @@
             DataTable dt = new DataTable();
             dt.Columns.Add("FirstName", typeof(string));
             dt.Columns.Add("LastName", typeof(string));
-            dt.Columns.Add("Department" , typeof(string));
+            dt.Columns.Add("Department", typeof(string));
             dt.Columns.Add("Country", typeof(string));
 
             var data = employeeAfterFiltered;
-            if(data != null && data.Count>0)
+            if (data != null && data.Count > 0)
             {
                 data.ForEach(item =>
                 {
-                    dt.Rows.Add(item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country);                 
-                });   
+                    dt.Rows.Add(item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country);
+                });
             }
 
             using (XLWorkbook wb = new XLWorkbook())
@@ -269,7 +265,8 @@
                 }
             }
         }
-        catch(Exception ex) {
+        catch (Exception ex)
+        {
             Console.WriteLine($"An error occurred: {ex.Message}");
         }
     }

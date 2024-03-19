@@ -172,8 +172,29 @@
         line-height: 26px;
     }
 
-.pagination{
-    border:1px solid blue;
+.pagination > .itemPerPage {
+    font-size: 11px;
+    white-space: nowrap;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.pagination > .btn {
+    padding: 1px;
+    font-size: 10px;
+    height: 30px;
+}
+
+.pagination > .btn-light {
+    margin-right: 4px;
+    font-size: 8px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    margin-left: 2px;
 }
 
 @media screen and (min-width:316px) {

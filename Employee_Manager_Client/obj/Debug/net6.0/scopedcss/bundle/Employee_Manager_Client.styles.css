@@ -426,8 +426,29 @@
         line-height: 26px;
     }
 
-.pagination[b-382pvosb43]{
-    border:1px solid blue;
+.pagination > .itemPerPage[b-382pvosb43] {
+    font-size: 11px;
+    white-space: nowrap;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.pagination > .btn[b-382pvosb43] {
+    padding: 1px;
+    font-size: 10px;
+    height: 30px;
+}
+
+.pagination > .btn-light[b-382pvosb43] {
+    margin-right: 4px;
+    font-size: 8px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    margin-left: 2px;
 }
 
 @media screen and (min-width:316px) {
