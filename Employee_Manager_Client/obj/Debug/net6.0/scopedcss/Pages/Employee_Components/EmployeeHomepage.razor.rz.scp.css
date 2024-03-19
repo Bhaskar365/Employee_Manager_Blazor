@@ -64,7 +64,7 @@
 }
 
 .addBox[b-382pvosb43] {
-    display: flex;  
+    display: flex;
     justify-content: space-between;
     width: 100%;
 }
@@ -123,19 +123,19 @@
         justify-content: space-between;
     }
 
-        #editIcon[b-382pvosb43] {
-            font-size: 17px;
-        }
+#editIcon[b-382pvosb43] {
+    font-size: 17px;
+}
 
-            #editIcon:hover[b-382pvosb43] {
-                transform: scale(1.5);
-                color: #2700ff;
-            }
+    #editIcon:hover[b-382pvosb43] {
+        transform: scale(1.5);
+        color: #2700ff;
+    }
 
-        .card > .card-img-top[b-382pvosb43] {
-            width: 50%;
-            margin: 4px;
-        }
+.card > .card-img-top[b-382pvosb43] {
+    width: 50%;
+    margin: 4px;
+}
 
 .footerClass[b-382pvosb43] {
     display: flex;
@@ -156,9 +156,8 @@
     padding: 3px;
 }
 
-    .card-body > .card-img-top[b-382pvosb43] 
-    {
-        width:43%;
+    .card-body > .card-img-top[b-382pvosb43] {
+        width: 43%;
     }
 
     .card-body > .employeeDetails[b-382pvosb43] {
@@ -183,7 +182,7 @@
 
 .pagination > .btn[b-382pvosb43] {
     padding: 1px;
-    font-size: 10px;
+    font-size: 9px;
     height: 30px;
 }
 
@@ -197,13 +196,31 @@
     margin-left: 2px;
 }
 
+.pagination[b-382pvosb43] {
+    margin-bottom: 1rem;
+}
+
 @media screen and (min-width:316px) {
     #addBtn[b-382pvosb43] {
         font-size: 11px;
     }
 
-    .card > .card-header[b-382pvosb43] { 
+    .card > .card-header[b-382pvosb43] {
         font-size: 11px;
+    }
+
+    .pagination > .itemPerPage[b-382pvosb43] {
+        font-size: 12px;
+    }
+
+    .pagination > .selectOption[b-382pvosb43] {
+        margin-right: 2px;
+        margin-left: 3px;
+    }
+
+    .pagination > .btn[b-382pvosb43] {
+        padding: 4px;
+        font-size: 8px;
     }
 
     .card-body > .employeeDetails[b-382pvosb43] {
@@ -217,8 +234,17 @@
     }
 }
 
-@media screen and (min-width:400px) 
-{
+@media screen and (min-width:370px) {
+
+    .pagination > .btn[b-382pvosb43] {
+        padding: 4px;
+        font-size: 10px;
+        width: 57px;
+    }
+}
+
+@media screen and (min-width:400px) {
+
     #employeeHeader[b-382pvosb43] {
         font-size: 14px;
     }
@@ -242,6 +268,7 @@
     .card > .card-header[b-382pvosb43] {
         font-size: 12px;
     }
+
     .card-body > .employeeDetails[b-382pvosb43] {
         display: flex;
         text-align: center;
@@ -255,7 +282,12 @@
     .card > .card-header > span > .fa[b-382pvosb43] {
         font-size: 14px;
     }
-}
+
+    .pagination > .btn[b-382pvosb43][b-382pvosb43] {
+        padding: 4px;
+        font-size: 10px;
+        width: 21%;
+    }
 
 @media screen and (min-width:450px) {
 
@@ -301,7 +333,7 @@
         width: 25%;
     }
 
-    .card > .card-header > span > .fa[b-382pvosb43]{
+    .card > .card-header > span > .fa[b-382pvosb43] {
         font-size: 14px;
     }
 
@@ -382,7 +414,7 @@
             height: 116px;
         }
 
-        .card-body > .employeeDetails[b-382pvosb43]{
+        .card-body > .employeeDetails[b-382pvosb43] {
             font-size: 14px;
             text-align: left;
             margin-left: 8rem;
@@ -405,7 +437,7 @@
 
     @media screen and (min-width:620px) {
 
-        #employeeHeader[b-382pvosb43]{
+        #employeeHeader[b-382pvosb43] {
             font-size: 17px;
         }
 
@@ -413,7 +445,7 @@
             font-size: 15px;
         }
 
-        .search > strong[b-382pvosb43]{
+        .search > strong[b-382pvosb43] {
             font-size: 16px;
         }
 
@@ -421,9 +453,9 @@
             font-size: 14px;
         }
 
-        .card > .card-header > span > .fa[b-382pvosb43] {
-            font-size: 16px;
-        }
+            .card > .card-header > span > .fa[b-382pvosb43] {
+                font-size: 16px;
+            }
 
         .card-body > .employeeDetails[b-382pvosb43] {
             font-size: 15px;
@@ -454,9 +486,9 @@
             font-size: 15px;
         }
 
-        .card > .card-header > span > .fa[b-382pvosb43]{
-            font-size: 17px;
-        }
+            .card > .card-header > span > .fa[b-382pvosb43] {
+                font-size: 17px;
+            }
 
         .card-body > .employeeDetails[b-382pvosb43] {
             font-size: 16px;
@@ -552,15 +584,15 @@
     @media screen and (min-width:1300px) {
 
         #employeeHeader[b-382pvosb43] {
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: 22px;
-            letter-spacing:4px;
+            letter-spacing: 4px;
         }
 
         #addBtn[b-382pvosb43] {
             font-size: 15px;
-            width:9%;
-            letter-spacing:3px;
+            width: 9%;
+            letter-spacing: 3px;
         }
 
         .inputBox[b-382pvosb43] {
