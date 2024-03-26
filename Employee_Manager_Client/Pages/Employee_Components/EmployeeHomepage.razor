@@ -108,7 +108,7 @@
             </select>
         </div>
         <button type="button" class="btn btn-dark" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
-        <span class="btn btn-light">Page @currentPage of @totalPages</span>
+        <span class="btn btn-light" id="totalPage">Page @currentPage of @totalPages</span>
         <button type="button" class="btn btn-dark" disabled="@IsLastPage" @onclick="NextPage">Next</button>
     </div>
 </div>
