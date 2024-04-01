@@ -53,6 +53,7 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ClosedXML.Parser.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\ExcelNumberFormat.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
@@ -153,4 +154,3 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\Employee_Manager_Client.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\obj\Debug\net6.0\ref\Employee_Manager_Client.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_Client\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll

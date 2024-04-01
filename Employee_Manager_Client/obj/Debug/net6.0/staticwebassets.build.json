@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "W+CwNNgEpP0DkkXgKvC2FiiqhL9Z5SyAbSWQPJQiq4Q=",
+  "Hash": "b4187AajIP3b8teh5Agw9sqWK9V3E8zlkNVEQ29DUQw=",
   "Source": "Employee_Manager_Client",
   "BasePath": "_content/Employee_Manager_Client",
   "Mode": "Default",
@@ -312,6 +312,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\js\\downloadFile.js",
+      "SourceId": "Employee_Manager_Client",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\",
+      "BasePath": "_content/Employee_Manager_Client",
+      "RelativePath": "js/downloadFile.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\downloadFile.js"
     },
     {
       "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\js\\printJSCode.js",

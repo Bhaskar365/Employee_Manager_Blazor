@@ -57,6 +57,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\js\\downloadFile.js",
+      "PackagePath": "staticwebassets\\js\\downloadFile.js"
+    },
+    {
       "Id": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\js\\printJSCode.js",
       "PackagePath": "staticwebassets\\js\\printJSCode.js"
     },

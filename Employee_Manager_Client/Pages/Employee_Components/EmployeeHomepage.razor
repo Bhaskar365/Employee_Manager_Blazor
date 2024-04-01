@@ -10,8 +10,7 @@
 @inject IJSRuntime JSRuntime;
 
 @* <button class="btn btn-warning" @onclick="Export">Export</button> *@
-
-<button class="btn btn-info" @onclick="ExportAllToExcel">Export All To Excel</button>
+<button @onclick="ExportAllToExcel">Excel</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -119,6 +118,8 @@
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
+
+    private string excelDownloadLink;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

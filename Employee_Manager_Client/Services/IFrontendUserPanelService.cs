@@ -30,6 +30,6 @@ namespace Employee_Manager_Client.Services
         Task<Address> GetAddressById(int addressId);
 
         // excel
-        Task<bool> ExportToExcelForAllData();
+        Task<string> ExportToExcelForAllData();
     }
 }

@@ -98,6 +98,8 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Employee_Manager_API.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Azure.Core.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Azure.Identity.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Humanizer.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -137,6 +139,7 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.IO.Packaging.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.Memory.Data.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.Runtime.Caching.dll
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
@@ -181,6 +184,3 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\ref\Employee_Manager_API.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
-C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.IO.Packaging.dll
