@@ -5,6 +5,8 @@ using Employee_Manager_Models;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Newtonsoft.Json;
 using System.Net;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_Manager_Client.Services
 {
@@ -12,11 +14,24 @@ namespace Employee_Manager_Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ProtectedSessionStorage _sessionStorage;
-        public FrontendUserPanelService(ProtectedSessionStorage sessionStorage, HttpClient httpclient) 
+        public FrontendUserPanelService(ProtectedSessionStorage sessionStorage, HttpClient httpclient)
         {
             _sessionStorage = sessionStorage;
             _httpClient = httpclient;
         }
+
+        public async Task<bool> ExportToExcelForAllData()
+        {
+            bool flag = false;
+            var response = await _httpClient.GetAsync("api/ExportOpenXML");
+
+            if (response.IsSuccessStatusCode)
+            {
+                flag = true;
+            }
+            return flag;
+        }
+
         public async Task<bool> IsUserLoggedIn()
         {
             bool flag = false;

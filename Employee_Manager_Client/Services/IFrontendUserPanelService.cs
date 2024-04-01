@@ -25,9 +25,11 @@ namespace Employee_Manager_Client.Services
         Task<ResponseModel> UpdateEmp(Employee emp);
         Task<ResponseModel> DeleteEmp(int id);
 
-        //address service
+        // address service
         Task<List<Address>> GetAddresses();
         Task<Address> GetAddressById(int addressId);
 
+        // excel
+        Task<bool> ExportToExcelForAllData();
     }
 }

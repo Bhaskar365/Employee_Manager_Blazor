@@ -9,7 +9,9 @@
 @inject NavigationManager navigationManager;
 @inject IJSRuntime JSRuntime;
 
-<button class="btn btn-warning" @onclick="Export">Export</button>
+@* <button class="btn btn-warning" @onclick="Export">Export</button> *@
+
+<button class="btn btn-info" @onclick="ExportAllToExcel">Export All To Excel</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -226,7 +228,10 @@
         }
     }
 
-
+    public async Task ExportAllToExcel()
+    {
+        await frontendService.ExportToExcelForAllData();
+    }
 
     private async Task Export()
     {
