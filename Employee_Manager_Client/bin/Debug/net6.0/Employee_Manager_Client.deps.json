@@ -10,6 +10,7 @@
         "dependencies": {
           "Blazored.Toast": "4.1.0",
           "ClosedXML": "0.104.0-preview2",
+          "DocumentFormat.OpenXml": "3.0.2",
           "Employee_Manager_API": "1.0.0",
           "Employee_Manager_Models": "1.0.0",
           "Newtonsoft.Json": "13.0.3"
@@ -68,11 +69,11 @@
       "ClosedXML/0.104.0-preview2": {
         "dependencies": {
           "ClosedXML.Parser": "1.0.0-beta4",
-          "DocumentFormat.OpenXml": "2.16.0",
+          "DocumentFormat.OpenXml": "3.0.2",
           "ExcelNumberFormat": "1.1.0",
           "RBush": "3.2.0",
           "SixLabors.Fonts": "1.0.0",
-          "System.IO.Packaging": "6.0.0",
+          "System.IO.Packaging": "8.0.0",
           "System.Net.Http": "4.3.4",
           "System.Text.RegularExpressions": "4.3.1"
         },
@@ -91,14 +92,25 @@
           }
         }
       },
-      "DocumentFormat.OpenXml/2.16.0": {
+      "DocumentFormat.OpenXml/3.0.2": {
         "dependencies": {
-          "System.IO.Packaging": "6.0.0"
+          "DocumentFormat.OpenXml.Framework": "3.0.2"
         },
         "runtime": {
           "lib/netstandard2.0/DocumentFormat.OpenXml.dll": {
-            "assemblyVersion": "2.16.0.0",
-            "fileVersion": "2.16.0.0"
+            "assemblyVersion": "3.0.2.0",
+            "fileVersion": "3.0.2.0"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml.Framework/3.0.2": {
+        "dependencies": {
+          "System.IO.Packaging": "8.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/DocumentFormat.OpenXml.Framework.dll": {
+            "assemblyVersion": "3.0.2.0",
+            "fileVersion": "3.0.2.0"
           }
         }
       },
@@ -788,11 +800,11 @@
           "System.Runtime": "4.3.1"
         }
       },
-      "System.IO.Packaging/6.0.0": {
+      "System.IO.Packaging/8.0.0": {
         "runtime": {
           "lib/net6.0/System.IO.Packaging.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.21.52210"
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
           }
         }
       },
@@ -1150,6 +1162,7 @@
       },
       "Employee_Manager_API/1.0.0": {
         "dependencies": {
+          "DocumentFormat.OpenXml": "3.0.2",
           "Employee_Manager_Models": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.0",
           "Microsoft.EntityFrameworkCore": "7.0.10",
@@ -1210,12 +1223,19 @@
       "path": "closedxml.parser/1.0.0-beta4",
       "hashPath": "closedxml.parser.1.0.0-beta4.nupkg.sha512"
     },
-    "DocumentFormat.OpenXml/2.16.0": {
+    "DocumentFormat.OpenXml/3.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-RhpnDgyyx1KjZm98T3w3bSXFHG/7ZNUaVmz4NAUA+jmV3PcVNZeW87Y04CpBNLdDHEMSspirfo0B5kLRaoE97w==",
-      "path": "documentformat.openxml/2.16.0",
-      "hashPath": "documentformat.openxml.2.16.0.nupkg.sha512"
+      "sha512": "sha512-gqjP/BxKWgwAWwPAN+RpKaMOiidPM07F+mAxiiW184/MnkHnkk12Qo7cRB0wuq4kOZUrUzQ9EUO966hUy/wKBw==",
+      "path": "documentformat.openxml/3.0.2",
+      "hashPath": "documentformat.openxml.3.0.2.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml.Framework/3.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ILRCJu2dUJDv27ZCQDftD7AZSuBgKg+ZSUF9dg2dk8qcIED7oM42y/cvZIm0mev80nj2QMzpxthX87+AebzHug==",
+      "path": "documentformat.openxml.framework/3.0.2",
+      "hashPath": "documentformat.openxml.framework.3.0.2.nupkg.sha512"
     },
     "ExcelNumberFormat/1.1.0": {
       "type": "package",
@@ -1777,12 +1797,12 @@
       "path": "system.io.filesystem.primitives/4.3.0",
       "hashPath": "system.io.filesystem.primitives.4.3.0.nupkg.sha512"
     },
-    "System.IO.Packaging/6.0.0": {
+    "System.IO.Packaging/8.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-C7OkTRIjqIjAKu6ef/fuj8ynCZTPcTYZnvHaq48bniACgXXJogmEoIc56YCDNTc14xhsbLmgpS3KP+evbsUa2g==",
-      "path": "system.io.packaging/6.0.0",
-      "hashPath": "system.io.packaging.6.0.0.nupkg.sha512"
+      "sha512": "sha512-8g1V4YRpdGAxFcK8v9OjuMdIOJSpF30Zb1JGicwVZhly3I994WFyBdV6mQEo8d3T+URQe55/M0U0eIH0Hts1bg==",
+      "path": "system.io.packaging/8.0.0",
+      "hashPath": "system.io.packaging.8.0.0.nupkg.sha512"
     },
     "System.IO.Pipelines/6.0.3": {
       "type": "package",

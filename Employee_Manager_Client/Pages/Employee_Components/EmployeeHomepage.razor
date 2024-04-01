@@ -181,14 +181,6 @@
         }
     }
 
-    // private void UpdatePageSize(ChangeEventArgs e)
-    // {
-    //     pageSize = int.Parse(e.Value.ToString());
-    //     // Reset to first page
-    //     currentPage = 1;
-    //     UpdatePagedData();
-    // }
-
     private async Task UpdatePageSize(ChangeEventArgs e)
     {
         pageSize = Convert.ToInt32(e.Value);
@@ -233,6 +225,8 @@
             await OnInitializedAsync();
         }
     }
+
+
 
     private async Task Export()
     {

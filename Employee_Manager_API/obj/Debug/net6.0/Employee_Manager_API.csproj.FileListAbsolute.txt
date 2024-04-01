@@ -181,3 +181,6 @@ C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Man
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.pdb
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\Employee_Manager_API.genruntimeconfig.cache
 C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\obj\Debug\net6.0\ref\Employee_Manager_API.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\DocumentFormat.OpenXml.Framework.dll
+C:\running_projects\Employee_Manager_Blazor\Employee_Manager_Client\Employee_Manager_API\bin\Debug\net6.0\System.IO.Packaging.dll
