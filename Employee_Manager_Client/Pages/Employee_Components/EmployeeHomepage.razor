@@ -3,6 +3,7 @@
 @using DocumentFormat.OpenXml
 @using DocumentFormat.OpenXml.Packaging
 @using DocumentFormat.OpenXml.Spreadsheet
+@using DocumentFormat.OpenXml.Wordprocessing
 @using Employee_Manager_Client.Services
 @using Employee_Manager_Models
 @using System.Data
@@ -13,6 +14,7 @@
 @inject IJSRuntime JSRuntime;
 
 <button class="btn btn-warning" @onclick="ExportToExcel">Export</button> 
+<button class="btn btn-info" @onclick="ExportToDocument">Export to DOC</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -231,7 +233,10 @@
         }
     }
 
-    // using openxml
+    //////////////using openxml excel export/////////////////////
+    /// </summary>
+    /// <returns></returns> <summary>
+    /// 
     public async Task<(byte[], string)> ExportToExcelFunction()
     {
         // Call your API to fetch data
@@ -310,7 +315,7 @@
 
     private Cell CreateCell(string text)
     {
-        return new Cell(new InlineString(new Text(text)));
+        return new Cell(new InlineString(new DocumentFormat.OpenXml.Spreadsheet.Text(text)));
     }
 
     private async Task<ApiData> FetchDataFromApi()
@@ -341,29 +346,6 @@
             };
     }
 
-    // private async Task<ApiData> FetchDataFromApi()
-    // {
-    //     var data = employeeAfterFiltered;
-    //     // Implement your API data fetching logic here
-    //     // For demonstration purposes, I'm returning dummy data
-    //     return new ApiData
-    //         {
-    //             Columns = new List<Column>
-    //             {
-    //                 new Column { ColumnName = "FirstName" },
-    //                 new Column { ColumnName = "LastName" },
-    //                 new Column { ColumnName = "Department" },
-    //                 new Column { ColumnName = "Country" }
-    //             },
-    //             Rows = new List<RowData>
-    //         {
-    //             new RowData { Values = new List<object> { "John", 30, "USA" } },
-    //             new RowData { Values = new List<object> { "Alice", 25, "Canada" } },
-    //             new RowData { Values = new List<object> { "Bob", 35, "UK" } }
-    //         }
-    //         };
-    // }
-
     public class ApiData
     {
         public List<Column> Columns { get; set; }
@@ -380,7 +362,121 @@
         public List<object> Values { get; set; }
     }
 
+    ////////////////////////////openxml document export ///////////////////////
+    // private async Task ExportToDocument()
+    // {
+    //     // Call your API to fetch data
+    //     var apiData = await FetchDataFromApi();
+
+    //     // Create a memory stream to store the document file
+    //     using (MemoryStream mem = new MemoryStream())
+    //     {
+    //         // Create a WordprocessingDocument
+    //         using (WordprocessingDocument document = WordprocessingDocument.Create(mem, WordprocessingDocumentType.Document))
+    //         {
+    //             // Add main parts to the document
+    //             MainDocumentPart mainPart = document.AddMainDocumentPart();
+    //             mainPart.Document = new Document();
+    //             Body body = mainPart.Document.AppendChild(new Body());
+
+    //             // Add title
+    //             Paragraph titleParagraph = body.AppendChild(new Paragraph());
+    //             titleParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text("API Data Export")));
+
+    //             // Add data
+    //             foreach (var row in apiData.Rows)
+    //             {
+    //                 Paragraph dataParagraph = body.AppendChild(new Paragraph());
+    //                 foreach (var value in row.Values)
+    //                 {
+    //                     dataParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(value.ToString())));
+    //                     dataParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text("\t"))); // Add tab for spacing
+    //                 }
+    //             }
+    //         }
+
+    //         // Reset the memory stream position
+    //         mem.Position = 0;
+
+    //         // Save the memory stream to a file
+    //         using (var fileStream = new FileStream("api_data.docx", FileMode.Create, FileAccess.Write))
+    //         {
+    //             mem.CopyTo(fileStream);
+    //         }
+    //     }
+    // }
+
+    private async Task ExportToDocument()
+    {
+        // Call your API to fetch data
+        var apiData = await FetchDataFromApi();
+
+        // Create a memory stream to store the document file
+        using (MemoryStream mem = new MemoryStream())
+        {
+            // Create a WordprocessingDocument
+            using (WordprocessingDocument document = WordprocessingDocument.Create(mem, WordprocessingDocumentType.Document))
+            {
+                // Add main parts to the document
+                MainDocumentPart mainPart = document.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+
+                // Retrieve the StylesPart or create it if it doesn't exist
+                StylesPart stylePart;
+                if (document.MainDocumentPart.StyleDefinitionsPart == null)
+                {
+                    stylePart = document.MainDocumentPart.AddNewPart<StylesPart>();
+                    stylePart.Styles = new Styles();
+                }
+                else
+                {
+                    stylePart = document.MainDocumentPart.StyleDefinitionsPart;
+                }
+
+                // Define and add styles to the StylesPart (if necessary)
+                if (stylePart.Styles == null)
+                {
+                    stylePart.Styles = new Styles();
+                }
+
+                // Add style definitions here...
+
+                // Add title
+                Paragraph titleParagraph = body.AppendChild(new Paragraph());
+                Run titleRun = titleParagraph.AppendChild(new Run());
+                titleRun.AppendChild(new Text("API Data Export"));
+                titleParagraph.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
+
+                // Add data
+                foreach (var row in apiData.Rows)
+                {
+                    Paragraph dataParagraph = body.AppendChild(new Paragraph());
+                    foreach (var value in row.Values)
+                    {
+                        Run dataRun = dataParagraph.AppendChild(new Run());
+                        dataRun.AppendChild(new Text(value.ToString()));
+                        dataRun.RunProperties = new RunProperties(new Bold()); // Apply bold style
+                        dataParagraph.AppendChild(new Run(new Text("\t"))); // Add tab for spacing
+                    }
+                }
+            }
+
+            // Reset the memory stream position
+            mem.Position = 0;
+
+            // Save the memory stream to a file
+            using (var fileStream = new FileStream("api_data.docx", FileMode.Create, FileAccess.Write))
+            {
+                mem.CopyTo(fileStream);
+            }
+        }
+    }
+
+    
+
     // using closedxml
+
     // private async Task Export()
     // {
     //     try
