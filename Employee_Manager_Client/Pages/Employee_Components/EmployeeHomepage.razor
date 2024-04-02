@@ -1,5 +1,8 @@
 ﻿@page "/";
 @using ClosedXML.Excel
+@using DocumentFormat.OpenXml
+@using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Spreadsheet
 @using Employee_Manager_Client.Services
 @using Employee_Manager_Models
 @using System.Data
@@ -10,7 +13,7 @@
 @inject IJSRuntime JSRuntime;
 
 @* <button class="btn btn-warning" @onclick="Export">Export</button> *@
-<button @onclick="ExportAllToExcel">Excel</button>
+<button @onclick="ExportToExcel">Excel</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -234,40 +237,184 @@
         await frontendService.ExportToExcelForAllData();
     }
 
-    private async Task Export()
+    // using openxml
+    public async Task<string> ExportToExcelFunction()
     {
-        try
+        // Call your API to fetch data
+        var apiData = await FetchDataFromApi();
+
+        // Create a memory stream to store the Excel file
+        using (MemoryStream mem = new MemoryStream())
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("FirstName", typeof(string));
-            dt.Columns.Add("LastName", typeof(string));
-            dt.Columns.Add("Department", typeof(string));
-            dt.Columns.Add("Country", typeof(string));
-
-            var data = employeeAfterFiltered;
-            if (data != null && data.Count > 0)
+            // Create a SpreadsheetDocument
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(mem, SpreadsheetDocumentType.Workbook))
             {
-                data.ForEach(item =>
-                {
-                    dt.Rows.Add(item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country);
-                });
-            }
+                // Add a WorkbookPart to the document
+                WorkbookPart workbookPart = document.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
 
-            using (XLWorkbook wb = new XLWorkbook())
-            {
-                wb.Worksheets.Add(dt, "Details");
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    wb.SaveAs(stream);
-                    var byteArray = stream.ToArray();
+                // Add a WorksheetPart to the WorkbookPart
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet(new SheetData());
 
-                    await JSRuntime.InvokeAsync<object>("BlazorDownloadFile", "sample.xlsx", Convert.ToBase64String(byteArray));
+                // Add a new sheet and get its id
+                Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
+                Sheet sheet = new Sheet() { Id = document.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+                sheets.Append(sheet);
+
+                // Get the SheetData object
+                SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+                // Add header row
+                Row headerRow = new Row();
+                foreach (var column in apiData.Columns)
+                {
+                    headerRow.AppendChild(CreateCell(column.ColumnName));
                 }
+                sheetData.AppendChild(headerRow);
+
+                // Add data rows
+                foreach (var row in apiData.Rows)
+                {
+                    Row dataRow = new Row();
+                    foreach (var value in row.Values)
+                    {
+                        dataRow.AppendChild(CreateCell(value.ToString()));
+                    }
+                    sheetData.AppendChild(dataRow);
+                }
+
+                // Save changes to the spreadsheet
+                workbookPart.Workbook.Save();
             }
+
+            // Reset the memory stream position
+            mem.Position = 0;
+
+            // Save the memory stream to a file
+            string fileName = "api_data.xlsx";
+            await using (var fileStream = new FileStream($"wwwroot/{fileName}", FileMode.Create, FileAccess.Write))
+            {
+                mem.CopyTo(fileStream);
+            }
+
+            return fileName;
         }
-        catch (Exception ex)
+    }
+
+    private async Task ExportToExcel()
+    {
+        string fileName = await ExportToExcelFunction();
+        await JSRuntime.InvokeVoidAsync("downloadFile", fileName);
+    }
+
+    private Cell CreateCell(string text)
+    {
+        return new Cell(new InlineString(new Text(text)));
+    }
+
+    private async Task<ApiData> FetchDataFromApi()
+    {
+        var data = employeeAfterFiltered;
+        // Implement your API data fetching logic here
+        // For demonstration purposes, I'm returning dummy data
+        var rowDataList = new List<RowData>();
+
+        foreach (var item in data)
         {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+            rowDataList.Add(new RowData
+                {
+                    Values = new List<object> { item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country }
+                });
         }
+
+        return new ApiData
+            {
+                Columns = new List<Column>
+        {
+            new Column { ColumnName = "FirstName" },
+            new Column { ColumnName = "LastName" },
+            new Column { ColumnName = "Department" },
+            new Column { ColumnName = "Country" }
+        },
+                Rows = rowDataList
+            };
+    }
+
+    // private async Task<ApiData> FetchDataFromApi()
+    // {
+    //     var data = employeeAfterFiltered;
+    //     // Implement your API data fetching logic here
+    //     // For demonstration purposes, I'm returning dummy data
+    //     return new ApiData
+    //         {
+    //             Columns = new List<Column>
+    //             {
+    //                 new Column { ColumnName = "FirstName" },
+    //                 new Column { ColumnName = "LastName" },
+    //                 new Column { ColumnName = "Department" },
+    //                 new Column { ColumnName = "Country" }
+    //             },
+    //             Rows = new List<RowData>
+    //         {
+    //             new RowData { Values = new List<object> { "John", 30, "USA" } },
+    //             new RowData { Values = new List<object> { "Alice", 25, "Canada" } },
+    //             new RowData { Values = new List<object> { "Bob", 35, "UK" } }
+    //         }
+    //         };
+    // }
+
+    public class ApiData
+    {
+        public List<Column> Columns { get; set; }
+        public List<RowData> Rows { get; set; }
+    }
+
+    public class Column
+    {
+        public string ColumnName { get; set; }
+    }
+
+    public class RowData
+    {
+        public List<object> Values { get; set; }
+    }
+
+    // using closedxml
+    // private async Task Export()
+    // {
+    //     try
+    //     {
+    //         DataTable dt = new DataTable();
+    //         dt.Columns.Add("FirstName", typeof(string));
+    //         dt.Columns.Add("LastName", typeof(string));
+    //         dt.Columns.Add("Department", typeof(string));
+    //         dt.Columns.Add("Country", typeof(string));
+
+    //         var data = employeeAfterFiltered;
+    //         if (data != null && data.Count > 0)
+    //         {
+    //             data.ForEach(item =>
+    //             {
+    //                 dt.Rows.Add(item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country);
+    //             });
+    //         }
+
+    //         using (XLWorkbook wb = new XLWorkbook())
+    //         {
+    //             wb.Worksheets.Add(dt, "Details");
+    //             using (MemoryStream stream = new MemoryStream())
+    //             {
+    //                 wb.SaveAs(stream);
+    //                 var byteArray = stream.ToArray();
+
+    //                 await JSRuntime.InvokeAsync<object>("BlazorDownloadFile", "sample.xlsx", Convert.ToBase64String(byteArray));
+    //             }
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine($"An error occurred: {ex.Message}");
+    //     }
     }
 }

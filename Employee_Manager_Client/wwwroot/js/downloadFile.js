@@ -15,3 +15,12 @@
     // Clean up: remove the anchor from the document body
     document.body.removeChild(anchor);
 }
+
+window.downloadFile = function (fileName) {
+    var link = document.createElement("a");
+    link.download = fileName;
+    link.href = "/api/data/" + fileName; // Assuming your Blazor server exposes an API endpoint to serve files
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
