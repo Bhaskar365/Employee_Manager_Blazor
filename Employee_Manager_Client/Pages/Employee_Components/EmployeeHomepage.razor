@@ -14,7 +14,7 @@
 @inject IJSRuntime JSRuntime;
 
 <button class="btn btn-warning" @onclick="ExportToExcel">Export</button> 
-<button class="btn btn-info" @onclick="ExportToDocument">Export to DOC</button>
+<button @onclick="DownloadDocument">Download Document</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -406,7 +406,7 @@
     //     }
     // }
 
-    private async Task ExportToDocument()
+    private async Task<byte[]> ExportToDocument()
     {
         // Call your API to fetch data
         var apiData = await FetchDataFromApi();
@@ -422,44 +422,46 @@
                 mainPart.Document = new Document();
                 Body body = mainPart.Document.AppendChild(new Body());
 
-                // Retrieve the StylesPart or create it if it doesn't exist
-                StylesPart stylePart;
-                if (document.MainDocumentPart.StyleDefinitionsPart == null)
+                // Create a table
+                DocumentFormat.OpenXml.Wordprocessing.Table table = new DocumentFormat.OpenXml.Wordprocessing.Table();
+                TableProperties tblProp = new TableProperties(
+                    new TableBorders(
+                        new DocumentFormat.OpenXml.Wordprocessing.TopBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.BottomBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.LeftBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.RightBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 }
+                    )
+                );
+                table.AppendChild(tblProp);
+
+                // Add title row
+                TableRow titleRow = new TableRow();
+                titleRow.AppendChild(CreateTableCell("API Data Export", bold: true));
+                table.AppendChild(titleRow);
+
+                // Add header row
+                TableRow headerRow = new TableRow();
+                foreach (var column in apiData.Columns)
                 {
-                    stylePart = document.MainDocumentPart.AddNewPart<StylesPart>();
-                    stylePart.Styles = new Styles();
+                    headerRow.AppendChild(CreateTableCell(column.ColumnName, bold: true));
                 }
-                else
-                {
-                    stylePart = document.MainDocumentPart.StyleDefinitionsPart;
-                }
+                table.AppendChild(headerRow);
 
-                // Define and add styles to the StylesPart (if necessary)
-                if (stylePart.Styles == null)
-                {
-                    stylePart.Styles = new Styles();
-                }
-
-                // Add style definitions here...
-
-                // Add title
-                Paragraph titleParagraph = body.AppendChild(new Paragraph());
-                Run titleRun = titleParagraph.AppendChild(new Run());
-                titleRun.AppendChild(new Text("API Data Export"));
-                titleParagraph.ParagraphProperties = new ParagraphProperties(new Justification() { Val = JustificationValues.Center });
-
-                // Add data
+                // Add data rows
                 foreach (var row in apiData.Rows)
                 {
-                    Paragraph dataParagraph = body.AppendChild(new Paragraph());
+                    TableRow dataRow = new TableRow();
                     foreach (var value in row.Values)
                     {
-                        Run dataRun = dataParagraph.AppendChild(new Run());
-                        dataRun.AppendChild(new Text(value.ToString()));
-                        dataRun.RunProperties = new RunProperties(new Bold()); // Apply bold style
-                        dataParagraph.AppendChild(new Run(new Text("\t"))); // Add tab for spacing
+                        dataRow.AppendChild(CreateTableCell(value.ToString()));
                     }
+                    table.AppendChild(dataRow);
                 }
+
+                // Append table to the document body
+                body.AppendChild(table);
             }
 
             // Reset the memory stream position
@@ -470,13 +472,38 @@
             {
                 mem.CopyTo(fileStream);
             }
+
+            return mem.ToArray();
         }
     }
 
-    
+    private async Task DownloadDocument()
+    {
+        // Call the method to fetch document content from API
+        byte[] documentContent = await ExportToDocument();
+
+        // Convert byte array to base64 string
+        string base64String = Convert.ToBase64String(documentContent);
+
+        // Trigger file download using JavaScript interop
+        await JSRuntime.InvokeVoidAsync("downloadDocFile", base64String, "api_data.docx");
+    }
+
+    private TableCell CreateTableCell(string text, bool bold = false)
+    {
+        TableCell cell = new TableCell();
+        Paragraph para = new Paragraph();
+        DocumentFormat.OpenXml.Wordprocessing.Run run = new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(text));
+        if (bold)
+        {
+            run.RunProperties = new DocumentFormat.OpenXml.Wordprocessing.RunProperties(new DocumentFormat.OpenXml.Wordprocessing.Bold());
+        }
+        para.Append(run);
+        cell.Append(para);
+        return cell;
+    }
 
     // using closedxml
-
     // private async Task Export()
     // {
     //     try

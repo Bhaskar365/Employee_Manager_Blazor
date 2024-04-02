@@ -36,3 +36,18 @@ window.downloadFile = function (base64File, fileName) {
     // Trigger download
     link.click();
 }
+
+window.downloadDocFile = function (base64String, fileName) {
+    // Create anchor element to trigger download
+    var link = document.createElement("a");
+    link.href = "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64," + base64String;
+    link.download = fileName;
+
+    // Hide the link and trigger the download
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+};
