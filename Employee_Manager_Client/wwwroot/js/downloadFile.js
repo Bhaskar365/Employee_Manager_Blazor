@@ -16,11 +16,23 @@
     document.body.removeChild(anchor);
 }
 
-window.downloadFile = function (fileName) {
+window.downloadFile = function (base64File, fileName) {
+    // Convert base64 string to binary
+    var binaryString = window.atob(base64File);
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    // Create blob object
+    var blob = new Blob([bytes], { type: "application/octet-stream" });
+
+    // Create download link
     var link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
     link.download = fileName;
-    link.href = "/api/data/" + fileName; // Assuming your Blazor server exposes an API endpoint to serve files
-    document.body.appendChild(link);
+
+    // Trigger download
     link.click();
-    document.body.removeChild(link);
 }

@@ -12,8 +12,7 @@
 @inject NavigationManager navigationManager;
 @inject IJSRuntime JSRuntime;
 
-@* <button class="btn btn-warning" @onclick="Export">Export</button> *@
-<button @onclick="ExportToExcel">Excel</button>
+<button class="btn btn-warning" @onclick="ExportToExcel">Export</button> 
 
 <div class="body">
     <div class="headersTitle">
@@ -232,13 +231,8 @@
         }
     }
 
-    public async Task ExportAllToExcel()
-    {
-        await frontendService.ExportToExcelForAllData();
-    }
-
     // using openxml
-    public async Task<string> ExportToExcelFunction()
+    public async Task<(byte[], string)> ExportToExcelFunction()
     {
         // Call your API to fetch data
         var apiData = await FetchDataFromApi();
@@ -291,21 +285,27 @@
             // Reset the memory stream position
             mem.Position = 0;
 
-            // Save the memory stream to a file
-            string fileName = "api_data.xlsx";
-            await using (var fileStream = new FileStream($"wwwroot/{fileName}", FileMode.Create, FileAccess.Write))
-            {
-                mem.CopyTo(fileStream);
-            }
+            // Get the file contents as byte array
+            byte[] fileContents = mem.ToArray();
 
-            return fileName;
+            // Return file contents along with filename
+            return (fileContents, "api_data.xlsx");
         }
     }
 
     private async Task ExportToExcel()
     {
-        string fileName = await ExportToExcelFunction();
-        await JSRuntime.InvokeVoidAsync("downloadFile", fileName);
+        var excelData = await ExportToExcelFunction();
+
+        // Get the file contents and file name
+        byte[] fileContents = excelData.Item1;
+        string fileName = excelData.Item2;
+
+        // Convert byte array to base64 string
+        var base64File = Convert.ToBase64String(fileContents);
+
+        // Invoke JavaScript function to download the file
+        await JSRuntime.InvokeVoidAsync("downloadFile", base64File, fileName);
     }
 
     private Cell CreateCell(string text)

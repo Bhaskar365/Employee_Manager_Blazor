@@ -23,32 +23,6 @@ namespace Employee_Manager_Client.Services
             _httpClient = httpclient;
         }
 
-        [Inject]
-        public IJSRuntime JsRuntime { get; set; }
-
-        public async Task<string> ExportToExcelForAllData()
-        {
-            var response = await _httpClient.GetAsync("api/ExportOpenXML");
-            if (response.IsSuccessStatusCode)
-            {
-                // Get the response content as a string
-
-                var x = response.Content.Headers.ContentDisposition.FileName;
-
-                //string responseBody = await response.Content.ReadAsStringAsync();
-                string responseBody =  response.RequestMessage.RequestUri.AbsoluteUri.ToString();
-
-                // Extract the download link from the response body
-                string downloadLink = responseBody; // Trim any surrounding double quotes
-
-                return downloadLink;
-            }
-            else
-            {
-                throw new Exception("Failed to get download link from API.");
-            }
-        }
-
         public async Task<bool> IsUserLoggedIn()
         {
             bool flag = false;

@@ -28,8 +28,5 @@ namespace Employee_Manager_Client.Services
         // address service
         Task<List<Address>> GetAddresses();
         Task<Address> GetAddressById(int addressId);
-
-        // excel
-        Task<string> ExportToExcelForAllData();
     }
 }
