@@ -362,50 +362,8 @@
         public List<object> Values { get; set; }
     }
 
+    //DocumentFormat.OpenXml.Wordprocessing.
     ////////////////////////////openxml document export ///////////////////////
-    // private async Task ExportToDocument()
-    // {
-    //     // Call your API to fetch data
-    //     var apiData = await FetchDataFromApi();
-
-    //     // Create a memory stream to store the document file
-    //     using (MemoryStream mem = new MemoryStream())
-    //     {
-    //         // Create a WordprocessingDocument
-    //         using (WordprocessingDocument document = WordprocessingDocument.Create(mem, WordprocessingDocumentType.Document))
-    //         {
-    //             // Add main parts to the document
-    //             MainDocumentPart mainPart = document.AddMainDocumentPart();
-    //             mainPart.Document = new Document();
-    //             Body body = mainPart.Document.AppendChild(new Body());
-
-    //             // Add title
-    //             Paragraph titleParagraph = body.AppendChild(new Paragraph());
-    //             titleParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text("API Data Export")));
-
-    //             // Add data
-    //             foreach (var row in apiData.Rows)
-    //             {
-    //                 Paragraph dataParagraph = body.AppendChild(new Paragraph());
-    //                 foreach (var value in row.Values)
-    //                 {
-    //                     dataParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(value.ToString())));
-    //                     dataParagraph.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text("\t"))); // Add tab for spacing
-    //                 }
-    //             }
-    //         }
-
-    //         // Reset the memory stream position
-    //         mem.Position = 0;
-
-    //         // Save the memory stream to a file
-    //         using (var fileStream = new FileStream("api_data.docx", FileMode.Create, FileAccess.Write))
-    //         {
-    //             mem.CopyTo(fileStream);
-    //         }
-    //     }
-    // }
-
     private async Task<byte[]> ExportToDocument()
     {
         // Call your API to fetch data
@@ -438,14 +396,16 @@
 
                 // Add title row
                 TableRow titleRow = new TableRow();
-                titleRow.AppendChild(CreateTableCell("API Data Export", bold: true));
+                titleRow.AppendChild(CreateTableCell("Employee Details Export", bold: true));
                 table.AppendChild(titleRow);
 
                 // Add header row
                 TableRow headerRow = new TableRow();
                 foreach (var column in apiData.Columns)
                 {
-                    headerRow.AppendChild(CreateTableCell(column.ColumnName, bold: true));
+                    var cell = CreateTableCell(column.ColumnName, bold: true);
+                    cell.TableCellProperties = new TableCellProperties(new Shading() { Fill = "48cae4" }); // Light Gray
+                    headerRow.AppendChild(cell);
                 }
                 table.AppendChild(headerRow);
 
@@ -467,12 +427,7 @@
             // Reset the memory stream position
             mem.Position = 0;
 
-            // Save the memory stream to a file
-            using (var fileStream = new FileStream("api_data.docx", FileMode.Create, FileAccess.Write))
-            {
-                mem.CopyTo(fileStream);
-            }
-
+            // Return the byte array of the document content
             return mem.ToArray();
         }
     }
