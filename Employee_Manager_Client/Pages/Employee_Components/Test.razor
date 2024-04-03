@@ -1,0 +1,141 @@
+﻿@page "/test";
+@using DocumentFormat.OpenXml
+@using DocumentFormat.OpenXml.Drawing
+@using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Presentation
+
+<h3>Test</h3>
+<button @onclick="ExportPPT">Export PPT</button>
+
+@code
+{
+    public class ApiData
+    {
+        // Define your API data model here
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Department { get; set; }
+        public string Country { get; set; }
+    }
+
+    // public async Task ExportToPPT(List<ApiData> apiData, string outputPath)
+    // {
+    //     using (PresentationDocument presentationDocument = PresentationDocument.Create(outputPath, PresentationDocumentType.Presentation))
+    //     {
+    //         PresentationPart presentationPart = presentationDocument.AddPresentationPart();
+    //         presentationPart.Presentation = new Presentation();
+
+    //         SlideMasterPart slideMasterPart = presentationPart.AddNewPart<SlideMasterPart>();
+    //         slideMasterPart.SlideMaster = new SlideMaster(new CommonSlideData(new ShapeTree()));
+
+    //         SlideLayoutPart slideLayoutPart = slideMasterPart.AddNewPart<SlideLayoutPart>("rId1");
+    //         slideLayoutPart.SlideLayout = new SlideLayout(new CommonSlideData(new ShapeTree()));
+
+    //         SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
+    //         Slide slide = new Slide(new CommonSlideData(new ShapeTree()));
+    //         slidePart.Slide = slide;
+
+    //         // Create title shape
+    //         var titleShape = new DocumentFormat.OpenXml.Presentation.Shape();
+    //         titleShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
+    //         titleShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 1, Name = "Title" };
+    //         titleShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
+    //         titleShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
+    //         titleShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 0 }, new Extents { Cx = 7000000, Cy = 200000 });
+    //         titleShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(), new Paragraph(new Run(new DocumentFormat.OpenXml.Drawing.Text("API Data"))));
+    //         slide.CommonSlideData.ShapeTree.AppendChild(titleShape);
+
+    //         // Create content shapes based on API data
+    //         int yOffset = 2000000; // Starting Y offset for content shapes
+    //         foreach (var data in apiData)
+    //         {
+    //             var contentShape = new DocumentFormat.OpenXml.Presentation.Shape();
+    //             contentShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
+    //             contentShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 2, Name = "Content Placeholder" };
+    //             contentShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
+    //             contentShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
+    //             contentShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = yOffset }, new Extents { Cx = 7000000, Cy = 200000 });
+    //             contentShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(),
+    //                 new Paragraph(
+    //                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Name: {data.FirstName} {data.LastName}")),
+    //                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Department: {data.Department}")),
+    //                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Country: {data.Country}"))
+    //                 ));
+    //             slide.CommonSlideData.ShapeTree.AppendChild(contentShape);
+
+    //             yOffset += 300000; // Increment Y offset for the next content shape
+    //         }
+
+    //         presentationPart.Presentation.Save();
+    //     }
+
+    //     Console.WriteLine($"Presentation created successfully at: {outputPath}");
+    // }
+
+    public async Task ExportToPPT(List<ApiData> apiData, string outputPath)
+    {
+        using (PresentationDocument presentationDocument = PresentationDocument.Create(outputPath, PresentationDocumentType.Presentation))
+        {
+            PresentationPart presentationPart = presentationDocument.AddPresentationPart();
+            presentationPart.Presentation = new Presentation();
+
+            SlideMasterPart slideMasterPart = presentationPart.AddNewPart<SlideMasterPart>();
+            slideMasterPart.SlideMaster = new SlideMaster(new CommonSlideData(new ShapeTree()));
+
+            SlideLayoutPart slideLayoutPart = slideMasterPart.AddNewPart<SlideLayoutPart>("rId1");
+            slideLayoutPart.SlideLayout = new SlideLayout(new CommonSlideData(new ShapeTree()));
+
+            foreach (var data in apiData)
+            {
+                SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
+                Slide slide = new Slide(new CommonSlideData(new ShapeTree()));
+                slidePart.Slide = slide;
+
+                // Create title shape
+                var titleShape = new DocumentFormat.OpenXml.Presentation.Shape();
+                titleShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
+                titleShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 1, Name = "Title" };
+                titleShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
+                titleShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
+                titleShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 0 }, new Extents { Cx = 7000000, Cy = 200000 });
+                titleShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(), new Paragraph(new Run(new DocumentFormat.OpenXml.Presentation.Text("API Data"))));
+                slide.CommonSlideData.ShapeTree.AppendChild(titleShape);
+
+                // Create content shapes
+                var contentShape = new DocumentFormat.OpenXml.Presentation.Shape();
+                contentShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
+                contentShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 2, Name = "Content Placeholder" };
+                contentShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
+                contentShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
+                contentShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 2000000 }, new Extents { Cx = 7000000, Cy = 200000 });
+                contentShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(),
+                    new Paragraph(
+                        new Run(new DocumentFormat.OpenXml.Presentation.Text($"Name: {data.FirstName} {data.LastName}")),
+                        new Run(new DocumentFormat.OpenXml.Presentation.Text($"Department: {data.Department}")),
+                        new Run(new DocumentFormat.OpenXml.Presentation.Text($"Country: {data.Country}"))
+                    ));
+                slide.CommonSlideData.ShapeTree.AppendChild(contentShape);
+            }
+
+            presentationPart.Presentation.Save();
+        }
+
+        Console.WriteLine($"Presentation created successfully at: {outputPath}");
+    }
+
+
+    private async Task ExportPPT()
+    {
+        var apiData = new List<ApiData>
+        {
+            new ApiData { FirstName = "John", LastName = "Doe", Department = "Engineering", Country = "USA" },
+            // new ApiData { FirstName = "Jane", LastName = "Smith", Department = "Marketing", Country = "UK" }
+            // Add more data as needed
+        };
+
+        string outputPath = "output.pptx";
+        await ExportToPPT(apiData, outputPath);
+    }
+}
+
+

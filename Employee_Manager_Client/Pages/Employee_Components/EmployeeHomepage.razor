@@ -476,7 +476,6 @@
     public async Task<EmployeeAPIDataPPTModel> GetAPIDataForPPT()
     {
         var apiData = employeeAfterFiltered; // Fetch data from API
-
         var slides = new List<SlideData>();
 
         foreach (var employee in apiData)
@@ -567,7 +566,7 @@
                         new DocumentFormat.OpenXml.Drawing.Text { Text = text }))));
 
         // Append the shape to the slide
-        slidePart.Slide.CommonSlideData.ShapeTree.Append(shape);
+        slidePart?.Slide?.CommonSlideData?.ShapeTree?.Append(shape);
     }
 
     // using closedxml
