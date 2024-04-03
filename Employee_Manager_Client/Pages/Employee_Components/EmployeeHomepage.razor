@@ -2,6 +2,7 @@
 @using ClosedXML.Excel
 @using DocumentFormat.OpenXml
 @using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Presentation
 @using DocumentFormat.OpenXml.Spreadsheet
 @using DocumentFormat.OpenXml.Wordprocessing
 @using Employee_Manager_Client.Services
@@ -13,8 +14,9 @@
 @inject NavigationManager navigationManager;
 @inject IJSRuntime JSRuntime;
 
-<button class="btn btn-warning" @onclick="ExportToExcel">Export</button> 
+<button class="btn btn-warning" @onclick="ExportToExcel">Export</button>
 <button @onclick="DownloadDocument">Download Document</button>
+<button @onclick="ExportToPPT">PPT Export</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -118,12 +120,11 @@
     </div>
 </div>
 
-@code {
+@code
+{
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
-
-    private string excelDownloadLink;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -233,10 +234,7 @@
         }
     }
 
-    //////////////using openxml excel export/////////////////////
-    /// </summary>
-    /// <returns></returns> <summary>
-    /// 
+    ///////////////////////////////////////////////////// using openxml excel export /////////////////////////////////////////////////////
     public async Task<(byte[], string)> ExportToExcelFunction()
     {
         // Call your API to fetch data
@@ -320,9 +318,9 @@
 
     private async Task<ApiData> FetchDataFromApi()
     {
+        // API data
         var data = employeeAfterFiltered;
-        // Implement your API data fetching logic here
-        // For demonstration purposes, I'm returning dummy data
+
         var rowDataList = new List<RowData>();
 
         foreach (var item in data)
@@ -363,7 +361,7 @@
     }
 
     //DocumentFormat.OpenXml.Wordprocessing.
-    ////////////////////////////openxml document export ///////////////////////
+    /// ////////////////////////////////////////////// openxml document export ///////////////////////////////////////////////////
     private async Task<byte[]> ExportToDocument()
     {
         // Call your API to fetch data
@@ -458,6 +456,120 @@
         return cell;
     }
 
+    //////////////////////////////////////////////////////////// ppt export ////////////////////////////////////////////////////////////////
+    public class EmployeeAPIDataPPTModel
+    {
+        public List<SlideData> Slides { get; set; }
+    }
+
+    public class SlideData
+    {
+        public List<ShapeData> Shapes { get; set; }
+    }
+
+    public class ShapeData
+    {
+        public string Text { get; set; }
+        // Other properties as needed for images, charts, etc.
+    }
+
+    public async Task<EmployeeAPIDataPPTModel> GetAPIDataForPPT()
+    {
+        var apiData = employeeAfterFiltered; // Fetch data from API
+
+        var slides = new List<SlideData>();
+
+        foreach (var employee in apiData)
+        {
+            var slide = new SlideData
+                {
+                    Shapes = new List<ShapeData>
+            {
+                new ShapeData { Text = $"Name: {employee.FirstName} {employee.LastName}" },
+                new ShapeData { Text = $"Department: {employee.Department.DepartmentName}" },
+                new ShapeData { Text = $"Country: {employee.Address.Country}" }
+            }
+                };
+
+            slides.Add(slide);
+        }
+
+        return new EmployeeAPIDataPPTModel { Slides = slides };
+    }
+
+    private async Task ExportToPPT()
+    {
+        var apiData = await GetAPIDataForPPT();
+
+        // Create a new PowerPoint presentation
+        string presentationPath = "YourPresentation.pptx";
+        using (PresentationDocument presentationDocument = PresentationDocument.Create(presentationPath, PresentationDocumentType.Presentation))
+        {
+            // Add a presentation part
+            PresentationPart presentationPart = presentationDocument.AddPresentationPart();
+            presentationPart.Presentation = new Presentation();
+
+            // Add slide master part
+            SlideMasterPart slideMasterPart = presentationPart.AddNewPart<SlideMasterPart>();
+            slideMasterPart.SlideMaster = new SlideMaster(new CommonSlideData(new ShapeTree()));
+
+            // Add slide layout part
+            SlideLayoutPart slideLayoutPart = slideMasterPart.AddNewPart<SlideLayoutPart>("rId1");
+            slideLayoutPart.SlideLayout = new SlideLayout(new CommonSlideData(new ShapeTree()));
+
+            // Populate the presentation with API data
+            int slideId = 1;
+            foreach (var slideData in apiData.Slides)
+            {
+                SlidePart slideParts = presentationDocument.PresentationPart.AddNewPart<SlidePart>($"Slide{slideId}");
+                GenerateSlideContent(slideData, slideParts);
+                slideId++;
+            }
+
+            // For demonstration purposes, let's just add some sample text to the first slide
+            var text = new DocumentFormat.OpenXml.Presentation.TextBody(
+                    new DocumentFormat.OpenXml.Drawing.BodyProperties(),
+                    new DocumentFormat.OpenXml.Drawing.Paragraph(
+                    new DocumentFormat.OpenXml.Drawing.Run(
+                    new DocumentFormat.OpenXml.Drawing.Text("API Data"))));
+             var paragraph = new Paragraph(text);
+             presentationPart.SlideParts.First().Slide.CommonSlideData.ShapeTree.Append(paragraph);
+
+            // Save changes to the presentation
+            presentationPart.Presentation.Save();
+        }
+
+        Console.WriteLine("Presentation created successfully at: " + presentationPath);
+    }
+
+    private void GenerateSlideContent(SlideData slideData, SlidePart slidePart)
+    {
+        foreach (var shapeData in slideData.Shapes)
+        {
+            // Add text box shape to the slide with shapeData.Text content
+            AddTextShape(slidePart, shapeData.Text);
+        }
+    }
+
+    private void AddTextShape(SlidePart slidePart, string text)
+    {
+        // Create a new text box shape
+        Shape shape = new Shape(
+            new NonVisualShapeProperties(
+                new NonVisualDrawingProperties { Id = 1, Name = "TextBox" },
+                new NonVisualShapeDrawingProperties(new DocumentFormat.OpenXml.Drawing.ShapeLocks { NoGrouping = true }),
+                new ApplicationNonVisualDrawingProperties()),
+            new ShapeProperties(),
+            new TextBody(
+                new DocumentFormat.OpenXml.Drawing.BodyProperties(),
+                new DocumentFormat.OpenXml.Drawing.Paragraph(
+                    new DocumentFormat.OpenXml.Drawing.Run(
+                        new DocumentFormat.OpenXml.Drawing.Text { Text = text }))));
+
+        // Append the shape to the slide
+        slidePart.Slide.CommonSlideData.ShapeTree.Append(shape);
+    }
+
     // using closedxml
     // private async Task Export()
     // {
@@ -494,5 +606,5 @@
     //     {
     //         Console.WriteLine($"An error occurred: {ex.Message}");
     //     }
-    }
 }
+
