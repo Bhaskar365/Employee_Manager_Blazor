@@ -904,6 +904,10 @@
 
     @media screen and (min-width:1300px) {
 
+        #excelIcon[b-382pvosb43] {
+            font-size:large;
+        }
+
         #employeeHeader[b-382pvosb43] {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: 22px;

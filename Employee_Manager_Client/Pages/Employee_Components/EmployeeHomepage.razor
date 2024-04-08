@@ -14,9 +14,15 @@
 @inject NavigationManager navigationManager;
 @inject IJSRuntime JSRuntime;
 
-<button class="btn btn-warning" @onclick="ExportToExcel">Export</button>
-<button @onclick="DownloadDocument">Download Document</button>
-<button @onclick="ExportToPPT">PPT Export</button>
+<button class="btn btn-warning" @onclick="ExportToExcel" id="excelIcon">
+    <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Excel
+</button>
+<button class="btn btn-info" @onclick="DownloadDocument">
+    <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;Document
+</button>
+<button @onclick="ExportToPPT" class="btn btn-dark">
+    <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>&nbsp;Powerpoint
+</button>
 
 <div class="body">
     <div class="headersTitle">
@@ -531,8 +537,8 @@
                     new DocumentFormat.OpenXml.Drawing.Paragraph(
                     new DocumentFormat.OpenXml.Drawing.Run(
                     new DocumentFormat.OpenXml.Drawing.Text("API Data"))));
-             var paragraph = new Paragraph(text);
-             presentationPart.SlideParts.First().Slide.CommonSlideData.ShapeTree.Append(paragraph);
+            var paragraph = new Paragraph(text);
+            presentationPart.SlideParts.First().Slide.CommonSlideData.ShapeTree.Append(paragraph);
 
             // Save changes to the presentation
             presentationPart.Presentation.Save();
