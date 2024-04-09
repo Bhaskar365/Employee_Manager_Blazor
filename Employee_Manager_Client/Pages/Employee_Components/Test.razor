@@ -1,142 +1,202 @@
 ﻿@page "/test";
-@using DocumentFormat.OpenXml
-@using DocumentFormat.OpenXml.Drawing
 @using DocumentFormat.OpenXml.Packaging
-@using DocumentFormat.OpenXml.Presentation
+@using DocumentFormat.OpenXml.Spreadsheet
+@using Employee_Manager_Models
+@inject HttpClient http;
 
 <h3>Test</h3>
-@* <button @onclick="ExportPPT">Export PPT</button> *@
 
-@code
-{
+@* <form @onsubmit="SubmitForm">
+    <InputFile OnChange="HandleFileUpload" />
+    <button type="submit">Submit</button>
+</form>
 
-	public class ApiData
+@code {
+
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
     {
-        // Define your API data model here
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Department { get; set; }
-	    public string Country { get; set; }
-	}
+        try
+        {
+            var file = e.File;
+            if (file != null)
+            {
+                // Read the file content
+                using (var stream = file.OpenReadStream())
+                {
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream, false))
+                    {
+                        WorkbookPart workbookPart = document.WorkbookPart;
+                        WorksheetPart worksheetPart = workbookPart.WorksheetParts.First(); // Assuming there is only one worksheet
+                        SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
 
-	// public async Task ExportToPPT(List<ApiData> apiData, string outputPath)
-	// {
-	//     using (PresentationDocument presentationDocument = PresentationDocument.Create(outputPath, PresentationDocumentType.Presentation))
-	//     {
-	//         PresentationPart presentationPart = presentationDocument.AddPresentationPart();
-	//         presentationPart.Presentation = new Presentation();
+                        // Extract data from Excel
+                        List<Employee> employees = new List<Employee>();
+                        foreach (var row in sheetData.Elements<Row>().Skip(1)) // Assuming the first row is header
+                        {
+                            var cellValues = row.Elements<Cell>().Select(cell => GetCellValue(workbookPart, cell)).ToList();
 
-	//         SlideMasterPart slideMasterPart = presentationPart.AddNewPart<SlideMasterPart>();
-	//         slideMasterPart.SlideMaster = new SlideMaster(new CommonSlideData(new ShapeTree()));
+                            // Create Employee object
+                            var employee = new Employee
+                                {
+                                    FirstName = cellValues[0],
+                                    LastName = cellValues[1],
+                                    Department = new Department { DepartmentName = cellValues[2] },
+                                    Address = new Address { Country = cellValues[3] }
+                                    // Add other properties as needed
+                                };
 
-	//         SlideLayoutPart slideLayoutPart = slideMasterPart.AddNewPart<SlideLayoutPart>("rId1");
-	//         slideLayoutPart.SlideLayout = new SlideLayout(new CommonSlideData(new ShapeTree()));
+                            employees.Add(employee);
+                        }
 
-	//         SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
-	//         Slide slide = new Slide(new CommonSlideData(new ShapeTree()));
-	//         slidePart.Slide = slide;
+                        // Submit data to backend API
+                        await SubmitDataToApi(employees);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions
+            Console.WriteLine($"An error occurred while processing the file: {ex.Message}");
+        }
+    }
 
-	//         // Create title shape
-	//         var titleShape = new DocumentFormat.OpenXml.Presentation.Shape();
-	//         titleShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
-	//         titleShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 1, Name = "Title" };
-	//         titleShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
-	//         titleShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
-	//         titleShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 0 }, new Extents { Cx = 7000000, Cy = 200000 });
-	//         titleShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(), new Paragraph(new Run(new DocumentFormat.OpenXml.Drawing.Text("API Data"))));
-	//         slide.CommonSlideData.ShapeTree.AppendChild(titleShape);
+    private string GetCellValue(WorkbookPart workbookPart, Cell cell)
+    {
+        string value = cell.InnerText;
+        if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+        {
+            SharedStringTablePart sharedStringTablePart = workbookPart.SharedStringTablePart;
+            if (sharedStringTablePart != null)
+            {
+                return sharedStringTablePart.SharedStringTable.ChildElements[int.Parse(value)].InnerText;
+            }
+        }
+        return value;
+    }
 
-	//         // Create content shapes based on API data
-	//         int yOffset = 2000000; // Starting Y offset for content shapes
-	//         foreach (var data in apiData)
-	//         {
-	//             var contentShape = new DocumentFormat.OpenXml.Presentation.Shape();
-	//             contentShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
-	//             contentShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 2, Name = "Content Placeholder" };
-	//             contentShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
-	//             contentShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
-	//             contentShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = yOffset }, new Extents { Cx = 7000000, Cy = 200000 });
-	//             contentShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(),
-	//                 new Paragraph(
-	//                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Name: {data.FirstName} {data.LastName}")),
-	//                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Department: {data.Department}")),
-	//                     new Run(new DocumentFormat.OpenXml.Presentation.Text($"Country: {data.Country}"))
-	//                 ));
-	//             slide.CommonSlideData.ShapeTree.AppendChild(contentShape);
+    private async Task SubmitDataToApi(List<Employee> employees)
+    {
+        try
+        {
+            // Call your backend API to submit data
+            var response = await http.PostAsJsonAsync<Employee[]>("api/employees/upload", employees.ToArray());
 
-	//             yOffset += 300000; // Increment Y offset for the next content shape
-	//         }
+            // Process response as needed
+            if (response.IsSuccessStatusCode)
+            {
+                // Data successfully submitted
+                Console.WriteLine("Data submitted successfully!");
+            }
+            else
+            {
+                // Handle API error
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Error: {errorMessage}");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions
+            Console.WriteLine($"An error occurred while submitting data to the API: {ex.Message}");
+        }
+    }
+} *@
 
-    //         presentationPart.Presentation.Save();
-	//     }
+<form @onsubmit="SubmitForm">
+    <InputFile OnChange="HandleFileUpload" />
+    <button type="submit">Submit</button>
+</form>
 
-	//     Console.WriteLine($"Presentation created successfully at: {outputPath}");
-	// }
+@code {
 
-	public async Task ExportToPPT(List<ApiData> apiData, string outputPath)
-	{
-	    using (PresentationDocument presentationDocument = PresentationDocument.Create(outputPath, PresentationDocumentType.Presentation))
-	    {
-	        PresentationPart presentationPart = presentationDocument.AddPresentationPart();
-	        presentationPart.Presentation = new Presentation();
+    List<Employee> employees = new List<Employee>();
 
-	        SlideMasterPart slideMasterPart = presentationPart.AddNewPart<SlideMasterPart>();
-	        slideMasterPart.SlideMaster = new SlideMaster(new CommonSlideData(new ShapeTree()));
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            var file = e.File;
+            if (file != null)
+            {
+                // Read the file content synchronously
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.OpenReadStream().CopyToAsync(memoryStream);
+                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(memoryStream, false))
+                    {
+                        WorkbookPart workbookPart = document.WorkbookPart;
+                        WorksheetPart worksheetPart = workbookPart.WorksheetParts.First(); // Assuming there is only one worksheet
+                        SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
 
-	        SlideLayoutPart slideLayoutPart = slideMasterPart.AddNewPart<SlideLayoutPart>("rId1");
-	        slideLayoutPart.SlideLayout = new SlideLayout(new CommonSlideData(new ShapeTree()));
+                        foreach (var row in sheetData.Elements<Row>().Skip(1)) // Assuming the first row is header
+                        {
+                            var cellValues = row.Elements<Cell>().Select(cell => GetCellValue(workbookPart, cell)).ToList();
 
-	        foreach (var data in apiData)
-	        {
-	            SlidePart slidePart = presentationPart.AddNewPart<SlidePart>();
-	            Slide slide = new Slide(new CommonSlideData(new ShapeTree()));
-	            slidePart.Slide = slide;
+                            // Create Employee object
+                            var employee = new Employee
+                                {
+                                    FirstName = cellValues[0],
+                                    LastName = cellValues[1],
+                                    Email = cellValues[2],
+                                    Gender = cellValues[3],
+                                    DOB = DateTime.Parse(cellValues[4]),
+                                    AddressId = Int32.Parse(cellValues[5]),
+                                    Address = new Address { Country = cellValues[6] },
+                                    DepartmentId = Int32.Parse(cellValues[7]),
+                                    Department = new Department { DepartmentName = cellValues[8] },
+                                    JoiningDate = DateTime.Parse(cellValues[9])
+                                };
+                            employees.Add(employee);
+                        }
 
-	            // Create title shape
-	            var titleShape = new DocumentFormat.OpenXml.Presentation.Shape();
-	            titleShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
-	            titleShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 1, Name = "Title" };
-	            titleShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
-	            titleShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
-	            titleShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 0 }, new Extents { Cx = 7000000, Cy = 200000 });
-	            titleShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(), new Paragraph(new Run(new DocumentFormat.OpenXml.Presentation.Text("API Data"))));
-	            slide.CommonSlideData.ShapeTree.AppendChild(titleShape);
-
-	            // Create content shapes
-	            var contentShape = new DocumentFormat.OpenXml.Presentation.Shape();
-	            contentShape.NonVisualShapeProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeProperties();
-	            contentShape.NonVisualShapeProperties.NonVisualDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualDrawingProperties { Id = 2, Name = "Content Placeholder" };
-	            contentShape.NonVisualShapeProperties.NonVisualShapeDrawingProperties = new DocumentFormat.OpenXml.Presentation.NonVisualShapeDrawingProperties { };
-	            contentShape.ShapeProperties = new DocumentFormat.OpenXml.Presentation.ShapeProperties();
-	            contentShape.ShapeProperties.Transform2D = new Transform2D(new Offset { X = 0, Y = 2000000 }, new Extents { Cx = 7000000, Cy = 200000 });
-	            contentShape.TextBody = new DocumentFormat.OpenXml.Presentation.TextBody(new BodyProperties(), new ListStyle(),
-	                new Paragraph(
-	                    new Run(new DocumentFormat.OpenXml.Presentation.Text($"Name: {data.FirstName} {data.LastName}")),
-	                    new Run(new DocumentFormat.OpenXml.Presentation.Text($"Department: {data.Department}")),
-	                    new Run(new DocumentFormat.OpenXml.Presentation.Text($"Country: {data.Country}"))
-	                ));
-	            slide.CommonSlideData.ShapeTree.AppendChild(contentShape);
-	        }
-
-	        presentationPart.Presentation.Save();
-	    }
-
-	    Console.WriteLine($"Presentation created successfully at: {outputPath}");
-	}
+                        // Placeholder logic for handling file upload
+                        Console.WriteLine("File uploaded successfully!");
+                        await SubmitForm();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions
+            Console.WriteLine($"An error occurred while processing the file: {ex.Message}");
+        }
+    }
 
 
-	private async Task ExportPPT()
-	{
-	    var apiData = new List<ApiData>
-	    {
-	        new ApiData { FirstName = "John", LastName = "Doe", Department = "Engineering", Country = "USA" },
-	        new ApiData { FirstName = "Jane", LastName = "Smith", Department = "Marketing", Country = "UK" }
-	        // Add more data as needed
-	    };
+    private string GetCellValue(WorkbookPart workbookPart, Cell cell)
+    {
+        string value = cell.InnerText;
+        if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+        {
+            SharedStringTablePart sharedStringTablePart = workbookPart.SharedStringTablePart;
+            if (sharedStringTablePart != null)
+            {
+                return sharedStringTablePart.SharedStringTable.ChildElements[int.Parse(value)].InnerText;
+            }
+        }
+        return value;
+    }
 
-        string outputPath = "output.pptx";
-	    await ExportToPPT(apiData, outputPath);
-	}
+    private async Task SubmitForm()
+    {
+        try
+        {
+            var response = await http.PostAsJsonAsync<Employee[]>("api/ExportOpenXML/upload", employees.ToArray());
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Data submitted successfully!");
+            }
+            else
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions
+            Console.WriteLine($"An error occurred while submitting the form: {ex.Message}");
+        }
+    }
 }
-
-
