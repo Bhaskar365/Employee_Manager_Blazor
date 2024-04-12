@@ -1,4 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Employee_Manager_API.Helper;
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_Models;
@@ -30,36 +32,91 @@ namespace Employee_Manager_API.Controllers
             _employeeRepository = employeeRepository;
         }
 
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadExcel(Employee[] employee) 
-        {
-            try 
-            {
-                List<Employee> employeeDetails = new List<Employee>();
+        //[HttpPost("upload")]
+        //public async Task<IActionResult> UploadExcel(Employee[] employee) 
+        //{
+        //    try 
+        //    {
+        //        List<Employee> employeeDetails = new List<Employee>();
 
-                foreach (var emp in employeeDetails) 
-                {
-                    var empForUpload = new Employee
-                    {
-                        FirstName = emp.FirstName,
-                        LastName = emp.LastName,
-                        Email = emp.Email,
-                        Gender = emp.Gender,
-                        DOB = emp.DOB,
-                        AddressId = emp.AddressId,
-                        Address = emp.Address,
-                        DepartmentId = emp.DepartmentId,
-                        Department = emp.Department,
-                        JoiningDate = emp.JoiningDate,
-                    };
-                    employeeDetails.Add(emp);
-                }
-                return Ok("Successful");
-            }
-            catch (Exception ex) 
+        //        foreach (var emp in employeeDetails) 
+        //        {
+        //            var empForUpload = new Employee
+        //            {
+        //                FirstName = emp.FirstName,
+        //                LastName = emp.LastName,
+        //                Email = emp.Email,
+        //                Gender = emp.Gender,
+        //                DOB = emp.DOB,
+        //                AddressId = emp.AddressId,
+        //                Address = emp.Address,
+        //                DepartmentId = emp.DepartmentId,
+        //                Department = emp.Department,
+        //                JoiningDate = emp.JoiningDate,
+        //            };
+        //            employeeDetails.Add(emp);
+        //        }
+        //        return Ok("Successful");
+        //    }
+        //    catch (Exception ex) 
+        //    {
+        //        return StatusCode(500, $"An error occurred: {ex.Message}");
+        //    }
+        //}
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile()
+        {
+            try
             {
-                return StatusCode(500, $"An error occurred: {ex.Message}");
+                var formCollection = await Request.ReadFormAsync();
+                var file = formCollection.Files[0];
+                if (file == null || file.Length == 0)
+                {
+                    return BadRequest("No file uploaded.");
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    using (SpreadsheetDocument spreadsheetDocument = SpreadsheetDocument.Open(stream, false))
+                    {
+                        WorkbookPart workbookPart = spreadsheetDocument.WorkbookPart;
+                        Sheet sheet = workbookPart.Workbook.Descendants<Sheet>().FirstOrDefault();
+                        Worksheet worksheet = ((WorksheetPart)workbookPart.GetPartById(sheet.Id)).Worksheet;
+                        SharedStringTable sharedStringTable = workbookPart.SharedStringTablePart.SharedStringTable;
+
+                        foreach (Row row in worksheet.Descendants<Row>())
+                        {
+                            foreach (Cell cell in row.Descendants<Cell>())
+                            {
+                                string cellValue = GetCellValue(cell, sharedStringTable);
+                                // Process cell value as needed
+                                Console.WriteLine(cellValue);
+                            }
+                        }
+                    }
+                }
+
+                return Ok("File uploaded successfully.");
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        private string GetCellValue(Cell cell, SharedStringTable sharedStringTable)
+        {
+            if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
+            {
+                int sharedStringIndex;
+                if (int.TryParse(cell.InnerText, out sharedStringIndex))
+                {
+                    return sharedStringTable.ChildElements[sharedStringIndex].InnerText;
+                }
+            }
+            return cell.InnerText;
         }
 
         //[HttpPost]

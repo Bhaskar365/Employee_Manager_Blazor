@@ -1,4 +1,5 @@
 ﻿@page "/test";
+@using DocumentFormat.OpenXml
 @using DocumentFormat.OpenXml.Packaging
 @using DocumentFormat.OpenXml.Spreadsheet
 @using Employee_Manager_Models
@@ -6,197 +7,106 @@
 
 <h3>Test</h3>
 
-@* <form @onsubmit="SubmitForm">
-    <InputFile OnChange="HandleFileUpload" />
-    <button type="submit">Submit</button>
-</form>
+<input type="file" @onchange="new EventCallback<ChangeEventArgs>(this, HandleFileUpload)" />
 
-@code {
+@code 
+{
+    public class ApiData
+    {
+        public List<Column> Columns { get; set; }
+        public List<RowData> Rows { get; set; }
+    }
+
+    public class Column
+    {
+        public string ColumnName { get; set; }
+    }
+
+    public class RowData
+    {
+        public List<object> Values { get; set; }
+    }
 
     private async Task HandleFileUpload(InputFileChangeEventArgs e)
     {
-        try
+        var file = e.File;
+
+        if (file != null)
         {
-            var file = e.File;
-            if (file != null)
+            // Parse the uploaded Excel file
+            var excelData = await ParseExcelFile(file);
+
+            // Upload the data to the database
+            await UploadDataToDatabase(excelData);
+        }
+    }
+
+    private async Task<ApiData> ParseExcelFile(IBrowserFile file)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(memoryStream, false))
             {
-                // Read the file content
-                using (var stream = file.OpenReadStream())
+                var apiData = new ApiData();
+                apiData.Columns = new List<Column>();
+                apiData.Rows = new List<RowData>();
+
+                // Access the workbook and worksheet
+                WorkbookPart workbookPart = document.WorkbookPart;
+                WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+
+                // Extract column names from the header row
+                Row headerRow = sheetData.Elements<Row>().First();
+                foreach (Cell cell in headerRow.Elements<Cell>())
                 {
-                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(stream, false))
-                    {
-                        WorkbookPart workbookPart = document.WorkbookPart;
-                        WorksheetPart worksheetPart = workbookPart.WorksheetParts.First(); // Assuming there is only one worksheet
-                        SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-
-                        // Extract data from Excel
-                        List<Employee> employees = new List<Employee>();
-                        foreach (var row in sheetData.Elements<Row>().Skip(1)) // Assuming the first row is header
-                        {
-                            var cellValues = row.Elements<Cell>().Select(cell => GetCellValue(workbookPart, cell)).ToList();
-
-                            // Create Employee object
-                            var employee = new Employee
-                                {
-                                    FirstName = cellValues[0],
-                                    LastName = cellValues[1],
-                                    Department = new Department { DepartmentName = cellValues[2] },
-                                    Address = new Address { Country = cellValues[3] }
-                                    // Add other properties as needed
-                                };
-
-                            employees.Add(employee);
-                        }
-
-                        // Submit data to backend API
-                        await SubmitDataToApi(employees);
-                    }
+                    string columnName = GetCellValue(document, cell);
+                    apiData.Columns.Add(new Column { ColumnName = columnName });
                 }
-            }
-        }
-        catch (Exception ex)
-        {
-            // Handle any exceptions
-            Console.WriteLine($"An error occurred while processing the file: {ex.Message}");
-        }
-    }
 
-    private string GetCellValue(WorkbookPart workbookPart, Cell cell)
-    {
-        string value = cell.InnerText;
-        if (cell.DataType != null && cell.DataType == CellValues.SharedString)
-        {
-            SharedStringTablePart sharedStringTablePart = workbookPart.SharedStringTablePart;
-            if (sharedStringTablePart != null)
-            {
-                return sharedStringTablePart.SharedStringTable.ChildElements[int.Parse(value)].InnerText;
-            }
-        }
-        return value;
-    }
-
-    private async Task SubmitDataToApi(List<Employee> employees)
-    {
-        try
-        {
-            // Call your backend API to submit data
-            var response = await http.PostAsJsonAsync<Employee[]>("api/employees/upload", employees.ToArray());
-
-            // Process response as needed
-            if (response.IsSuccessStatusCode)
-            {
-                // Data successfully submitted
-                Console.WriteLine("Data submitted successfully!");
-            }
-            else
-            {
-                // Handle API error
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Error: {errorMessage}");
-            }
-        }
-        catch (Exception ex)
-        {
-            // Handle any exceptions
-            Console.WriteLine($"An error occurred while submitting data to the API: {ex.Message}");
-        }
-    }
-} *@
-
-<form @onsubmit="SubmitForm">
-    <InputFile OnChange="HandleFileUpload" />
-    <button type="submit">Submit</button>
-</form>
-
-@code {
-
-    List<Employee> employees = new List<Employee>();
-
-    private async Task HandleFileUpload(InputFileChangeEventArgs e)
-    {
-        try
-        {
-            var file = e.File;
-            if (file != null)
-            {
-                // Read the file content synchronously
-                using (var memoryStream = new MemoryStream())
+                // Extract data rows
+                foreach (Row row in sheetData.Elements<Row>().Skip(1)) // Skip the header row
                 {
-                    await file.OpenReadStream().CopyToAsync(memoryStream);
-                    using (SpreadsheetDocument document = SpreadsheetDocument.Open(memoryStream, false))
+                    var rowData = new RowData();
+                    rowData.Values = new List<object>();
+
+                    foreach (Cell cell in row.Elements<Cell>())
                     {
-                        WorkbookPart workbookPart = document.WorkbookPart;
-                        WorksheetPart worksheetPart = workbookPart.WorksheetParts.First(); // Assuming there is only one worksheet
-                        SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
-
-                        foreach (var row in sheetData.Elements<Row>().Skip(1)) // Assuming the first row is header
-                        {
-                            var cellValues = row.Elements<Cell>().Select(cell => GetCellValue(workbookPart, cell)).ToList();
-
-                            // Create Employee object
-                            var employee = new Employee
-                                {
-                                    FirstName = cellValues[0],
-                                    LastName = cellValues[1],
-                                    Email = cellValues[2],
-                                    Gender = cellValues[3],
-                                    DOB = DateTime.Parse(cellValues[4]),
-                                    AddressId = Int32.Parse(cellValues[5]),
-                                    Address = new Address { Country = cellValues[6] },
-                                    DepartmentId = Int32.Parse(cellValues[7]),
-                                    Department = new Department { DepartmentName = cellValues[8] },
-                                    JoiningDate = DateTime.Parse(cellValues[9])
-                                };
-                            employees.Add(employee);
-                        }
-
-                        // Placeholder logic for handling file upload
-                        Console.WriteLine("File uploaded successfully!");
-                        await SubmitForm();
+                        string cellValue = GetCellValue(document, cell);
+                        rowData.Values.Add(cellValue);
                     }
+
+                    apiData.Rows.Add(rowData);
                 }
+
+                return apiData;
             }
         }
-        catch (Exception ex)
-        {
-            // Handle any exceptions
-            Console.WriteLine($"An error occurred while processing the file: {ex.Message}");
-        }
+
+        return null; // Replace this with the actual parsed data
     }
 
-
-    private string GetCellValue(WorkbookPart workbookPart, Cell cell)
+    private string GetCellValue(SpreadsheetDocument document, Cell cell)
     {
+        SharedStringTablePart stringTablePart = document.WorkbookPart.SharedStringTablePart;
         string value = cell.InnerText;
-        if (cell.DataType != null && cell.DataType == CellValues.SharedString)
+
+        if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
         {
-            SharedStringTablePart sharedStringTablePart = workbookPart.SharedStringTablePart;
-            if (sharedStringTablePart != null)
-            {
-                return sharedStringTablePart.SharedStringTable.ChildElements[int.Parse(value)].InnerText;
-            }
+            return stringTablePart.SharedStringTable.ChildElements[int.Parse(value)].InnerText;
         }
-        return value;
+        else
+        {
+            return value;
+        }
     }
 
-    private async Task SubmitForm()
+    private async Task UploadDataToDatabase(ApiData excelData)
     {
-        try
-        {
-            var response = await http.PostAsJsonAsync<Employee[]>("api/ExportOpenXML/upload", employees.ToArray());
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("Data submitted successfully!");
-            }
-            else
-            {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-            }
-        }
-        catch (Exception ex)
-        {
-            // Handle any exceptions
-            Console.WriteLine($"An error occurred while submitting the form: {ex.Message}");
-        }
+        // Upload the data to the database using your backend service
+        // For example:
+        // await frontendService.UploadExcelData(excelData);
     }
 }
