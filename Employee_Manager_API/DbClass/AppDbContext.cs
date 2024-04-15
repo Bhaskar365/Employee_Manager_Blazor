@@ -13,6 +13,6 @@ namespace Employee_Manager_API.DbClass
         public DbSet<Department> Tbl_Department { get; set; }
         public DbSet<Address> Tbl_Address { get; set; }
         public DbSet<AdminInfo> AdminRegister { get; set; }
-
+        public DbSet<ExportExcel> TblExportExcel { get; set; }
     }
 }

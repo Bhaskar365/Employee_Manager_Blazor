@@ -6,7 +6,7 @@
 @inject HttpClient http;
 
 <h3>Test</h3>
-@* 
+@*
 <InputFile OnChange="HandleFileUpload" />
 
 @code {
@@ -53,3 +53,64 @@
         }
     }
 } *@
+
+<div>
+    <InputFile OnChange="HandleFileUpload" />
+    <button class="btn btn-primary" @onclick="UploadFile">Submit</button>
+</div>
+
+@code {
+
+
+
+    // Method to handle file upload
+    private async Task HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        // Get the uploaded file
+        var uploadedFile = e.File;
+
+        // Check if a file is selected
+        if (uploadedFile != null)
+        {
+            // Read the file content
+            using (var fileStream = uploadedFile.OpenReadStream())
+            {
+                // Specify the directory path where you want to save the file within your project
+                string directoryPath = "wwwroot/uploads"; // Example directory path
+
+                // Ensure the directory exists, create it if it doesn't
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // Generate a unique file name
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.Name);
+
+                // Construct the file path
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                // Save the file to the specified location
+                using (var file = new FileStream(filePath, FileMode.Create))
+                {
+                    await fileStream.CopyToAsync(file);
+                }
+
+                // Optionally, you can store the file path or other details for future reference
+                // For example, you can store the filePath in a list or database
+            }
+        }
+        else
+        {
+            // No file selected, handle the case accordingly
+        }
+    }
+
+    // Method to handle submission after file upload
+    private async Task UploadFile()
+    {
+
+        // Perform actions after the file is uploaded, if needed
+        // For example, you can redirect to another page or display a success message
+    }
+}
