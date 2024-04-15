@@ -18,51 +18,11 @@ namespace Employee_Manager_API.Controllers
     [ApiController]
     public class ExportOpenXMLController : ControllerBase
     {
-        //private readonly IConfiguration configuration;
-        //private readonly string DbConnection;
         private readonly IEmployeeRepository _employeeRepository;
-        //public ExportOpenXMLController(IConfiguration _configuration, IEmployeeRepository employeeRepository)
-        //{
-        //    configuration = _configuration;
-        //    DbConnection = configuration["connectionStrings:DbConnection"] ?? "";
-        //    _employeeRepository = employeeRepository;
-        //}
         public ExportOpenXMLController(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }
-
-        //[HttpPost("upload")]
-        //public async Task<IActionResult> UploadExcel(Employee[] employee) 
-        //{
-        //    try 
-        //    {
-        //        List<Employee> employeeDetails = new List<Employee>();
-
-        //        foreach (var emp in employeeDetails) 
-        //        {
-        //            var empForUpload = new Employee
-        //            {
-        //                FirstName = emp.FirstName,
-        //                LastName = emp.LastName,
-        //                Email = emp.Email,
-        //                Gender = emp.Gender,
-        //                DOB = emp.DOB,
-        //                AddressId = emp.AddressId,
-        //                Address = emp.Address,
-        //                DepartmentId = emp.DepartmentId,
-        //                Department = emp.Department,
-        //                JoiningDate = emp.JoiningDate,
-        //            };
-        //            employeeDetails.Add(emp);
-        //        }
-        //        return Ok("Successful");
-        //    }
-        //    catch (Exception ex) 
-        //    {
-        //        return StatusCode(500, $"An error occurred: {ex.Message}");
-        //    }
-        //}
 
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile()

@@ -87,52 +87,6 @@ namespace Employee_Manager_API.Repositories
             var result = _context.SaveChanges();
             return result > 0 ? true : false;
         }
-
-
-
-
-        //public void InsertNewEmployee(Employee employee)
-        //{
-        //    using var conn = new SqlConnection(DbConnection);
-        //    var sql = "select DepartmentId from Tbl_Department where DepartmentId=@depId and DepartmentName=@depName";
-
-        //    var parameter1 = new 
-        //    {
-        //        depId = employee.Department.DepartmentId,
-        //        depName = employee.Department.DepartmentName
-        //    };
-        //    var depID = conn.ExecuteScalar<int>(sql,parameter1);
-
-        //    var sql2 = "select id from Tbl_Address where Id=@id,Street=@street,State=@state,ZipCode=@zipcode,Country=@country";
-
-        //    var parameter2 = new 
-        //    {
-        //        id = employee.Address.Id,
-        //        street = employee.Address.Street,
-        //        state = employee.Address.State,
-        //        zipcode = employee.Address.ZipCode,
-        //        country = employee.Address.Country
-        //    };
-
-        //    var addressID = conn.ExecuteScalar<int>(sql2, parameter2);
-
-        //    employee.CreatedOn = DateTime.UtcNow;
-
-        //    var sql3 = "insert into Tbl_Employee(FirstName,LastName,Email,Gender,DOB,DepartmentId,JoiningDate,AddressId) values (@firstname,@lastname,@email,@gender,@dob,@depid,@joiningdate,@addressid)";
-
-        //    var parameter3 = new 
-        //    {
-        //        firstname = employee.FirstName,
-        //        lastname = employee.LastName,
-        //        email = employee.Email,
-        //        gender = employee.Gender,
-        //        dob = employee.DOB,
-        //        depid = employee.DepartmentId,
-        //        addressid = employee.AddressId,
-        //        joiningdate = employee.JoiningDate
-        //    };
-        //    conn.Execute(sql3,parameter3);
-        //}
     }
 }
 
