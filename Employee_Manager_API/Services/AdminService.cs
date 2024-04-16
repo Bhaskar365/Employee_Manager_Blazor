@@ -97,18 +97,5 @@ namespace Employee_Manager_Logic.Services
                 return response;
             }
         }
-        
-        public async Task UploadExcelData(string excelData)
-        {
-            try
-            {
-                //var x = 
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
     }
 }

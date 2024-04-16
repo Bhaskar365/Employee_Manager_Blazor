@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using Azure;
 
 
 namespace Employee_Manager_Client.Services
@@ -195,6 +196,29 @@ namespace Employee_Manager_Client.Services
             return null;
         }
 
+        public async Task<ResponseModel> ExportExcel(IFormFile file)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/uploadExcel", new MultipartFormDataContent
+        {
+            { new StreamContent(file.OpenReadStream()), "\"file\"", file.FileName }
+        });
 
+                if (response.IsSuccessStatusCode)
+                {
+                    return new ResponseModel { Status = true, Message = "Excel file uploaded successfully" };
+                }
+                else
+                {
+                    // Handle other status codes
+                    return new ResponseModel { Status = false, Message = $"Failed to upload Excel file. Status code: {response.StatusCode}" };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel { Status = false, Message = $"Error uploading Excel file: {ex.Message}" };
+            }
+        }
     }
 }

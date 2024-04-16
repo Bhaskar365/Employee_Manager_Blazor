@@ -1,44 +1,47 @@
-﻿using Employee_Manager_API.Interfaces;
+﻿using Employee_Manager_API.DbClass;
+using Employee_Manager_API.Interfaces;
+using Employee_Manager_Models.Models;
 
 namespace Employee_Manager_API.Repositories
 {
     public class ExcelUploadRepository : IExcelUploadRepository
     {
-        private readonly string _uploadDirectory;
+        private readonly AppDbContext _context;
 
-        public ExcelUploadRepository(string uploadDirectory)
+        public ExcelUploadRepository(AppDbContext context)
         {
-            _uploadDirectory = uploadDirectory;
+            _context = context;
         }
 
-        public async Task<string> SaveFileAsync(Stream fileStream, string fileName)
+        public async Task UploadExcelData(IFormFile file)
         {
             try
             {
-                // Ensure the upload directory exists
-                if (!Directory.Exists(_uploadDirectory))
+                if (file == null || file.Length == 0)
                 {
-                    Directory.CreateDirectory(_uploadDirectory);
+                    throw new ArgumentException("File is not selected or empty.");
                 }
 
-                // Generate a unique file name
-                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
-
-                // Construct the file path
-                string filePath = Path.Combine(_uploadDirectory, uniqueFileName);
-
-                // Save the file to the specified location
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var memoryStream = new MemoryStream())
                 {
-                    await fileStream.CopyToAsync(stream);
-                }
+                    await file.CopyToAsync(memoryStream);
+                    var fileData = memoryStream.ToArray();
 
-                return filePath;
+                    // Save the file data into the database
+                    var exportExcel = new ExportExcel
+                    {
+                        FileName = file.FileName,
+                        FileData = fileData,
+                        UploadDateTime = DateTime.UtcNow
+                    };
+
+                    _context.TblExportExcel.Add(exportExcel);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {
-                // Handle exception appropriately
-                throw new Exception($"Error saving file: {ex.Message}");
+                throw new Exception($"Error uploading file: {ex.Message}");
             }
         }
     }

@@ -24,6 +24,9 @@
     <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>&nbsp;Powerpoint
 </button>
 
+<input type="file" @onchange="@(async (e) => await ExportFileExcel((InputFileChangeEventArgs)e))" />
+<button type="button" class="btn btn-primary" @onclick="submitUploadExcel">Upload</button>
+
 <div class="body">
     <div class="headersTitle">
         <h3 id="employeeHeader" class="card-title text-primary">Employee Details</h3>
@@ -128,6 +131,51 @@
 
 @code
 {
+    private IFormFile fileToUpload;
+
+    private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+            fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+        }
+    }
+
+    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+    //     using (var memoryStream = new MemoryStream())
+    //     {
+    //         await file.OpenReadStream().CopyToAsync(memoryStream);
+    //         var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+
+    //         // Call the frontendService.ExportExcel method with the converted file
+    //         var response = await frontendService.ExportExcel(convertedFile);
+    //     }
+    // }
+
+    public async Task submitUploadExcel()
+    {
+        if (fileToUpload != null)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await fileToUpload.OpenReadStream().CopyToAsync(memoryStream);
+                var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, fileToUpload.Name);
+
+                // Call the frontendService.ExportExcel method with the converted file
+                var response = await frontendService.ExportExcel(convertedFile);
+
+                // Handle the response if needed
+            }
+        }
+        else
+        {
+            // Handle case when no file is selected
+        }
+    }
 
     [CascadingParameter]
     public EventCallback notify { get; set; }

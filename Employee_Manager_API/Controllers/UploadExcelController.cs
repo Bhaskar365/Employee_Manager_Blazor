@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Employee_Manager_API.DbClass;
+using Employee_Manager_API.Interfaces;
+using Employee_Manager_Logic.Services;
+using Employee_Manager_Models.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_Manager_API.Controllers
@@ -7,9 +11,14 @@ namespace Employee_Manager_API.Controllers
     [ApiController]
     public class UploadExcelController : ControllerBase
     {
-        private readonly string _uploadDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "uploads");
 
-        [HttpPost("upload")]
+        private readonly IExcelUploadRepository _uploadService;
+        public UploadExcelController(IExcelUploadRepository uploadService)
+        {
+            _uploadService = uploadService;
+        }
+
+        [HttpPost("uploadExcel")]
         public async Task<IActionResult> Upload(IFormFile file)
         {
             try
@@ -19,25 +28,10 @@ namespace Employee_Manager_API.Controllers
                     return BadRequest("File is not selected or empty.");
                 }
 
-                // Ensure the upload directory exists
-                if (!Directory.Exists(_uploadDirectory))
-                {
-                    Directory.CreateDirectory(_uploadDirectory);
-                }
+                // Call the UploadExcelData method of the AdminService
+                await _uploadService.UploadExcelData(file);
 
-                // Generate a unique file name
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-                // Construct the file path
-                string filePath = Path.Combine(_uploadDirectory, fileName);
-
-                // Save the file to the specified location
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                return Ok(new { FilePath = filePath });
+                return Ok(new { FilePath = "File uploaded successfully." });
             }
             catch (Exception ex)
             {

@@ -28,5 +28,8 @@ namespace Employee_Manager_Client.Services
         // address service
         Task<List<Address>> GetAddresses();
         Task<Address> GetAddressById(int addressId);
+
+        //upload service
+        Task<ResponseModel> ExportExcel(IFormFile file);
     }
 }

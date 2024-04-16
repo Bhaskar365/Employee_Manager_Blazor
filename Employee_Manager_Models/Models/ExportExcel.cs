@@ -11,8 +11,8 @@ namespace Employee_Manager_Models.Models
     {
         [Key]
         public int Id { get; set; }
-
-        public string? ExcelCode { get; set; }
-        public byte[]? ExcelFile { get; set; }
+        public string FileName { get; set; }
+        public byte[] FileData { get; set; }
+        public DateTime UploadDateTime { get; set; }
     }
 }
