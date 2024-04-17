@@ -17,25 +17,14 @@
 <button class="btn btn-warning" @onclick="ExportToExcel" id="excelIcon">
     <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Excel
 </button>
+
 <button class="btn btn-info" @onclick="DownloadDocument">
     <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;Document
 </button>
+
 <button @onclick="ExportToPPT" class="btn btn-dark">
     <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>&nbsp;Powerpoint
 </button>
-
-@* <input type="file" onchange="ExportFileExcel" /> *@
-@* <InputFile OnChange="@ExportFileExcel" accept=".xlsx" multiple="false"></InputFile>
-<button type="button" class="btn btn-primary" @onclick="submitUploadExcel">Upload</button> *@
-
-<InputFile OnChange="LoadFiles"  />
-<button type="button" class="btn btn-primary" @onclick="submitUploadExcel">Upload</button>
-
-
-@if (isLoadingUpload)
-{
-    <p>Uploading...</p>
-}
 
 <div class="body">
     <div class="headersTitle">
@@ -141,104 +130,6 @@
 
 @code
 {
-    private IFormFile fileToUpload;
-
-    private List<IBrowserFile> loadedFiles = new();
-    private bool isLoadingUpload;
-
-    private void LoadFiles(InputFileChangeEventArgs e)
-    {
-        isLoadingUpload = true;
-        loadedFiles.Clear();
-
-        foreach (var file in e.GetMultipleFiles(1))
-        {
-            try
-            {
-                loadedFiles.Add(file);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        isLoading = false;
-    }
-
-    public async Task submitUploadExcel()
-    {
-        isLoadingUpload = true;
-        await frontendService.UploadExcel(loadedFiles);
-        isLoadingUpload = false;
-    }
-
-
-    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
-    // {
-    //     var file = e.File;
-    //     using (var memoryStream = new MemoryStream())
-    //     {
-    //         await file.OpenReadStream().CopyToAsync(memoryStream);
-    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
-    //     }
-    // }
-
-    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
-    // {
-    //     var file = e.File;
-    //     using (var memoryStream = new MemoryStream())
-    //     {
-    //         await file.OpenReadStream().CopyToAsync(memoryStream);
-    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
-    //     }
-    //     await submitUploadExcel();
-    // }
-
-    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
-    // {
-    //     var file = e.File;
-    //     using (var memoryStream = new MemoryStream())
-    //     {
-    //         await file.OpenReadStream().CopyToAsync(memoryStream);
-    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
-    //     }
-    //     await submitUploadExcel();
-    // }
-
-    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
-    // {
-    //     var file = e.File;
-    //     using (var memoryStream = new MemoryStream())
-    //     {
-    //         await file.OpenReadStream().CopyToAsync(memoryStream);
-    //         var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
-
-    //         // Call the frontendService.ExportExcel method with the converted file
-    //         var response = await frontendService.ExportExcel(convertedFile);
-    //     }
-    // }
-
-    // public async Task submitUploadExcel()
-    // {
-    //     if (fileToUpload != null)
-    //     {
-    //         using (var memoryStream = new MemoryStream())
-    //         {
-    //             await fileToUpload.OpenReadStream().CopyToAsync(memoryStream);
-    //             var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, fileToUpload.Name);
-
-    //             // Call the frontendService.ExportExcel method with the converted file
-    //             var response = await frontendService.ExportExcel(convertedFile);
-
-    //             // Handle the response if needed
-    //         }
-    //     }
-    //     else
-    //     {
-    //         // Handle case when no file is selected
-    //     }
-    // }
-
     [CascadingParameter]
     public EventCallback notify { get; set; }
 
