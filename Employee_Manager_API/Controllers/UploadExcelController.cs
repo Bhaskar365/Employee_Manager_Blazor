@@ -19,8 +19,8 @@ namespace Employee_Manager_API.Controllers
             _uploadService = uploadService;
         }
 
-        [HttpPost("uploadExcel")]
-        public async Task<IActionResult> Upload(List<IBrowserFile> files)
+        [HttpPost("upload")]
+        public async Task<IActionResult> Upload([FromForm] List<IFormFile> files)
         {
             try
             {
@@ -31,7 +31,11 @@ namespace Employee_Manager_API.Controllers
 
                 foreach (var file in files)
                 {
-                    await _uploadService.UploadExcelData(file);
+                    // Convert IFormFile to IBrowserFile
+                    var browserFile = new InputFile(file);
+
+                    // Call the UploadExcelData method of the service
+                    await _uploadService.UploadExcelData(browserFile);
                 }
 
                 return Ok(new { Message = "Files uploaded successfully." });

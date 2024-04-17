@@ -27,6 +27,7 @@ builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAdminService,AdminService>();
+builder.Services.AddScoped<IExcelUploadRepository, ExcelUploadRepository>();
 
 var app = builder.Build();
 

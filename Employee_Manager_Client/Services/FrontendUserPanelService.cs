@@ -228,7 +228,7 @@ namespace Employee_Manager_Client.Services
             {
                 foreach (var file in files)
                 {
-                    HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/uploadExcel", new MultipartFormDataContent
+                    HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/upload", new MultipartFormDataContent
             {
                 { new StreamContent(file.OpenReadStream()), "\"file\"", file.Name }
             });
