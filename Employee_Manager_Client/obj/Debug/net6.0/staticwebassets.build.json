@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "b4187AajIP3b8teh5Agw9sqWK9V3E8zlkNVEQ29DUQw=",
+  "Hash": "BJwAijYEWsHQLzvEWP+bdrRxTflZdN/E+P1FK++3Vww=",
   "Source": "Employee_Manager_Client",
   "BasePath": "_content/Employee_Manager_Client",
   "Mode": "Default",
@@ -350,6 +350,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\printJSCode.js"
+    },
+    {
+      "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\uploads\\46662a23-0666-4981-8fb6-2d1cdcd11c50.xls",
+      "SourceId": "Employee_Manager_Client",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\",
+      "BasePath": "_content/Employee_Manager_Client",
+      "RelativePath": "uploads/46662a23-0666-4981-8fb6-2d1cdcd11c50.xls",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\46662a23-0666-4981-8fb6-2d1cdcd11c50.xls"
     },
     {
       "Identity": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\user.png",

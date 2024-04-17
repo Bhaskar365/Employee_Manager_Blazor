@@ -2,6 +2,7 @@
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_Logic.Services;
 using Employee_Manager_Models.Models;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,23 +20,25 @@ namespace Employee_Manager_API.Controllers
         }
 
         [HttpPost("uploadExcel")]
-        public async Task<IActionResult> Upload(IFormFile file)
+        public async Task<IActionResult> Upload(List<IBrowserFile> files)
         {
             try
             {
-                if (file == null || file.Length == 0)
+                if (files == null || files.Count == 0)
                 {
-                    return BadRequest("File is not selected or empty.");
+                    return BadRequest("No files selected or empty.");
                 }
 
-                // Call the UploadExcelData method of the AdminService
-                await _uploadService.UploadExcelData(file);
+                foreach (var file in files)
+                {
+                    await _uploadService.UploadExcelData(file);
+                }
 
-                return Ok(new { FilePath = "File uploaded successfully." });
+                return Ok(new { Message = "Files uploaded successfully." });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error uploading file: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error uploading files: {ex.Message}");
             }
         }
     }

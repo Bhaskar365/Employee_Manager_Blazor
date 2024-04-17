@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Azure;
+using Microsoft.AspNetCore.Components.Forms;
 
 
 namespace Employee_Manager_Client.Services
@@ -196,28 +197,54 @@ namespace Employee_Manager_Client.Services
             return null;
         }
 
-        public async Task<ResponseModel> ExportExcel(IFormFile file)
+        //public async Task<ResponseModel> UploadExcel(IBrowserFile file)
+        //{
+        //    try
+        //    {
+        //        HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/uploadExcel", new MultipartFormDataContent
+        //{
+        //    { new StreamContent(file.OpenReadStream()), "\"file\"", file.ContentType }
+        //});
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            return new ResponseModel { Status = true, Message = "Excel file uploaded successfully" };
+        //        }
+        //        else
+        //        {
+        //            // Handle other status codes
+        //            return new ResponseModel { Status = false, Message = $"Failed to upload Excel file. Status code: {response.StatusCode}" };
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ResponseModel { Status = false, Message = $"Error uploading Excel file: {ex.Message}" };
+        //    }
+        //}
+
+        public async Task<ResponseModel> UploadExcel(List<IBrowserFile> files)
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/uploadExcel", new MultipartFormDataContent
-        {
-            { new StreamContent(file.OpenReadStream()), "\"file\"", file.FileName }
-        });
+                foreach (var file in files)
+                {
+                    HttpResponseMessage response = await _httpClient.PostAsync("api/UploadExcel/uploadExcel", new MultipartFormDataContent
+            {
+                { new StreamContent(file.OpenReadStream()), "\"file\"", file.Name }
+            });
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return new ResponseModel { Status = true, Message = "Excel file uploaded successfully" };
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        // Handle other status codes
+                        return new ResponseModel { Status = false, Message = $"Failed to upload Excel file. Status code: {response.StatusCode}" };
+                    }
                 }
-                else
-                {
-                    // Handle other status codes
-                    return new ResponseModel { Status = false, Message = $"Failed to upload Excel file. Status code: {response.StatusCode}" };
-                }
+
+                return new ResponseModel { Status = true, Message = "All Excel files uploaded successfully" };
             }
             catch (Exception ex)
             {
-                return new ResponseModel { Status = false, Message = $"Error uploading Excel file: {ex.Message}" };
+                return new ResponseModel { Status = false, Message = $"Error uploading Excel files: {ex.Message}" };
             }
         }
     }

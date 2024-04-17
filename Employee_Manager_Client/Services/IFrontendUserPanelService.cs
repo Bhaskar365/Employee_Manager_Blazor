@@ -1,6 +1,7 @@
 ﻿using Employee_Manager_Models;
 using Employee_Manager_Models.CustomModels;
 using Employee_Manager_Models.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Employee_Manager_Client.Services
 {
@@ -30,6 +31,6 @@ namespace Employee_Manager_Client.Services
         Task<Address> GetAddressById(int addressId);
 
         //upload service
-        Task<ResponseModel> ExportExcel(IFormFile file);
+        Task<ResponseModel> UploadExcel(List<IBrowserFile> files);
     }
 }

@@ -65,6 +65,10 @@
       "PackagePath": "staticwebassets\\js\\printJSCode.js"
     },
     {
+      "Id": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\uploads\\46662a23-0666-4981-8fb6-2d1cdcd11c50.xls",
+      "PackagePath": "staticwebassets\\uploads\\46662a23-0666-4981-8fb6-2d1cdcd11c50.xls"
+    },
+    {
       "Id": "C:\\running_projects\\Employee_Manager_Blazor\\Employee_Manager_Client\\Employee_Manager_Client\\wwwroot\\user.png",
       "PackagePath": "staticwebassets\\user.png"
     },

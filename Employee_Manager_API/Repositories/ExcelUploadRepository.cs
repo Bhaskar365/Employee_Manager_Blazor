@@ -1,6 +1,7 @@
 ﻿using Employee_Manager_API.DbClass;
 using Employee_Manager_API.Interfaces;
 using Employee_Manager_Models.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Employee_Manager_API.Repositories
 {
@@ -13,24 +14,24 @@ namespace Employee_Manager_API.Repositories
             _context = context;
         }
 
-        public async Task UploadExcelData(IFormFile file)
+        public async Task UploadExcelData(IBrowserFile file)
         {
             try
             {
-                if (file == null || file.Length == 0)
+                if (file == null || file.Size == 0)
                 {
                     throw new ArgumentException("File is not selected or empty.");
                 }
 
                 using (var memoryStream = new MemoryStream())
                 {
-                    await file.CopyToAsync(memoryStream);
+                    await file.OpenReadStream().CopyToAsync(memoryStream);
                     var fileData = memoryStream.ToArray();
 
                     // Save the file data into the database
                     var exportExcel = new ExportExcel
                     {
-                        FileName = file.FileName,
+                        FileName = file.Name,
                         FileData = fileData,
                         UploadDateTime = DateTime.UtcNow
                     };

@@ -1,7 +1,9 @@
-﻿namespace Employee_Manager_API.Interfaces
+﻿using Microsoft.AspNetCore.Components.Forms;
+
+namespace Employee_Manager_API.Interfaces
 {
     public interface IExcelUploadRepository
     {
-        Task UploadExcelData(IFormFile file);
+        Task UploadExcelData(IBrowserFile file);
     }
 }

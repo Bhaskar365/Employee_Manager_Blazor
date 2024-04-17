@@ -24,8 +24,18 @@
     <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i>&nbsp;Powerpoint
 </button>
 
-<input type="file" @onchange="@(async (e) => await ExportFileExcel((InputFileChangeEventArgs)e))" />
+@* <input type="file" onchange="ExportFileExcel" /> *@
+@* <InputFile OnChange="@ExportFileExcel" accept=".xlsx" multiple="false"></InputFile>
+<button type="button" class="btn btn-primary" @onclick="submitUploadExcel">Upload</button> *@
+
+<InputFile OnChange="LoadFiles"  />
 <button type="button" class="btn btn-primary" @onclick="submitUploadExcel">Upload</button>
+
+
+@if (isLoadingUpload)
+{
+    <p>Uploading...</p>
+}
 
 <div class="body">
     <div class="headersTitle">
@@ -133,15 +143,67 @@
 {
     private IFormFile fileToUpload;
 
-    private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    private List<IBrowserFile> loadedFiles = new();
+    private bool isLoadingUpload;
+
+    private void LoadFiles(InputFileChangeEventArgs e)
     {
-        var file = e.File;
-        using (var memoryStream = new MemoryStream())
+        isLoadingUpload = true;
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(1))
         {
-            await file.OpenReadStream().CopyToAsync(memoryStream);
-            fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+            try
+            {
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+        isLoading = false;
     }
+
+    public async Task submitUploadExcel()
+    {
+        isLoadingUpload = true;
+        await frontendService.UploadExcel(loadedFiles);
+        isLoadingUpload = false;
+    }
+
+
+    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+    //     using (var memoryStream = new MemoryStream())
+    //     {
+    //         await file.OpenReadStream().CopyToAsync(memoryStream);
+    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+    //     }
+    // }
+
+    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+    //     using (var memoryStream = new MemoryStream())
+    //     {
+    //         await file.OpenReadStream().CopyToAsync(memoryStream);
+    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+    //     }
+    //     await submitUploadExcel();
+    // }
+
+    // private async Task ExportFileExcel(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+    //     using (var memoryStream = new MemoryStream())
+    //     {
+    //         await file.OpenReadStream().CopyToAsync(memoryStream);
+    //         fileToUpload = new FormFile(memoryStream, 0, memoryStream.Length, null, file.Name);
+    //     }
+    //     await submitUploadExcel();
+    // }
 
     // private async Task ExportFileExcel(InputFileChangeEventArgs e)
     // {
@@ -156,26 +218,26 @@
     //     }
     // }
 
-    public async Task submitUploadExcel()
-    {
-        if (fileToUpload != null)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                await fileToUpload.OpenReadStream().CopyToAsync(memoryStream);
-                var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, fileToUpload.Name);
+    // public async Task submitUploadExcel()
+    // {
+    //     if (fileToUpload != null)
+    //     {
+    //         using (var memoryStream = new MemoryStream())
+    //         {
+    //             await fileToUpload.OpenReadStream().CopyToAsync(memoryStream);
+    //             var convertedFile = new FormFile(memoryStream, 0, memoryStream.Length, null, fileToUpload.Name);
 
-                // Call the frontendService.ExportExcel method with the converted file
-                var response = await frontendService.ExportExcel(convertedFile);
+    //             // Call the frontendService.ExportExcel method with the converted file
+    //             var response = await frontendService.ExportExcel(convertedFile);
 
-                // Handle the response if needed
-            }
-        }
-        else
-        {
-            // Handle case when no file is selected
-        }
-    }
+    //             // Handle the response if needed
+    //         }
+    //     }
+    //     else
+    //     {
+    //         // Handle case when no file is selected
+    //     }
+    // }
 
     [CascadingParameter]
     public EventCallback notify { get; set; }
