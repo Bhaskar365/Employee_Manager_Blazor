@@ -1,0 +1,613 @@
+﻿@page "/stylingExcel";
+@using ClosedXML.Excel
+@using DocumentFormat.OpenXml
+@using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Presentation
+@using DocumentFormat.OpenXml.Spreadsheet
+@using DocumentFormat.OpenXml.Wordprocessing
+@using Employee_Manager_Client.Services
+@using Employee_Manager_Models
+@using System.Data
+
+@inject IFrontendUserPanelService frontendService;
+@inject HttpClient http;
+@inject NavigationManager navigationManager;
+@inject IJSRuntime JSRuntime;
+
+<h3>ExcelStylingTest</h3>
+
+<button class="btn btn-warning" @onclick="ExportToExcel" id="excelIcon">
+    <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Excel
+</button>
+
+<div class="body">
+    <div class="headersTitle">
+        <h3 id="employeeHeader" class="card-title text-primary">Employee Details</h3>
+        <hr />
+        <div class="headers">
+            <div class="addBox">
+                <div class="btn btn-primary" id="addBtn">
+                    <a href="/employee/add" role="button" style="text-decoration:none;color:white">
+                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
+                    </a>
+                </div>
+
+                <div class="search">
+                    <strong>Search&nbsp;</strong><input class="inputBox"
+                                                        @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        @if (isLoading)
+        {
+            <div class="loaderBox">
+                <div class="lds-facebook">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+
+        }
+        else if (showNoDataMessage)
+        {
+            <p id="noData">No data available....</p>
+        }
+        else
+        {
+            <div class="mainBody">
+                @foreach (var e in employeeAfterFiltered)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <span>@e.FirstName @e.LastName</span>
+                            <a href="@($"edit/{e.EmpId}")" id="editIcon">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            @* <img src="/user.png" class="card-img-top" alt="img"> *@
+                            <div class="employeeDetails">
+                                <span>Department : <strong>@e.Department.DepartmentName</strong></span>
+                                <span>Country : <strong>@e.Address.Country</strong></span>
+                            </div>
+                        </div>
+                        <div class="footerClass">
+                            <a href="@($"employee/{e.EmpId}")" class="card-link btn btn-primary" id="viewBtn">View</a>
+                            <button class="card-link btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    id="deleteBtn" @onclick="@(()=>showDeleteAlert(e.EmpId))">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-------------- Modal ------------------->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Do you want to delete product with <strong>ID : @EmpId</strong> permanently?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" @onclick="(()=>Delete(true))">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="pagination">
+        <div class="itemPerPage">Items Per Page</div>
+        <div class="selectOption">
+            <select @onchange="UpdatePageSize" class="form-select form-select-sm" aria-label="Small select example">
+                <option value="4">4</option>
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-dark" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
+        <span class="btn btn-light" id="totalPage">Page @currentPage of @totalPages</span>
+        <button type="button" class="btn btn-dark" disabled="@IsLastPage" @onclick="NextPage">Next</button>
+    </div>
+</div>
+
+@code
+{
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await notify.InvokeAsync();
+        }
+    }
+    private List<Employee> employees = new List<Employee>();
+
+    private List<Employee> employeeAfterFiltered = new List<Employee>();
+
+    private int pageSize = 4;
+    private int currentPage = 1;
+    private int totalPages => (int)Math.Ceiling((double)employees.Count / pageSize);
+    private bool IsFirstPage => currentPage == 1;
+    private bool IsLastPage => currentPage == totalPages;
+
+    public bool Show = false;
+
+    public int EmpId;
+
+    public string Name;
+
+    protected string Query { get; set; } = string.Empty;
+
+    private bool showNoDataMessage = false;
+    private bool isLoading = true;
+
+    private string responseMessage;
+    private string productCode;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await frontendService.GetEmployees();
+        showNoDataMessage = employees == null || employees.Count == 0;
+        isLoading = false;
+        UpdatePagedData();
+    }
+
+    private void UpdatePagedData()
+    {
+        int startIndex = (currentPage - 1) * pageSize;
+        employeeAfterFiltered = employees.Skip(startIndex).Take(pageSize).ToList();
+    }
+
+    private void NextPage()
+    {
+        if (!IsLastPage)
+        {
+            currentPage++;
+            UpdatePagedData();
+        }
+    }
+
+    private void PreviousPage()
+    {
+        if (!IsFirstPage)
+        {
+            currentPage--;
+            UpdatePagedData();
+        }
+    }
+
+    private async Task UpdatePageSize(ChangeEventArgs e)
+    {
+        pageSize = Convert.ToInt32(e.Value);
+        currentPage = 1; // Reset to first page when changing page size
+        UpdatePagedData();
+        await Task.CompletedTask;
+    }
+
+    private void showDeleteAlert(int id)
+    {
+        EmpId = id;
+        Show = true;
+    }
+
+    private async Task Delete(bool value)
+    {
+        isLoading = true;
+        await frontendService.DeleteEmp(EmpId);
+        isLoading = false;
+        StateHasChanged();
+        navigationManager.NavigateTo("/", true);
+    }
+
+    private void GoToEditPage(int id)
+    {
+        EmpId = id;
+        navigationManager.NavigateTo($"/user/{EmpId}");
+    }
+
+    protected async Task FilterUser()
+    {
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            employees = employees.Where(x => x.FirstName.ToLower().Contains(Query.ToLower()) ||
+             x.LastName.ToLower().Contains(Query.ToLower())
+         ).ToList();
+
+            employeeAfterFiltered = employees;
+        }
+        else
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+    ///////////////////////////////////////////////////// using openxml excel export /////////////////////////////////////////////////////
+    // public async Task<(byte[], string)> ExportToExcelFunction()
+    // {
+    //     // Call your API to fetch data
+    //     var apiData = await FetchDataFromApi();
+
+    //     // Create a memory stream to store the Excel file
+    //     using (MemoryStream mem = new MemoryStream())
+    //     {
+    //         // Create a SpreadsheetDocument
+    //         using (SpreadsheetDocument document = SpreadsheetDocument.Create(mem, SpreadsheetDocumentType.Workbook))
+    //         {
+    //             // Add a WorkbookPart to the document
+    //             WorkbookPart workbookPart = document.AddWorkbookPart();
+    //             workbookPart.Workbook = new Workbook();
+
+    //             // Add a WorksheetPart to the WorkbookPart
+    //             WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+    //             worksheetPart.Worksheet = new Worksheet(new SheetData());
+
+    //             // Add a new sheet and get its id
+    //             Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
+    //             Sheet sheet = new Sheet() { Id = document.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+    //             sheets.Append(sheet);
+
+    //             // Get the SheetData object
+    //             SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+    //             // Add header row
+    //             Row headerRow = new Row();
+    //             foreach (var column in apiData.Columns)
+    //             {
+    //                 headerRow.AppendChild(CreateCell(workbookPart, column.ColumnName));
+    //             }
+    //             sheetData.AppendChild(headerRow);
+
+    //             // Add data rows
+    //             foreach (var rowData in apiData.Rows)
+    //             {
+    //                 Row dataRow = new Row();
+    //                 foreach (var value in rowData.Values)
+    //                 {
+    //                     // Assuming you want to style all data cells the same way as the header cells
+    //                     dataRow.AppendChild(CreateCell(workbookPart, value.ToString()));
+    //                 }
+    //                 sheetData.AppendChild(dataRow);
+    //             }
+
+    //             // Save changes to the spreadsheet
+    //             workbookPart.Workbook.Save();
+    //         }
+
+    //         // Reset the memory stream position
+    //         mem.Position = 0;
+
+    //         // Get the file contents as byte array
+    //         byte[] fileContents = mem.ToArray();
+
+    //         // Return file contents along with filename
+    //         return (fileContents, "api_data.xlsx");
+    //     }
+    // }
+
+    // private async Task ExportToExcel()
+    // {
+    //     var excelData = await ExportToExcelFunction();
+
+    //     // Get the file contents and file name
+    //     byte[] fileContents = excelData.Item1;
+    //     string fileName = excelData.Item2;
+
+    //     // Convert byte array to base64 string
+    //     var base64File = Convert.ToBase64String(fileContents);
+
+    //     // Invoke JavaScript function to download the file
+    //     await JSRuntime.InvokeVoidAsync("downloadFile", base64File, fileName);
+    // }
+
+    private async Task ExportToExcel()
+    {
+        // Create a WorkbookPart
+        WorkbookPart workbookPart = null;
+
+        // Call ExportToExcelFunction and pass workbookPart as a parameter
+        var excelData = await ExportToExcelFunction(workbookPart);
+
+        // Get the file contents and file name
+        byte[] fileContents = excelData.Item1;
+        string fileName = excelData.Item2;
+
+        // Convert byte array to base64 string
+        var base64File = Convert.ToBase64String(fileContents);
+
+        // Invoke JavaScript function to download the file
+        await JSRuntime.InvokeVoidAsync("downloadFile", base64File, fileName);
+    }
+    
+    public async Task<(byte[], string)> ExportToExcelFunction(WorkbookPart workbookPart)
+    {
+        // Call your API to fetch data
+        var apiData = await FetchDataFromApi();
+
+        // Create a memory stream to store the Excel file
+        using (MemoryStream mem = new MemoryStream())
+        {
+            // Create a SpreadsheetDocument
+            using (SpreadsheetDocument document = SpreadsheetDocument.Create(mem, SpreadsheetDocumentType.Workbook))
+            {
+                // Add a WorkbookPart to the document
+                workbookPart = document.AddWorkbookPart();
+                workbookPart.Workbook = new Workbook();
+
+                // Add a WorksheetPart to the WorkbookPart
+                WorksheetPart worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                worksheetPart.Worksheet = new Worksheet(new SheetData());
+
+                // Add a new sheet and get its id
+                Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
+                Sheet sheet = new Sheet() { Id = document.WorkbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Sheet1" };
+                sheets.Append(sheet);
+
+                // Get the SheetData object
+                SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+                // Add header row
+                Row headerRow = new Row();
+                foreach (var column in apiData.Columns)
+                {
+                    headerRow.AppendChild(CreateCell(workbookPart, column.ColumnName));
+                }
+                sheetData.AppendChild(headerRow);
+
+                // Add data rows
+                foreach (var rowData in apiData.Rows)
+                {
+                    Row dataRow = new Row();
+                    foreach (var value in rowData.Values)
+                    {
+                        // Assuming you want to style all data cells the same way as the header cells
+                        dataRow.AppendChild(CreateCell(workbookPart, value.ToString()));
+                    }
+                    sheetData.AppendChild(dataRow);
+                }
+
+                // Save changes to the spreadsheet
+                workbookPart.Workbook.Save();
+            }
+
+            // Reset the memory stream position
+            mem.Position = 0;
+
+            // Get the file contents as byte array
+            byte[] fileContents = mem.ToArray();
+
+            // Return file contents along with filename
+            return (fileContents, "api_data.xlsx");
+        }
+    }
+
+    // private Cell CreateCell(WorkbookPart workbookPart, string text, string fontColor = "#0000FF", string bgColor = "#C0C0C0")
+    // {
+    //     Cell cell = new Cell(new InlineString(new DocumentFormat.OpenXml.Spreadsheet.Text(text)));
+
+    //     if (!string.IsNullOrEmpty(fontColor) || !string.IsNullOrEmpty(bgColor))
+    //     {
+    //         // Create a new CellFormat
+    //         CellFormat cellFormat = new CellFormat();
+
+    //         // Set font color
+    //         if (!string.IsNullOrEmpty(fontColor))
+    //         {
+    //             cellFormat.FontId = 2; // This is the index of the font in the Fonts collection, you may need to adjust it based on your document
+    //             cellFormat.FillId = 0; // This ensures default fill color
+    //             cellFormat.ApplyFont = true;
+    //         }
+
+    //         // Set background color
+    //         if (!string.IsNullOrEmpty(bgColor))
+    //         {
+    //             cellFormat.FillId = 2; // This is the index of the fill in the Fills collection, you may need to adjust it based on your document
+    //             cellFormat.ApplyFill = true;
+    //         }
+
+    //         // Append the CellFormat to the WorkbookStylesPart
+    //         WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
+    //         stylesPart.Stylesheet = new Stylesheet();
+    //         stylesPart.Stylesheet.CellFormats = new CellFormats();
+    //         stylesPart.Stylesheet.CellFormats.AppendChild(cellFormat);
+    //         stylesPart.Stylesheet.Save();
+
+    //         cell.StyleIndex = (UInt32)stylesPart.Stylesheet.CellFormats.Count; // Assign the style index
+    //     }
+
+    //     return cell;
+    // }
+
+    // private Cell CreateCell(WorkbookPart workbookPart, string text, string fontColor = "#0000FF", string bgColor = "#C0C0C0")
+    // {
+    //     Cell cell = new Cell(new InlineString(new DocumentFormat.OpenXml.Spreadsheet.Text(text)));
+
+    //     // Create a new CellFormat
+    //     CellFormat cellFormat = new CellFormat();
+
+    //     // Set font color
+    //     if (!string.IsNullOrEmpty(fontColor))
+    //     {
+    //         cellFormat.FontId = 2; // This is the index of the font in the Fonts collection, you may need to adjust it based on your document
+    //         cellFormat.ApplyFont = true;
+    //     }
+
+    //     // Set background color
+    //     if (!string.IsNullOrEmpty(bgColor))
+    //     {
+    //         cellFormat.FillId = 2; // This is the index of the fill in the Fills collection, you may need to adjust it based on your document
+    //         cellFormat.ApplyFill = true;
+    //     }
+
+    //     // Get or create the WorkbookStylesPart
+    //     WorkbookStylesPart stylesPart = workbookPart.GetPartsOfType<WorkbookStylesPart>().FirstOrDefault();
+    //     if (stylesPart == null)
+    //     {
+    //         stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
+    //         stylesPart.Stylesheet = new Stylesheet();
+    //     }
+
+    //     // Ensure CellFormats and Fills are initialized
+    //     if (stylesPart.Stylesheet.CellFormats == null)
+    //     {
+    //         stylesPart.Stylesheet.CellFormats = new CellFormats();
+    //     }
+    //     if (stylesPart.Stylesheet.Fills == null)
+    //     {
+    //         stylesPart.Stylesheet.Fills = new Fills();
+    //     }
+
+    //     // Append the CellFormat to the WorkbookStylesPart
+    //     stylesPart.Stylesheet.CellFormats.AppendChild(cellFormat);
+    //     stylesPart.Stylesheet.Save();
+
+    //     cell.StyleIndex = (UInt32Value)stylesPart.Stylesheet.CellFormats.Count; // Assign the style index
+
+    //     return cell;
+    // }
+
+    private Cell CreateCell(WorkbookPart workbookPart, string text, string fontColor = "#0000FF", string bgColor = "#C0C0C0")
+    {
+        // Create a new cell with text
+        Cell cell = new Cell(new InlineString(new DocumentFormat.OpenXml.Spreadsheet.Text(text)));
+
+        // Get or create the WorkbookStylesPart
+        WorkbookStylesPart stylesPart = workbookPart.GetPartsOfType<WorkbookStylesPart>().FirstOrDefault();
+        if (stylesPart == null)
+        {
+            stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
+            stylesPart.Stylesheet = new Stylesheet();
+        }
+
+        // Ensure Colors collection is initialized
+        if (stylesPart.Stylesheet.Colors == null)
+        {
+            stylesPart.Stylesheet.Colors = new Colors();
+        }
+
+        // Create a new CellFormat
+        CellFormat cellFormat = new CellFormat();
+
+        // Set font color
+        if (!string.IsNullOrEmpty(fontColor))
+        {
+            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(fontColor.Replace("#", "")) };
+            stylesPart.Stylesheet.Colors.Append(color);
+            cellFormat.FontId = AddNewFont(stylesPart, color);
+            cellFormat.ApplyFont = true;
+        }
+
+        // Set background color
+        if (!string.IsNullOrEmpty(bgColor))
+        {
+            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(bgColor.Replace("#", "")) };
+            stylesPart.Stylesheet.Colors.Append(color);
+            cellFormat.FillId = AddNewFill(stylesPart, color);
+            cellFormat.ApplyFill = true;
+        }
+
+        // Ensure CellFormats is initialized
+        if (stylesPart.Stylesheet.CellFormats == null)
+        {
+            stylesPart.Stylesheet.CellFormats = new CellFormats();
+        }
+
+        // Append the CellFormat to the WorkbookStylesPart
+        stylesPart.Stylesheet.CellFormats.AppendChild(cellFormat);
+        stylesPart.Stylesheet.Save();
+
+        cell.StyleIndex = (UInt32Value)(stylesPart.Stylesheet.CellFormats.Count - 1); // Assign the style index
+
+        return cell;
+    }
+
+    private UInt32Value AddNewFont(WorkbookStylesPart stylesPart, DocumentFormat.OpenXml.Spreadsheet.Color color)
+    {
+        DocumentFormat.OpenXml.Spreadsheet.Font font = new DocumentFormat.OpenXml.Spreadsheet.Font();
+        if (color != null)
+        {
+            font.Color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = color.Rgb };
+        }
+
+        stylesPart.Stylesheet.Fonts ??= new DocumentFormat.OpenXml.Spreadsheet.Fonts();
+        stylesPart.Stylesheet.Fonts.Append(font);
+
+        return (UInt32Value)(stylesPart.Stylesheet.Fonts.Count - 1);
+    }
+
+    private UInt32Value AddNewFill(WorkbookStylesPart stylesPart, DocumentFormat.OpenXml.Spreadsheet.Color color)
+    {
+        Fill fill = new Fill();
+        PatternFill patternFill = new PatternFill() { PatternType = PatternValues.Solid };
+        if (color != null)
+        {
+            patternFill.ForegroundColor = new ForegroundColor() { Rgb = color.Rgb };
+            patternFill.BackgroundColor = new BackgroundColor() { Rgb = color.Rgb };
+        }
+
+        fill.Append(patternFill);
+
+        stylesPart.Stylesheet.Fills ??= new Fills();
+        stylesPart.Stylesheet.Fills.Append(fill);
+
+        return (UInt32Value)(stylesPart.Stylesheet.Fills.Count - 1);
+    }
+
+    private async Task<ApiData> FetchDataFromApi()
+    {
+        // API data
+        var data = employeeAfterFiltered;
+
+        var rowDataList = new List<RowData>();
+
+        foreach (var item in data)
+        {
+            rowDataList.Add(new RowData
+                {
+                    Values = new List<object> { item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country }
+                });
+        }
+
+        return new ApiData
+            {
+                Columns = new List<Column>
+        {
+            new Column { ColumnName = "FirstName" },
+            new Column { ColumnName = "LastName" },
+            new Column { ColumnName = "Department" },
+            new Column { ColumnName = "Country" }
+        },
+                Rows = rowDataList
+            };
+    }
+
+    public class ApiData
+    {
+        public List<Column> Columns { get; set; }
+        public List<RowData> Rows { get; set; }
+    }
+
+    public class Column
+    {
+        public string ColumnName { get; set; }
+    }
+
+    public class RowData
+    {
+        public List<object> Values { get; set; }
+    }
+}
+
