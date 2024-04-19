@@ -1,0 +1,275 @@
+﻿@page "/documentStyle";
+@using ClosedXML.Excel
+@using DocumentFormat.OpenXml
+@using DocumentFormat.OpenXml.Packaging
+@using DocumentFormat.OpenXml.Presentation
+@using DocumentFormat.OpenXml.Spreadsheet
+@using DocumentFormat.OpenXml.Wordprocessing
+@using Employee_Manager_Client.Services
+@using Employee_Manager_Models
+@using System.Data
+
+@inject IFrontendUserPanelService frontendService;
+@inject HttpClient http;
+@inject NavigationManager navigationManager;
+@inject IJSRuntime JSRuntime;
+
+<button class="btn btn-info" @onclick="DownloadDocument">
+    <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;Document
+</button>
+
+
+@code
+{
+    [CascadingParameter]
+    public EventCallback notify { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await notify.InvokeAsync();
+        }
+    }
+    private List<Employee> employees = new List<Employee>();
+
+    private List<Employee> employeeAfterFiltered = new List<Employee>();
+
+    private int pageSize = 4;
+    private int currentPage = 1;
+    private int totalPages => (int)Math.Ceiling((double)employees.Count / pageSize);
+    private bool IsFirstPage => currentPage == 1;
+    private bool IsLastPage => currentPage == totalPages;
+
+    public bool Show = false;
+
+    public int EmpId;
+
+    public string Name;
+
+    protected string Query { get; set; } = string.Empty;
+
+    private bool showNoDataMessage = false;
+    private bool isLoading = true;
+
+    private string responseMessage;
+    private string productCode;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await frontendService.GetEmployees();
+        showNoDataMessage = employees == null || employees.Count == 0;
+        isLoading = false;
+        UpdatePagedData();
+    }
+
+    private void UpdatePagedData()
+    {
+        int startIndex = (currentPage - 1) * pageSize;
+        employeeAfterFiltered = employees.Skip(startIndex).Take(pageSize).ToList();
+    }
+
+    private void NextPage()
+    {
+        if (!IsLastPage)
+        {
+            currentPage++;
+            UpdatePagedData();
+        }
+    }
+
+    private void PreviousPage()
+    {
+        if (!IsFirstPage)
+        {
+            currentPage--;
+            UpdatePagedData();
+        }
+    }
+
+    private async Task UpdatePageSize(ChangeEventArgs e)
+    {
+        pageSize = Convert.ToInt32(e.Value);
+        currentPage = 1; // Reset to first page when changing page size
+        UpdatePagedData();
+        await Task.CompletedTask;
+    }
+
+    private void showDeleteAlert(int id)
+    {
+        EmpId = id;
+        Show = true;
+    }
+
+    private async Task Delete(bool value)
+    {
+        isLoading = true;
+        await frontendService.DeleteEmp(EmpId);
+        isLoading = false;
+        StateHasChanged();
+        navigationManager.NavigateTo("/", true);
+    }
+
+    private void GoToEditPage(int id)
+    {
+        EmpId = id;
+        navigationManager.NavigateTo($"/user/{EmpId}");
+    }
+
+    protected async Task FilterUser()
+    {
+        if (!string.IsNullOrWhiteSpace(Query))
+        {
+            employees = employees.Where(x => x.FirstName.ToLower().Contains(Query.ToLower()) ||
+             x.LastName.ToLower().Contains(Query.ToLower())
+         ).ToList();
+
+            employeeAfterFiltered = employees;
+        }
+        else
+        {
+            await OnInitializedAsync();
+        }
+    }
+
+    private async Task<ApiData> FetchDataFromApi()
+    {
+        // API data
+        var data = employeeAfterFiltered;
+
+        var rowDataList = new List<RowData>();
+
+        foreach (var item in data)
+        {
+            rowDataList.Add(new RowData
+                {
+                    Values = new List<object> { item.FirstName, item.LastName, item.Department.DepartmentName, item.Address.Country }
+                });
+        }
+
+        return new ApiData
+            {
+                Columns = new List<Column>
+        {
+            new Column { ColumnName = "FirstName" },
+            new Column { ColumnName = "LastName" },
+            new Column { ColumnName = "Department" },
+            new Column { ColumnName = "Country" }
+        },
+                Rows = rowDataList
+            };
+    }
+
+    public class ApiData
+    {
+        public List<Column> Columns { get; set; }
+        public List<RowData> Rows { get; set; }
+    }
+
+    public class Column
+    {
+        public string ColumnName { get; set; }
+    }
+
+    public class RowData
+    {
+        public List<object> Values { get; set; }
+    }
+
+    //DocumentFormat.OpenXml.Wordprocessing.
+    /// ////////////////////////////////////////////// openxml document export ///////////////////////////////////////////////////
+    private async Task<byte[]> ExportToDocument()
+    {
+        // Call your API to fetch data
+        var apiData = await FetchDataFromApi();
+
+        // Create a memory stream to store the document file
+        using (MemoryStream mem = new MemoryStream())
+        {
+            // Create a WordprocessingDocument
+            using (WordprocessingDocument document = WordprocessingDocument.Create(mem, WordprocessingDocumentType.Document))
+            {
+                // Add main parts to the document
+                MainDocumentPart mainPart = document.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+
+                // Create a table
+                DocumentFormat.OpenXml.Wordprocessing.Table table = new DocumentFormat.OpenXml.Wordprocessing.Table();
+                TableProperties tblProp = new TableProperties(
+                    new TableBorders(
+                        new DocumentFormat.OpenXml.Wordprocessing.TopBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.BottomBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.LeftBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new DocumentFormat.OpenXml.Wordprocessing.RightBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 },
+                        new InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 12 }
+                    )
+                );
+                table.AppendChild(tblProp);
+
+                // Add title row
+                TableRow titleRow = new TableRow();
+                titleRow.AppendChild(CreateTableCell("Employee Details Export", bold: true));
+                table.AppendChild(titleRow);
+
+                // Add header row
+                TableRow headerRow = new TableRow();
+                foreach (var column in apiData.Columns)
+                {
+                    var cell = CreateTableCell(column.ColumnName, bold: true);
+                    cell.TableCellProperties = new TableCellProperties(new Shading() { Fill = "48cae4" }); // Light Gray
+                    headerRow.AppendChild(cell);
+                }
+                table.AppendChild(headerRow);
+
+                // Add data rows
+                foreach (var row in apiData.Rows)
+                {
+                    TableRow dataRow = new TableRow();
+                    foreach (var value in row.Values)
+                    {
+                        dataRow.AppendChild(CreateTableCell(value.ToString()));
+                    }
+                    table.AppendChild(dataRow);
+                }
+
+                // Append table to the document body
+                body.AppendChild(table);
+            }
+
+            // Reset the memory stream position
+            mem.Position = 0;
+
+            // Return the byte array of the document content
+            return mem.ToArray();
+        }
+    }
+
+    private async Task DownloadDocument()
+    {
+        // Call the method to fetch document content from API
+        byte[] documentContent = await ExportToDocument();
+
+        // Convert byte array to base64 string
+        string base64String = Convert.ToBase64String(documentContent);
+
+        // Trigger file download using JavaScript interop
+        await JSRuntime.InvokeVoidAsync("downloadDocFile", base64String, "api_data.docx");
+    }
+
+    private TableCell CreateTableCell(string text, bool bold = false)
+    {
+        TableCell cell = new TableCell();
+        Paragraph para = new Paragraph();
+        DocumentFormat.OpenXml.Wordprocessing.Run run = new DocumentFormat.OpenXml.Wordprocessing.Run(new DocumentFormat.OpenXml.Wordprocessing.Text(text));
+        if (bold)
+        {
+            run.RunProperties = new DocumentFormat.OpenXml.Wordprocessing.RunProperties(new DocumentFormat.OpenXml.Wordprocessing.Bold());
+        }
+        para.Append(run);
+        cell.Append(para);
+        return cell;
+    }
+}
+

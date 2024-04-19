@@ -20,108 +20,6 @@
     <i class="fa fa-file-excel-o" aria-hidden="true"></i>&nbsp;Excel
 </button>
 
-<div class="body">
-    <div class="headersTitle">
-        <h3 id="employeeHeader" class="card-title text-primary">Employee Details</h3>
-        <hr />
-        <div class="headers">
-            <div class="addBox">
-                <div class="btn btn-primary" id="addBtn">
-                    <a href="/employee/add" role="button" style="text-decoration:none;color:white">
-                        <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add
-                    </a>
-                </div>
-
-                <div class="search">
-                    <strong>Search&nbsp;</strong><input class="inputBox"
-                                                        @bind="Query" @bind:event="oninput" @onkeyup="FilterUser" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        @if (isLoading)
-        {
-            <div class="loaderBox">
-                <div class="lds-facebook">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-
-        }
-        else if (showNoDataMessage)
-        {
-            <p id="noData">No data available....</p>
-        }
-        else
-        {
-            <div class="mainBody">
-                @foreach (var e in employeeAfterFiltered)
-                {
-                    <div class="card">
-                        <div class="card-header">
-                            <span>@e.FirstName @e.LastName</span>
-                            <a href="@($"edit/{e.EmpId}")" id="editIcon">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            @* <img src="/user.png" class="card-img-top" alt="img"> *@
-                            <div class="employeeDetails">
-                                <span>Department : <strong>@e.Department.DepartmentName</strong></span>
-                                <span>Country : <strong>@e.Address.Country</strong></span>
-                            </div>
-                        </div>
-                        <div class="footerClass">
-                            <a href="@($"employee/{e.EmpId}")" class="card-link btn btn-primary" id="viewBtn">View</a>
-                            <button class="card-link btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    id="deleteBtn" @onclick="@(()=>showDeleteAlert(e.EmpId))">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <!-------------- Modal ------------------->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Do you want to delete product with <strong>ID : @EmpId</strong> permanently?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" @onclick="(()=>Delete(true))">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-
-    <div class="pagination">
-        <div class="itemPerPage">Items Per Page</div>
-        <div class="selectOption">
-            <select @onchange="UpdatePageSize" class="form-select form-select-sm" aria-label="Small select example">
-                <option value="4">4</option>
-                <option value="10">10</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-        </div>
-        <button type="button" class="btn btn-dark" disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
-        <span class="btn btn-light" id="totalPage">Page @currentPage of @totalPages</span>
-        <button type="button" class="btn btn-dark" disabled="@IsLastPage" @onclick="NextPage">Next</button>
-    </div>
-</div>
-
 @code
 {
     [CascadingParameter]
@@ -235,6 +133,21 @@
         }
     }
 
+    // private async Task ExportToExcel()
+    // {
+    //     var excelData = await ExportToExcelFunction();
+
+    //     // Get the file contents and file name
+    //     byte[] fileContents = excelData.Item1;
+    //     string fileName = excelData.Item2;
+
+    //     // Convert byte array to base64 string
+    //     var base64File = Convert.ToBase64String(fileContents);
+
+    //     // Invoke JavaScript function to download the file
+    //     await JSRuntime.InvokeVoidAsync("downloadFile", base64File, fileName);
+    // }
+
     ///////////////////////////////////////////////////// using openxml excel export /////////////////////////////////////////////////////
     // public async Task<(byte[], string)> ExportToExcelFunction()
     // {
@@ -298,24 +211,11 @@
     //     }
     // }
 
-    // private async Task ExportToExcel()
-    // {
-    //     var excelData = await ExportToExcelFunction();
-
-    //     // Get the file contents and file name
-    //     byte[] fileContents = excelData.Item1;
-    //     string fileName = excelData.Item2;
-
-    //     // Convert byte array to base64 string
-    //     var base64File = Convert.ToBase64String(fileContents);
-
-    //     // Invoke JavaScript function to download the file
-    //     await JSRuntime.InvokeVoidAsync("downloadFile", base64File, fileName);
-    // }
-
     private async Task ExportToExcel()
     {
         // Create a WorkbookPart
+        //WorkbookPart workbookPart = null;
+
         WorkbookPart workbookPart = null;
 
         // Call ExportToExcelFunction and pass workbookPart as a parameter
@@ -339,7 +239,7 @@
 
         // Create a memory stream to store the Excel file
         using (MemoryStream mem = new MemoryStream())
-        {
+         {
             // Create a SpreadsheetDocument
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(mem, SpreadsheetDocumentType.Workbook))
             {
@@ -504,8 +404,7 @@
         // Set font color
         if (!string.IsNullOrEmpty(fontColor))
         {
-            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(fontColor.Replace("#", "")) };
-            stylesPart.Stylesheet.Colors.Append(color);
+            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(fontColor) };
             cellFormat.FontId = AddNewFont(stylesPart, color);
             cellFormat.ApplyFont = true;
         }
@@ -513,8 +412,7 @@
         // Set background color
         if (!string.IsNullOrEmpty(bgColor))
         {
-            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(bgColor.Replace("#", "")) };
-            stylesPart.Stylesheet.Colors.Append(color);
+            var color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = new HexBinaryValue(bgColor) };
             cellFormat.FillId = AddNewFill(stylesPart, color);
             cellFormat.ApplyFill = true;
         }
@@ -536,16 +434,26 @@
 
     private UInt32Value AddNewFont(WorkbookStylesPart stylesPart, DocumentFormat.OpenXml.Spreadsheet.Color color)
     {
+        // Ensure the Fonts collection is initialized
+        stylesPart.Stylesheet.Fonts ??= new DocumentFormat.OpenXml.Spreadsheet.Fonts();
+
+        // Create a new font
         DocumentFormat.OpenXml.Spreadsheet.Font font = new DocumentFormat.OpenXml.Spreadsheet.Font();
+
+        // Set the font color if color is not null
         if (color != null)
         {
-            font.Color = new DocumentFormat.OpenXml.Spreadsheet.Color() { Rgb = color.Rgb };
+            font.Color = color;
         }
 
-        stylesPart.Stylesheet.Fonts ??= new DocumentFormat.OpenXml.Spreadsheet.Fonts();
+        // Append the font to the stylesheet
         stylesPart.Stylesheet.Fonts.Append(font);
 
-        return (UInt32Value)(stylesPart.Stylesheet.Fonts.Count - 1);
+        // Save the stylesheet after appending the font
+        stylesPart.Stylesheet.Save();
+
+        // Return the index of the added font
+        return new UInt32Value((uint)(stylesPart.Stylesheet.Fonts.Count - 1));
     }
 
     private UInt32Value AddNewFill(WorkbookStylesPart stylesPart, DocumentFormat.OpenXml.Spreadsheet.Color color)
