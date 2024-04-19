@@ -18,6 +18,14 @@
     <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;Document
 </button>
 
+@if(generation) 
+{
+    <p style="color:green">Generation successful</p>
+}
+@if (!generation)
+{
+<p style="color:blue;">Generating.........</p>
+}
 
 @code
 {
@@ -51,6 +59,7 @@
 
     private bool showNoDataMessage = false;
     private bool isLoading = true;
+    private bool generation = false;
 
     private string responseMessage;
     private string productCode;
@@ -180,6 +189,7 @@
     /// ////////////////////////////////////////////// openxml document export ///////////////////////////////////////////////////
     private async Task<byte[]> ExportToDocument()
     {
+        
         // Call your API to fetch data
         var apiData = await FetchDataFromApi();
 
@@ -248,6 +258,7 @@
 
     private async Task DownloadDocument()
     {
+        generation = false;
         // Call the method to fetch document content from API
         byte[] documentContent = await ExportToDocument();
 
@@ -256,6 +267,7 @@
 
         // Trigger file download using JavaScript interop
         await JSRuntime.InvokeVoidAsync("downloadDocFile", base64String, "api_data.docx");
+        generation = true;
     }
 
     private TableCell CreateTableCell(string text, bool bold = false)
