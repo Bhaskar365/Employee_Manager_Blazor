@@ -10,13 +10,11 @@ namespace Employee_Manager_API.Repositories
         private readonly AppDbContext _context;
 
         private readonly IConfiguration _configuration;
-        private readonly string DbConnection;
 
         public EmployeeRepository(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
-            DbConnection = _configuration["connectionStrings:DbConnection"] ?? "";
         }
 
         public ICollection<Employee> GetAllEmployees()
